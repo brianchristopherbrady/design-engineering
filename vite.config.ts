@@ -28,6 +28,8 @@ function designTokens(): Plugin {
 }
 
 export default defineConfig({
+  // GitHub Pages serves the site from /<repository>/; the deploy workflow sets BASE_PATH.
+  base: process.env.BASE_PATH ?? '/',
   plugins: [react(), designTokens()],
   resolve: {
     alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },

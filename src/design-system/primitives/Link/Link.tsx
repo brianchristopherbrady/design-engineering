@@ -1,16 +1,31 @@
-import { createContext, useContext, type ComponentPropsWithRef, type MouseEvent, type ReactNode } from 'react';
+import { createContext, useContext, useMemo, type ComponentPropsWithRef, type MouseEvent, type ReactNode } from 'react';
 import styles from './Link.module.css';
 
 type Navigate = (href: string) => void;
 
-const NavigationContext = createContext<Navigate | null>(null);
+interface Navigation {
+  navigate: Navigate;
+  /** Turns an app path into the URL the browser loads, such as adding a deployment base path. */
+  resolveHref?: (href: string) => string;
+}
+
+const NavigationContext = createContext<Navigation | null>(null);
 
 /**
  * Lets the application plug in client-side routing without the design system
  * depending on a router. Links still render real `<a href>` elements.
  */
-export function LinkProvider({ navigate, children }: { navigate: Navigate; children: ReactNode }) {
-  return <NavigationContext value={navigate}>{children}</NavigationContext>;
+export function LinkProvider({
+  navigate,
+  resolveHref,
+  children,
+}: {
+  navigate: Navigate;
+  resolveHref?: (href: string) => string;
+  children: ReactNode;
+}) {
+  const value = useMemo(() => ({ navigate, resolveHref }), [navigate, resolveHref]);
+  return <NavigationContext value={value}>{children}</NavigationContext>;
 }
 
 export const linkVariants = ['inline', 'standalone'] as const;
@@ -31,28 +46,29 @@ function isClientRoutable(href: string) {
 
 /** Navigation to another page or location. Use Button for actions that change state. */
 export function Link({ href, variant = 'inline', className, onClick, target, children, ...rest }: LinkProps) {
-  const navigate = useContext(NavigationContext);
+  const navigation = useContext(NavigationContext);
+  const routable = isClientRoutable(href);
 
   const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
     onClick?.(event);
     const modified = event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0;
     if (
       event.defaultPrevented ||
-      !navigate ||
+      !navigation ||
       modified ||
       (target && target !== '_self') ||
       rest.download !== undefined ||
-      !isClientRoutable(href)
+      !routable
     ) {
       return;
     }
     event.preventDefault();
-    navigate(href);
+    navigation.navigate(href);
   };
 
   return (
     <a
-      href={href}
+      href={routable && navigation?.resolveHref ? navigation.resolveHref(href) : href}
       target={target}
       className={[styles.link, styles[variant], className].filter(Boolean).join(' ')}
       onClick={handleClick}

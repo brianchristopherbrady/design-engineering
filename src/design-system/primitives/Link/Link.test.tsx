@@ -23,6 +23,21 @@ describe('Link', () => {
     expect(notPrevented).toBe(false);
   });
 
+  it('renders app paths under the deployment base but navigates with the app path', () => {
+    const navigate = vi.fn();
+    render(
+      <LinkProvider navigate={navigate} resolveHref={(href) => `/design-engineering${href}`}>
+        <Link href="/components">Components</Link>
+        <Link href="https://www.w3.org/">External</Link>
+      </LinkProvider>,
+    );
+    const link = screen.getByRole('link', { name: 'Components' });
+    expect(link).toHaveAttribute('href', '/design-engineering/components');
+    expect(screen.getByRole('link', { name: 'External' })).toHaveAttribute('href', 'https://www.w3.org/');
+    fireEvent.click(link);
+    expect(navigate).toHaveBeenCalledWith('/components');
+  });
+
   it('leaves modified clicks, new tabs, fragments and external URLs to the browser', () => {
     const navigate = vi.fn();
     render(
