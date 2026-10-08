@@ -1,0 +1,30 @@
+@layer components {
+  /* The native arrow and popup are kept: only box, color and type are styled. */
+  .select {
+    inline-size: 100%;
+    max-inline-size: 100%;
+    min-block-size: var(--control-height-medium);
+    padding-block: var(--space-2xs);
+    padding-inline: var(--control-padding-inline);
+    border: var(--control-border-width) solid var(--input-border);
+    border-radius: var(--control-radius);
+    background-color: var(--input-background);
+    color: var(--text-primary);
+    font-size: var(--typography-body-font-size);
+    line-height: var(--typography-body-line-height);
+    cursor: pointer;
+  }
+
+  .select:hover:not(:disabled) {
+    border-color: var(--text-primary);
+  }
+
+  .select[aria-invalid='true'] {
+    border-color: var(--tone-danger-border);
+  }
+
+  .select:disabled {
+    opacity: var(--control-disabled-opacity);
+    cursor: not-allowed;
+  }
+}

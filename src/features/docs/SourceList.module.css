@@ -1,0 +1,37 @@
+@layer product {
+  .details {
+    border: var(--border-width-thin) solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    background-color: var(--surface-panel);
+  }
+
+  .summary {
+    padding: var(--space-sm) var(--space-md);
+    cursor: pointer;
+  }
+
+  .summaryText {
+    display: inline-grid;
+    gap: var(--space-2xs);
+    vertical-align: top;
+  }
+
+  .summary:hover .path {
+    text-decoration: underline;
+  }
+
+  .path {
+    color: var(--text-link);
+    font-weight: var(--font-weight-semibold);
+    overflow-wrap: anywhere;
+  }
+
+  .note {
+    color: var(--text-muted);
+    font-size: var(--typography-body-small-font-size);
+  }
+
+  .body {
+    padding: 0 var(--space-md) var(--space-md);
+  }
+}

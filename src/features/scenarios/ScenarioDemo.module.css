@@ -1,0 +1,29 @@
+@layer product {
+  .demo {
+    display: grid;
+    border: var(--border-width-thin) solid var(--border-default);
+    border-radius: var(--radius-lg);
+    overflow: clip;
+  }
+
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--spacing-small) var(--spacing-medium);
+    padding: var(--spacing-medium);
+    border-block-end: var(--border-width-thin) solid var(--border-default);
+    background-color: var(--surface-sunken);
+  }
+
+  .description {
+    flex-basis: 100%;
+  }
+
+  .stage {
+    container: demo / inline-size;
+    padding: var(--spacing-medium);
+    background-color: var(--surface-canvas);
+    min-inline-size: 0;
+  }
+}

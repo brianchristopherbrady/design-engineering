@@ -1,0 +1,50 @@
+@layer product {
+  .scroller {
+    overflow-x: auto;
+    border: var(--border-width-thin) solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    background-color: var(--surface-panel);
+  }
+
+  .table {
+    inline-size: 100%;
+    min-inline-size: 40rem;
+    font-size: var(--typography-body-small-font-size);
+    line-height: var(--typography-body-small-line-height);
+  }
+
+  .caption {
+    padding: var(--space-sm) var(--space-md);
+    text-align: start;
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .table th,
+  .table td {
+    padding: var(--space-xs) var(--space-md);
+    border-block-start: var(--border-width-thin) solid var(--border-subtle);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  .table thead th {
+    background-color: var(--surface-sunken);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .table tbody th {
+    font-weight: var(--font-weight-regular);
+    white-space: nowrap;
+  }
+
+  .default,
+  .default code {
+    white-space: nowrap;
+    overflow-wrap: normal;
+  }
+
+  .required {
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+  }
+}

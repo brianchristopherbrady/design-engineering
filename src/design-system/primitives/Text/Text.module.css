@@ -1,0 +1,82 @@
+@layer components {
+  .text {
+    color: var(--_tone);
+  }
+
+  .body {
+    font-size: var(--typography-body-font-size);
+    font-weight: var(--typography-body-font-weight);
+    line-height: var(--typography-body-line-height);
+  }
+
+  .bodySmall {
+    font-size: var(--typography-body-small-font-size);
+    font-weight: var(--typography-body-small-font-weight);
+    line-height: var(--typography-body-small-line-height);
+  }
+
+  .lead {
+    font-size: var(--typography-lead-font-size);
+    font-weight: var(--typography-lead-font-weight);
+    line-height: var(--typography-lead-line-height);
+  }
+
+  .label {
+    font-size: var(--typography-label-font-size);
+    font-weight: var(--typography-label-font-weight);
+    line-height: var(--typography-label-line-height);
+  }
+
+  .caption {
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--typography-caption-font-weight);
+    line-height: var(--typography-caption-line-height);
+    letter-spacing: var(--typography-caption-letter-spacing);
+    text-transform: uppercase;
+  }
+
+  .tone-default {
+    --_tone: var(--text-primary);
+  }
+
+  .tone-muted {
+    --_tone: var(--text-muted);
+  }
+
+  .tone-brand {
+    --_tone: var(--tone-brand-text);
+  }
+
+  .tone-success {
+    --_tone: var(--tone-success-text);
+  }
+
+  .tone-warning {
+    --_tone: var(--tone-warning-text);
+  }
+
+  .tone-danger {
+    --_tone: var(--tone-danger-text);
+  }
+
+  .tone-info {
+    --_tone: var(--tone-info-text);
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  .end {
+    text-align: end;
+  }
+
+  /* Paragraph-like text keeps a readable measure even inside wide containers. */
+  p.text {
+    max-inline-size: var(--layout-measure);
+  }
+
+  p.center {
+    margin-inline: auto;
+  }
+}

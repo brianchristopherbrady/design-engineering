@@ -1,0 +1,7 @@
+@layer components {
+  .empty {
+    padding: var(--space-xl);
+    border: var(--border-width-thick) dashed var(--border-default);
+    border-radius: var(--card-radius);
+  }
+}

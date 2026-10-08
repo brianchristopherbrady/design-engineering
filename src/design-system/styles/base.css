@@ -1,0 +1,73 @@
+@layer base {
+  html {
+    background-color: var(--surface-canvas);
+    color: var(--text-primary);
+    font-family: var(--typography-body-font-family);
+    line-height: var(--typography-body-line-height);
+    /* Keeps the user's default font size: every rem in the system scales with it. */
+    font-size: 100%;
+  }
+
+  body {
+    font-size: var(--typography-body-font-size);
+  }
+
+  /* A nested theme scope repaints its own surface and text with that theme's roles. */
+  [data-theme] {
+    background-color: var(--surface-canvas);
+    color: var(--text-primary);
+  }
+
+  :focus-visible {
+    outline: var(--focus-width) solid var(--focus-ring);
+    outline-offset: var(--focus-offset);
+  }
+
+  :target {
+    scroll-margin-block-start: var(--space-xl);
+  }
+
+  a {
+    color: var(--text-link);
+    text-underline-offset: 0.2em;
+  }
+
+  code,
+  kbd,
+  pre,
+  samp {
+    font-family: var(--typography-code-font-family);
+  }
+
+  :not(pre) > code {
+    padding: 0.1em 0.35em;
+    border-radius: var(--radius-sm);
+    background-color: var(--surface-sunken);
+    font-size: 0.9em;
+    overflow-wrap: anywhere;
+  }
+
+  input[type='checkbox'],
+  input[type='radio'],
+  input[type='range'] {
+    accent-color: var(--action-primary-background);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  /* Important declarations in an early layer beat later layers, so this wins everywhere. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

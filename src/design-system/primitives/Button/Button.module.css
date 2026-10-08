@@ -1,0 +1,148 @@
+@layer components {
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--button-gap);
+    min-block-size: var(--_height);
+    padding-block: 0;
+    padding-inline: var(--_padding);
+    border: var(--_border-width) solid var(--_border);
+    border-radius: var(--_radius, var(--button-radius));
+    background-color: var(--_background);
+    color: var(--_foreground);
+    font-family: var(--typography-label-font-family);
+    font-size: var(--_font-size);
+    font-weight: var(--typography-label-font-weight);
+    line-height: var(--font-line-height-snug);
+    text-align: center;
+    cursor: pointer;
+    transition:
+      background-color var(--motion-duration-feedback) var(--motion-easing-standard),
+      border-color var(--motion-duration-feedback) var(--motion-easing-standard);
+  }
+
+  .button:hover:not(:disabled, [aria-disabled='true']) {
+    background-color: var(--_background-hover);
+  }
+
+  .button:active:not(:disabled, [aria-disabled='true']) {
+    background-color: var(--_background-active);
+  }
+
+  /* Appearance: every state reads the same five component tokens. */
+  .primary {
+    --_background: var(--button-primary-background);
+    --_background-hover: var(--button-primary-background-hover);
+    --_background-active: var(--button-primary-background-active);
+    --_foreground: var(--button-primary-foreground);
+    --_border: var(--button-primary-border);
+  }
+
+  .secondary {
+    --_background: var(--button-secondary-background);
+    --_background-hover: var(--button-secondary-background-hover);
+    --_background-active: var(--button-secondary-background-active);
+    --_foreground: var(--button-secondary-foreground);
+    --_border: var(--button-secondary-border);
+  }
+
+  .ghost {
+    --_background: var(--button-ghost-background);
+    --_background-hover: var(--button-ghost-background-hover);
+    --_background-active: var(--button-ghost-background-active);
+    --_foreground: var(--button-ghost-foreground);
+    --_border: var(--button-ghost-border);
+  }
+
+  .danger {
+    --_background: var(--button-danger-background);
+    --_background-hover: var(--button-danger-background-hover);
+    --_background-active: var(--button-danger-background-active);
+    --_foreground: var(--button-danger-foreground);
+    --_border: var(--button-danger-border);
+  }
+
+  /* Disabled overrides every appearance, so it is declared after them. */
+  .button:disabled {
+    --_background: var(--button-disabled-background);
+    --_foreground: var(--button-disabled-foreground);
+    --_border: var(--button-disabled-border);
+    cursor: not-allowed;
+  }
+
+  .button[aria-disabled='true'] {
+    cursor: progress;
+  }
+
+  .small {
+    --_height: var(--button-height-small);
+    --_padding: var(--button-padding-inline-small);
+    --_font-size: var(--button-font-size-small);
+  }
+
+  .medium {
+    --_height: var(--button-height-medium);
+    --_padding: var(--button-padding-inline-medium);
+    --_font-size: var(--button-font-size-medium);
+  }
+
+  .large {
+    --_height: var(--button-height-large);
+    --_padding: var(--button-padding-inline-large);
+    --_font-size: var(--button-font-size-large);
+  }
+
+  .borderNone {
+    --_border-width: 0;
+  }
+
+  .borderThin {
+    --_border-width: var(--border-width-thin);
+  }
+
+  .borderThick {
+    --_border-width: var(--border-width-thick);
+  }
+
+  .fullWidth {
+    inline-size: 100%;
+  }
+
+  .label {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .icon {
+    display: inline-flex;
+    flex: none;
+  }
+
+  .spinner {
+    flex: none;
+    inline-size: 1em;
+    block-size: 1em;
+    border: var(--border-width-thick) solid currentColor;
+    border-inline-end-color: transparent;
+    border-radius: var(--radius-full);
+    animation: spin calc(var(--motion-duration-emphasis) * 3) linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+
+  @media (forced-colors: active) {
+    .button {
+      border: var(--border-width-thin) solid ButtonText;
+    }
+
+    .button:disabled {
+      border-color: GrayText;
+      color: GrayText;
+    }
+  }
+}

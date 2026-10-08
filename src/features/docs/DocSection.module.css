@@ -1,0 +1,70 @@
+@layer product {
+  .section {
+    min-inline-size: 0;
+  }
+
+  .prose {
+    display: grid;
+    gap: var(--space-md);
+    min-inline-size: 0;
+  }
+
+  .prose > :where(p, ul, ol, dl) {
+    max-inline-size: var(--layout-measure);
+  }
+
+  .prose :where(ul, ol) {
+    display: grid;
+    gap: var(--space-xs);
+    padding-inline-start: var(--space-lg);
+  }
+
+  .prose :where(h3) {
+    margin-block-start: var(--space-sm);
+    font-size: var(--typography-heading-4-font-size);
+    font-weight: var(--typography-heading-4-font-weight);
+    line-height: var(--typography-heading-4-line-height);
+  }
+
+  .prose :where(dt) {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .prose :where(dd) {
+    margin-block-end: var(--space-xs);
+    padding-inline-start: var(--space-md);
+    color: var(--text-muted);
+  }
+
+  .prose :where(table) {
+    inline-size: 100%;
+    font-size: var(--typography-body-small-font-size);
+  }
+
+  .prose :where(th, td) {
+    padding: var(--space-xs) var(--space-sm);
+    border-block-end: var(--border-width-thin) solid var(--border-subtle);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  .prose :where(thead th) {
+    border-block-end-color: var(--border-strong);
+  }
+
+  .note {
+    display: grid;
+    gap: var(--space-xs);
+    padding: var(--space-md) var(--space-lg);
+    border-inline-start: var(--border-width-thick) solid var(--tone-info-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--surface-accent);
+    max-inline-size: calc(var(--layout-measure) + var(--space-2xl));
+  }
+
+  .noteTitle {
+    font-size: var(--typography-label-font-size);
+    font-weight: var(--typography-label-font-weight);
+    color: var(--tone-info-text);
+  }
+}

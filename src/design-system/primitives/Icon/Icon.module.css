@@ -1,0 +1,24 @@
+@layer components {
+  .icon {
+    display: inline-block;
+    flex: none;
+    inline-size: 1em;
+    block-size: 1em;
+    vertical-align: -0.125em;
+  }
+
+  .small {
+    inline-size: var(--size-icon-sm);
+    block-size: var(--size-icon-sm);
+  }
+
+  .medium {
+    inline-size: var(--size-icon-md);
+    block-size: var(--size-icon-md);
+  }
+
+  .large {
+    inline-size: var(--size-icon-lg);
+    block-size: var(--size-icon-lg);
+  }
+}

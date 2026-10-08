@@ -1,0 +1,183 @@
+@layer product {
+  .playground {
+    display: grid;
+    gap: var(--spacing-large);
+    min-inline-size: 0;
+  }
+
+  .picker {
+    display: grid;
+    gap: var(--spacing-medium);
+    align-items: end;
+    container: picker / inline-size;
+  }
+
+  .pickerText {
+    display: grid;
+    gap: var(--spacing-extra-small);
+  }
+
+  @container picker (min-inline-size: 40rem) {
+    .picker {
+      grid-template-columns: 16rem minmax(0, 1fr);
+    }
+  }
+
+  .workbench {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'preview'
+      'controls'
+      'usage'
+      'props';
+    gap: var(--spacing-large);
+    container: workbench / inline-size;
+  }
+
+  /* 52rem: a preview column of at least 32rem beside an 18rem controls column. */
+  @container workbench (min-inline-size: 52rem) {
+    .workbench {
+      grid-template-columns: minmax(0, 1fr) 18rem;
+      grid-template-areas:
+        'preview controls'
+        'usage controls'
+        'props props';
+      align-items: start;
+    }
+
+    .controlsPanel {
+      position: sticky;
+      inset-block-start: var(--spacing-medium);
+      max-block-size: calc(100dvh - 2 * var(--spacing-medium));
+      overflow-y: auto;
+    }
+  }
+
+  .previewPanel,
+  .controlsPanel,
+  .usagePanel,
+  .propsPanel {
+    display: grid;
+    gap: var(--spacing-small);
+    min-inline-size: 0;
+  }
+
+  .previewPanel {
+    grid-area: preview;
+  }
+
+  .controlsPanel {
+    grid-area: controls;
+    padding: var(--spacing-medium);
+    border: var(--border-width-thin) solid var(--border-default);
+    border-radius: var(--radius-lg);
+    background-color: var(--surface-panel);
+  }
+
+  .usagePanel {
+    grid-area: usage;
+  }
+
+  .propsPanel {
+    grid-area: props;
+  }
+
+  .toolbar {
+    display: grid;
+    gap: var(--spacing-small);
+    padding: var(--spacing-small);
+    border: var(--border-width-thin) solid var(--border-default);
+    border-radius: var(--radius-lg);
+    background-color: var(--surface-sunken);
+  }
+
+  .toolGroup {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--spacing-small);
+  }
+
+  .range {
+    inline-size: min(100%, 16rem);
+    min-block-size: var(--control-height-medium);
+    accent-color: var(--action-primary-background);
+  }
+
+  /* The stage scrolls when a fixed preview width is wider than the column. */
+  .stage {
+    overflow-x: auto;
+    padding: var(--spacing-medium);
+    border: var(--border-width-thin) dashed var(--border-strong);
+    border-radius: var(--radius-lg);
+    background-color: var(--surface-sunken);
+  }
+
+  .frame {
+    container: preview / inline-size;
+    box-sizing: border-box;
+    max-inline-size: none;
+    min-block-size: var(--size-item-xs);
+    padding: var(--spacing-large);
+    border: var(--border-width-thin) solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    background-color: var(--surface-canvas);
+    color: var(--text-primary);
+  }
+
+  .controls {
+    display: grid;
+    gap: var(--spacing-medium);
+  }
+
+  .usageHeader {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-small);
+  }
+
+  .copied {
+    color: var(--text-muted);
+    font-size: var(--typography-body-small-font-size);
+  }
+
+  .code {
+    margin: 0;
+    padding: var(--spacing-medium);
+    overflow-x: auto;
+    border-radius: var(--radius-md);
+    background-color: var(--surface-sunken);
+    font-family: var(--typography-code-font-family);
+    font-size: var(--typography-code-font-size);
+    line-height: var(--typography-code-line-height);
+  }
+
+  .tableScroller {
+    overflow-x: auto;
+  }
+
+  .table {
+    inline-size: 100%;
+    border-collapse: collapse;
+    font-size: var(--typography-body-small-font-size);
+  }
+
+  .table th,
+  .table td {
+    padding: var(--spacing-small);
+    border-block-end: var(--border-width-thin) solid var(--border-subtle);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  .table code {
+    overflow-wrap: anywhere;
+  }
+
+  .table th[scope='row'] code {
+    overflow-wrap: normal;
+    white-space: nowrap;
+  }
+}

@@ -1,0 +1,173 @@
+import { Suspense, useState } from 'react';
+import { Outlet, useLocation } from 'react-router';
+import { Container, Inline } from '@/design-system/layout';
+import { Button, Icon, Link, Text } from '@/design-system/primitives';
+import { entriesOfKind, entryLayers, type CatalogEntry } from '@/domain/system';
+import { paths, sections } from '../paths';
+import styles from './AppShell.module.css';
+import { ThemeSelect } from './ThemeSelect';
+
+function Logo() {
+  return (
+    <svg className={styles.logo} viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+      <rect width="32" height="32" rx="7" className={styles.logoMark} />
+      <path d="M9 10h14M9 16h14M9 22h8" className={styles.logoLines} strokeWidth="2.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+interface NavGroup {
+  heading?: string;
+  entries: CatalogEntry[];
+}
+
+interface SectionNav {
+  label: string;
+  href: (id: string) => string;
+  groups: NavGroup[];
+}
+
+const components = entriesOfKind('component');
+
+const sectionNavs: Record<string, SectionNav> = {
+  foundations: { label: 'Foundations', href: paths.foundation, groups: [{ entries: entriesOfKind('foundation') }] },
+  components: {
+    label: 'Components',
+    href: paths.component,
+    groups: entryLayers
+      .map((layer) => ({ heading: layer, entries: components.filter((entry) => entry.layer === layer) }))
+      .filter((group) => group.entries.length > 0),
+  },
+  patterns: { label: 'Patterns', href: paths.pattern, groups: [{ entries: entriesOfKind('pattern') }] },
+};
+
+function isCurrentSection(pathname: string, href: string) {
+  return href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
+}
+
+/**
+ * Page frame: skip link, banner with the five sections and the theme choice, contextual
+ * section navigation built from the catalog, main content and footer. The single viewport
+ * media query lives here because only the shell responds to the window; components respond
+ * to their containers.
+ */
+export function AppShell() {
+  const { pathname } = useLocation();
+  const sectionKey = pathname.split('/')[1] ?? '';
+  const nav = sectionNavs[sectionKey];
+  const [navOpen, setNavOpen] = useState(false);
+
+  // Close the small-screen section list after navigating (adjusting state during render, not in an effect).
+  const [navPath, setNavPath] = useState(pathname);
+  if (navPath !== pathname) {
+    setNavPath(pathname);
+    setNavOpen(false);
+  }
+
+  return (
+    <div className={styles.shell}>
+      <a className={styles.skipLink} href="#main">
+        Skip to main content
+      </a>
+
+      <header className={styles.header}>
+        <Container width="full">
+          <div className={styles.headerRow}>
+            <Link href={paths.overview} variant="standalone" className={styles.brand}>
+              <Logo />
+              System Lab
+            </Link>
+            <nav aria-label="Sections" className={styles.primaryNav}>
+              <Inline as="ul" gap="extraSmall">
+                {sections.map((section) => {
+                  const current = isCurrentSection(pathname, section.href);
+                  return (
+                    <li key={section.href}>
+                      <Link
+                        href={section.href}
+                        variant="standalone"
+                        className={styles.navLink}
+                        aria-current={pathname === section.href ? 'page' : current ? 'true' : undefined}
+                      >
+                        {section.label}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </Inline>
+            </nav>
+            <ThemeSelect />
+          </div>
+        </Container>
+      </header>
+
+      <div className={[styles.body, nav && styles.withSidebar].filter(Boolean).join(' ')}>
+        {nav && (
+          <nav aria-label={nav.label} className={styles.sidebar}>
+            <Button
+              className={styles.navToggle}
+              aria-expanded={navOpen}
+              aria-controls="section-nav-list"
+              iconEnd={<Icon name={navOpen ? 'close' : 'arrowRight'} />}
+              onClick={() => setNavOpen((open) => !open)}
+            >
+              {navOpen ? `Hide ${nav.label.toLowerCase()}` : `Show ${nav.label.toLowerCase()}`}
+            </Button>
+            <div id="section-nav-list" className={[styles.sectionList, navOpen && styles.open].filter(Boolean).join(' ')}>
+              {nav.groups.map((group) => (
+                <div key={group.heading ?? 'all'} className={styles.group}>
+                  {group.heading && <p className={styles.groupHeading}>{group.heading}</p>}
+                  <ul className={styles.links}>
+                    {group.entries.map((entry) => {
+                      const href = nav.href(entry.id);
+                      return (
+                        <li key={entry.id}>
+                          <Link
+                            href={href}
+                            variant="standalone"
+                            className={styles.sectionLink}
+                            aria-current={pathname === href ? 'page' : undefined}
+                          >
+                            {entry.name}
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </nav>
+        )}
+
+        <main id="main" tabIndex={-1} className={styles.main}>
+          <Suspense
+            fallback={
+              <Container>
+                <Text role="status" className={styles.loading}>
+                  Loading page…
+                </Text>
+              </Container>
+            }
+          >
+            <Outlet />
+          </Suspense>
+        </main>
+      </div>
+
+      <footer className={styles.footer}>
+        <Container width="full">
+          <Inline gap="medium" justify="between">
+            <Text variant="bodySmall" tone="muted">
+              System Lab design system. This site is built with the components it documents.
+            </Text>
+            <Text variant="bodySmall" tone="muted">
+              <Link href={paths.foundation('tokens')}>Token architecture</Link> ·{' '}
+              <Link href={paths.playground}>Playground</Link>
+            </Text>
+          </Inline>
+        </Container>
+      </footer>
+    </div>
+  );
+}

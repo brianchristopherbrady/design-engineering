@@ -1,0 +1,36 @@
+@layer product {
+  .card {
+    container: entry / inline-size;
+    block-size: 100%;
+  }
+
+  .layout {
+    display: grid;
+    gap: var(--spacing-small);
+  }
+
+  .main {
+    display: grid;
+    gap: var(--spacing-extra-small);
+    min-inline-size: 0;
+  }
+
+  .title {
+    font-size: var(--typography-heading-4-font-size);
+    font-weight: var(--typography-heading-4-font-weight);
+    line-height: var(--typography-heading-4-line-height);
+    overflow-wrap: anywhere;
+  }
+
+  .meta {
+    overflow-wrap: anywhere;
+  }
+
+  /* 28rem: enough for the summary to keep a readable line beside a small button. */
+  @container entry (min-inline-size: 28rem) {
+    .layout {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+    }
+  }
+}

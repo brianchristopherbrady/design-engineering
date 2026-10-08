@@ -1,0 +1,51 @@
+@layer components {
+  .tabs {
+    display: grid;
+    gap: var(--spacing-medium);
+    min-inline-size: 0;
+  }
+
+  /* Scrolls instead of wrapping so the tab order still reads as one row on narrow screens. */
+  .list {
+    display: flex;
+    gap: var(--spacing-extra-small);
+    overflow-x: auto;
+    border-block-end: var(--border-width-thin) solid var(--border-default);
+  }
+
+  .tab {
+    flex: none;
+    min-block-size: var(--control-height-medium);
+    padding-inline: var(--spacing-medium);
+    border: 0;
+    border-block-end: var(--border-width-thick) solid transparent;
+    background: none;
+    color: var(--text-muted);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+  }
+
+  .tab:hover {
+    color: var(--text-primary);
+  }
+
+  .tab[aria-selected='true'] {
+    border-block-end-color: var(--action-primary-background);
+    color: var(--text-primary);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .tab:focus-visible {
+    outline-offset: calc(var(--focus-width) * -1);
+  }
+
+  .panel {
+    min-inline-size: 0;
+  }
+
+  @media (forced-colors: active) {
+    .tab[aria-selected='true'] {
+      border-block-end-color: Highlight;
+    }
+  }
+}

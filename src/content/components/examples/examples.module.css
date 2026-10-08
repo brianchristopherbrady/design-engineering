@@ -1,0 +1,83 @@
+@layer product {
+  /* A fixed-width frame that shows how a composition behaves in narrow and wide containers. */
+  .frames {
+    display: grid;
+    gap: var(--spacing-medium);
+  }
+
+  .frame {
+    display: grid;
+    gap: var(--spacing-extra-small);
+    min-inline-size: 0;
+    overflow-x: auto;
+  }
+
+  .frameLabel {
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--typography-caption-font-weight);
+    letter-spacing: var(--typography-caption-letter-spacing);
+    text-transform: uppercase;
+  }
+
+  .frameBody {
+    container: example / inline-size;
+    box-sizing: border-box;
+    max-inline-size: 100%;
+    padding: var(--spacing-small);
+    border: var(--border-width-thin) dashed var(--border-strong);
+    border-radius: var(--radius-md);
+  }
+
+  .narrow {
+    inline-size: var(--size-item-md);
+  }
+
+  .wide {
+    inline-size: 100%;
+  }
+
+  .matrix {
+    display: grid;
+    grid-template-columns: max-content repeat(var(--_columns), max-content);
+    gap: var(--spacing-small) var(--spacing-medium);
+    align-items: center;
+    overflow-x: auto;
+    padding-block-end: var(--spacing-extra-small);
+  }
+
+  .matrixHeading {
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--typography-caption-font-weight);
+    text-transform: uppercase;
+  }
+
+  .media {
+    display: grid;
+    place-items: center;
+    block-size: var(--skeleton-size-large);
+    border-radius: var(--radius-md);
+    background-color: var(--tone-brand-surface);
+    color: var(--tone-brand-text);
+  }
+
+  .mediaArt {
+    inline-size: var(--space-3xl);
+    block-size: var(--space-3xl);
+  }
+
+  .iconCell {
+    display: grid;
+    justify-items: center;
+    gap: var(--spacing-extra-small);
+    padding: var(--spacing-small);
+    border: var(--border-width-thin) solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    font-size: var(--typography-body-small-font-size);
+  }
+
+  .iconCell code {
+    overflow-wrap: anywhere;
+  }
+}

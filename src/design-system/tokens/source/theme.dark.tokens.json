@@ -1,0 +1,116 @@
+{
+  "$description": "Dark theme: the same semantic roles as the light theme, mapped to different reference tokens.",
+  "surface": {
+    "$type": "color",
+    "canvas": { "$value": "{color.neutral.900}", "$description": "Page background." },
+    "panel": { "$value": "{color.neutral.850}", "$description": "Cards, dialogs, inputs and other raised content." },
+    "sunken": { "$value": "{color.neutral.950}", "$description": "Code blocks, previews and inset areas." },
+    "accent": { "$value": "{color.blue.950}", "$description": "Selected or current items." }
+  },
+  "text": {
+    "$type": "color",
+    "primary": { "$value": "{color.neutral.50}" },
+    "muted": { "$value": "{color.neutral.300}", "$description": "Secondary text. Meets 4.5:1 on every surface." },
+    "link": { "$value": "{color.blue.300}" }
+  },
+  "border": {
+    "$type": "color",
+    "subtle": { "$value": "{color.neutral.800}", "$description": "Decorative separation; not enough contrast to identify a control." },
+    "default": { "$value": "{color.neutral.700}" },
+    "strong": { "$value": "{color.neutral.400}", "$description": "Control boundaries. Meets 3:1 against surfaces." }
+  },
+  "action": {
+    "$type": "color",
+    "primary": {
+      "background": { "$value": "{color.blue.300}" },
+      "hover": { "$value": "{color.blue.200}" },
+      "active": { "$value": "{color.blue.100}" },
+      "foreground": { "$value": "{color.neutral.950}" },
+      "border": { "$value": "{color.blue.200}" }
+    },
+    "secondary": {
+      "background": { "$value": "{color.neutral.850}" },
+      "hover": { "$value": "{color.neutral.800}" },
+      "active": { "$value": "{color.neutral.700}" },
+      "foreground": { "$value": "{color.neutral.50}" },
+      "border": { "$value": "{color.neutral.400}" }
+    },
+    "ghost": {
+      "background": { "$value": "{color.transparent}" },
+      "hover": { "$value": "{color.blue.950}" },
+      "active": { "$value": "{color.blue.900}" },
+      "foreground": { "$value": "{color.blue.200}" },
+      "border": { "$value": "{color.transparent}" }
+    },
+    "danger": {
+      "background": { "$value": "{color.red.300}" },
+      "hover": { "$value": "{color.red.200}" },
+      "active": { "$value": "{color.red.100}" },
+      "foreground": { "$value": "{color.neutral.950}" },
+      "border": { "$value": "{color.red.200}" }
+    },
+    "disabled": {
+      "background": { "$value": "{color.neutral.800}" },
+      "foreground": { "$value": "{color.neutral.500}" },
+      "border": { "$value": "{color.neutral.700}" }
+    }
+  },
+  "focus": {
+    "ring": { "$type": "color", "$value": "{color.blue.300}", "$description": "Keyboard focus outline. Meets 3:1 against every surface." }
+  },
+  "tone": {
+    "$type": "color",
+    "$description": "Status and emphasis families. text and surface pair for subtle treatments; on-solid and solid pair for filled ones.",
+    "neutral": {
+      "text": { "$value": "{color.neutral.200}" },
+      "surface": { "$value": "{color.neutral.800}" },
+      "border": { "$value": "{color.neutral.400}" },
+      "solid": { "$value": "{color.neutral.200}" },
+      "on-solid": { "$value": "{color.neutral.950}" }
+    },
+    "brand": {
+      "text": { "$value": "{color.blue.200}" },
+      "surface": { "$value": "{color.blue.950}" },
+      "border": { "$value": "{color.blue.400}" },
+      "solid": { "$value": "{color.blue.300}" },
+      "on-solid": { "$value": "{color.neutral.950}" }
+    },
+    "success": {
+      "text": { "$value": "{color.green.300}" },
+      "surface": { "$value": "{color.green.950}" },
+      "border": { "$value": "{color.green.500}" },
+      "solid": { "$value": "{color.green.300}" },
+      "on-solid": { "$value": "{color.neutral.950}" }
+    },
+    "warning": {
+      "text": { "$value": "{color.amber.300}" },
+      "surface": { "$value": "{color.amber.950}" },
+      "border": { "$value": "{color.amber.500}" },
+      "solid": { "$value": "{color.amber.300}" },
+      "on-solid": { "$value": "{color.neutral.950}" }
+    },
+    "danger": {
+      "text": { "$value": "{color.red.300}" },
+      "surface": { "$value": "{color.red.950}" },
+      "border": { "$value": "{color.red.400}" },
+      "solid": { "$value": "{color.red.300}" },
+      "on-solid": { "$value": "{color.neutral.950}" }
+    },
+    "info": {
+      "text": { "$value": "{color.cyan.300}" },
+      "surface": { "$value": "{color.cyan.950}" },
+      "border": { "$value": "{color.cyan.400}" },
+      "solid": { "$value": "{color.cyan.300}" },
+      "on-solid": { "$value": "{color.neutral.950}" }
+    }
+  },
+  "elevation": {
+    "$type": "shadow",
+    "low": { "$value": "{shadow.low-strong}", "$description": "Resting cards." },
+    "medium": { "$value": "{shadow.medium-strong}", "$description": "Hovered or lifted surfaces." },
+    "high": { "$value": "{shadow.high-strong}", "$description": "Dialogs and other overlays." }
+  },
+  "overlay": {
+    "backdrop": { "$type": "color", "$value": "{color.scrim-deep}", "$description": "Behind modal dialogs." }
+  }
+}

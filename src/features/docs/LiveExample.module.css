@@ -1,0 +1,68 @@
+@layer product {
+  .example {
+    display: grid;
+    border: var(--border-width-thin) solid var(--border-default);
+    border-radius: var(--radius-lg);
+    background-color: var(--surface-panel);
+    min-inline-size: 0;
+    overflow: clip;
+  }
+
+  .intro {
+    padding: var(--space-md) var(--space-lg);
+  }
+
+  .controls {
+    padding: var(--space-md) var(--space-lg);
+    border-block-start: var(--border-width-thin) solid var(--border-subtle);
+  }
+
+  .stage {
+    padding: var(--space-lg);
+    border-block: var(--border-width-thin) solid var(--border-subtle);
+    background-color: var(--surface-sunken);
+    min-inline-size: 0;
+  }
+
+  .disclosures {
+    display: grid;
+  }
+
+  .details + .details {
+    border-block-start: var(--border-width-thin) solid var(--border-subtle);
+  }
+
+  .details[open] {
+    padding-block-end: var(--space-md);
+  }
+
+  .details > :not(summary) {
+    margin-inline: var(--space-lg);
+  }
+
+  .summary {
+    padding: var(--space-sm) var(--space-lg);
+    cursor: pointer;
+    font-size: var(--typography-label-font-size);
+    font-weight: var(--typography-label-font-weight);
+    color: var(--text-link);
+  }
+
+  .summary:hover {
+    text-decoration: underline;
+  }
+
+  .summary:focus-visible {
+    outline-offset: calc(var(--focus-width) * -1);
+  }
+
+  .html {
+    max-block-size: 24rem;
+    overflow: auto;
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    background-color: var(--surface-sunken);
+    font-size: var(--typography-code-font-size);
+    line-height: var(--typography-code-line-height);
+  }
+}

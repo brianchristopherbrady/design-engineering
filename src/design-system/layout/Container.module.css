@@ -1,0 +1,17 @@
+@layer layout {
+  .container {
+    inline-size: 100%;
+    max-inline-size: var(--_max, none);
+    margin-inline: auto;
+    min-inline-size: 0;
+  }
+
+  /* Grows with the viewport between two semantic bounds; 4vw is a structural ratio, not a design value. */
+  .gutters {
+    padding-inline: clamp(var(--layout-gutter), 4vw, var(--layout-gutter-wide));
+  }
+
+  .query {
+    container-type: inline-size;
+  }
+}

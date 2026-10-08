@@ -1,0 +1,33 @@
+@layer product {
+  .filters {
+    display: grid;
+    gap: var(--spacing-small);
+    container: filters / inline-size;
+  }
+
+  .fields {
+    display: grid;
+    gap: var(--spacing-small);
+  }
+
+  /* 40rem: room for a usable search field beside two selects. */
+  @container filters (min-inline-size: 40rem) {
+    .fields {
+      grid-template-columns: minmax(0, 2fr) repeat(auto-fit, minmax(0, 1fr));
+    }
+  }
+
+  .summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-small);
+    min-block-size: var(--control-height-small);
+  }
+
+  .count {
+    color: var(--text-muted);
+    font-size: var(--typography-body-small-font-size);
+  }
+}

@@ -1,0 +1,12 @@
+@layer layout {
+  .box {
+    padding: var(--_padding);
+    background-color: var(--_background, transparent);
+    border-radius: var(--_radius);
+    min-inline-size: 0;
+  }
+
+  .bordered {
+    border: var(--border-width-thin) solid var(--_border);
+  }
+}

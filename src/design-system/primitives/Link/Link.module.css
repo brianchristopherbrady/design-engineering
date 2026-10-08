@@ -1,0 +1,29 @@
+@layer components {
+  .link {
+    color: var(--text-link);
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: from-font;
+    border-radius: var(--radius-sm);
+  }
+
+  .inline {
+    text-decoration-line: underline;
+  }
+
+  .inline:hover {
+    text-decoration-thickness: var(--border-width-thick);
+  }
+
+  .standalone {
+    text-decoration-line: none;
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .standalone:hover {
+    text-decoration-line: underline;
+  }
+
+  .link[aria-current='page'] {
+    color: var(--text-primary);
+  }
+}

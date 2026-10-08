@@ -1,0 +1,159 @@
+import type { BoxOwnProps, ContainerOwnProps, GridOwnProps, InlineOwnProps, StackOwnProps } from '@/design-system/layout';
+import { propsTable, type ComponentDoc } from '@/features/docs';
+import { BoxExample, ContainerExample, GridExample, InlineExample, StackExample } from '../examples/LayoutExamples';
+
+const space = '"none" | "extraSmall" | "small" | "medium" | "large" | "extraLarge" | "extraExtraLarge"';
+const layoutNative =
+  'Layout primitives accept `as` (div, section, article, aside, header, footer, nav, main, ul, ol, li), `ref`, `className`, `style` and any global HTML attribute. When `as` is ul or ol the list role is set explicitly, because list-style: none removes list semantics in Safari.';
+const spacingTokens = ['spacing.extra-small', 'spacing.small', 'spacing.medium', 'spacing.large', 'spacing.extra-large', 'spacing.extra-extra-large'] as const;
+
+export const layoutDocs: ComponentDoc[] = [
+  {
+    id: 'box',
+    purpose:
+      'Box draws a plain surface: padding, background, border and radius, each chosen from a named scale. It is the smallest styling unit in the system and has no opinion about what goes inside.',
+    whenToUse: ['A tinted region, well or callout inside a page or card.', 'Sample tiles in documentation and layout demos.'],
+    whenNotToUse: [
+      'Content that needs header and footer regions or elevation: use Card.',
+      'Spacing between siblings: use Stack, Inline or Grid gap instead of padding on each child.',
+    ],
+    props: propsTable<BoxOwnProps>({
+      padding: { type: space, defaultValue: '"none"', description: 'Padding on every side, mapped to spacing.* tokens.' },
+      background: { type: '"canvas" | "panel" | "sunken" | "accent"', description: 'Surface role. Omitted means transparent.' },
+      border: { type: '"none" | "subtle" | "default" | "strong"', defaultValue: '"none"', description: 'Border color strength at border-width.thin.' },
+      radius: { type: '"none" | "small" | "medium" | "large" | "extraLarge" | "full"', defaultValue: '"none"', description: 'Corner radius from radius.*.' },
+    }),
+    nativeProps: layoutNative,
+    precedence: [
+      'Each prop sets one private custom property (--_padding, --_background, --_border, --_radius) on the element, so props never compete with each other.',
+      'A className can still override visual styles, because the product cascade layer sits above the layout layer. Prefer props: they keep the value on a scale.',
+    ],
+    propTokens: [
+      { prop: 'padding="medium"', property: 'padding', token: 'spacing.medium' },
+      { prop: 'background="accent"', property: 'background-color', token: 'surface.accent' },
+      { prop: 'border="default"', property: 'border-color', token: 'border.default' },
+    ],
+    tokens: [...spacingTokens, 'surface.canvas', 'surface.panel', 'surface.sunken', 'surface.accent', 'border.subtle', 'border.default', 'border.strong', 'border-width.thin', 'radius.sm', 'radius.md', 'radius.lg', 'radius.xl', 'radius.full'],
+    composition: ['Often the child of a Grid or Stack item.', 'Holds text, controls or other layout primitives; it adds no gap of its own.'],
+    states: ['None. Box is static.'],
+    accessibility: ['No role is added. Choose `as` by meaning: section with a heading, aside for complementary content.', 'Backgrounds are surfaces, so every text tone keeps 4.5:1 on them.'],
+    responsive: ['Box has no responsive behavior. It shrinks below its content width (min-inline-size: 0), so long text wraps instead of overflowing.'],
+    mistakes: ['Nesting several Boxes to stack padding: one padding value on one Box is clearer.', 'Using Box with border and elevation via className to imitate a Card.'],
+    tradeoffs: ['Only four surfaces are offered. Arbitrary colors would make dark mode and contrast impossible to guarantee.'],
+    sourcePaths: ['src/design-system/layout/Box.tsx', 'src/design-system/layout/Box.module.css', 'src/design-system/tokens/vocabulary.ts'],
+    Example: BoxExample,
+  },
+  {
+    id: 'stack',
+    purpose:
+      'Stack lays children out vertically with one gap between them. Spacing belongs to the parent, not to the children, so a component never needs to know what comes after it.',
+    whenToUse: ['Vertical rhythm in forms, cards, sidebars and documentation sections.', 'Any list of items that sit one above another.'],
+    whenNotToUse: ['Items that should sit side by side: use Inline.', 'Equal-width columns: use Grid.'],
+    props: propsTable<StackOwnProps>({
+      gap: { type: space, defaultValue: '"medium"', description: 'Space between children, mapped to spacing.* tokens.' },
+      align: { type: '"start" | "center" | "end" | "stretch"', defaultValue: '"stretch"', description: 'Inline-axis alignment. stretch makes children fill the width.' },
+    }),
+    nativeProps: layoutNative,
+    precedence: ['gap applies only between children. Margins on children add to it, so avoid them.', 'align="stretch" is the default because most stacked content (fields, cards) should fill the column.'],
+    propTokens: [{ prop: 'gap="large"', property: 'gap', token: 'spacing.large' }],
+    tokens: [...spacingTokens],
+    composition: ['Nest Stacks with different gaps to express grouping: a larger gap between groups than inside them.', 'Render as ul or ol when the children are list items.'],
+    states: ['None.'],
+    accessibility: ['Purely visual; reading order equals source order.'],
+    responsive: ['A single column at every width. Children may be responsive themselves.'],
+    mistakes: ['Adding margin-block to children to tweak one gap. Split into two Stacks instead.', 'Using Stack for a row of buttons that should wrap: that is Inline.'],
+    tradeoffs: ['One gap per Stack keeps rhythm consistent but means irregular spacing needs nesting.'],
+    sourcePaths: ['src/design-system/layout/Stack.tsx', 'src/design-system/layout/Stack.module.css'],
+    Example: StackExample,
+  },
+  {
+    id: 'inline',
+    purpose:
+      'Inline lays children out in a row and wraps them onto new lines when space runs out. It is the default for clusters: tags, metadata, toolbars and button groups.',
+    whenToUse: ['Badges, tags and metadata that should flow like words.', 'Button groups and toolbars, with justify="between" for split toolbars.'],
+    whenNotToUse: ['Aligned columns across rows: use Grid.', 'A single row that must never wrap and whose children cannot shrink.'],
+    props: propsTable<InlineOwnProps>({
+      gap: { type: space, defaultValue: '"small"', description: 'Space between items and between wrapped lines.' },
+      align: { type: '"start" | "center" | "end" | "baseline" | "stretch"', defaultValue: '"center"', description: 'Block-axis alignment of items.' },
+      justify: { type: '"start" | "center" | "end" | "between"', defaultValue: '"start"', description: 'Inline-axis distribution.' },
+      wrap: { type: 'boolean', defaultValue: 'true', description: 'Wrap onto new lines. Turn off only when children can shrink.' },
+    }),
+    nativeProps: layoutNative,
+    precedence: [
+      'One gap is used for both axes so wrapped lines keep the same spacing as items on one line.',
+      'wrap={false} also lets children shrink below their content size (min-inline-size: 0), so text inside them must be able to wrap or truncate.',
+    ],
+    propTokens: [{ prop: 'gap="small"', property: 'gap', token: 'spacing.small' }],
+    tokens: [...spacingTokens],
+    composition: ['Nest an Inline inside an Inline with justify="between" for a toolbar with a group on each side.'],
+    states: ['None.'],
+    accessibility: ['Visual order matches source order; justify never reorders items.'],
+    responsive: ['Wrapping is intrinsic: no breakpoints are involved, so it works in any container.'],
+    mistakes: ['Setting wrap={false} on a row of buttons, which then overflows at 320px.', 'Using justify="between" with only one child.'],
+    tradeoffs: ['Wrapped items do not align to columns. When alignment across rows matters, Grid is the right tool.'],
+    sourcePaths: ['src/design-system/layout/Inline.tsx', 'src/design-system/layout/Inline.module.css'],
+    Example: InlineExample,
+  },
+  {
+    id: 'grid',
+    purpose:
+      'Grid places items in equal columns. Its props define three valid modes, so every combination produces one predictable formula: a fixed count, as many columns as fit, or as many as fit up to a maximum.',
+    whenToUse: ['Card collections and dashboards.', 'Form fields that should sit side by side when space allows.'],
+    whenNotToUse: ['Unequal columns such as a sidebar layout: write a product-level grid with named areas.', 'Single rows of actions: use Inline.'],
+    props: propsTable<GridOwnProps>({
+      gap: { type: space, defaultValue: '"medium"', description: 'Space between rows and columns.' },
+      rowGap: { type: space, description: 'Overrides gap between rows only.' },
+      columnGap: { type: space, description: 'Overrides gap between columns only.' },
+      columns: { type: '1 | 2 | 3 | 4 | 6', description: 'Alone: exactly this many columns. With minColumnWidth: the maximum.' },
+      minColumnWidth: { type: '"extraSmall" | "small" | "medium" | "large"', description: 'Narrowest column (size.item.*) before items wrap. Defaults to small when columns is unset.' },
+      align: { type: '"start" | "center" | "end" | "stretch"', defaultValue: '"stretch"', description: 'Block-axis alignment within each row.' },
+    }),
+    nativeProps: layoutNative,
+    precedence: [
+      'Mode is derived, never configured twice: columns only → fixed; minColumnWidth only (or neither) → responsive; both → capped. The mode is exposed as data-grid-mode for debugging.',
+      'rowGap and columnGap win over gap on their axis. Unset axes fall back to gap.',
+      'In capped mode the column gap is part of the formula, so changing columnGap changes where the grid drops a column.',
+      'Fixed mode ignores minColumnWidth by definition; columns may become narrow, but never overflow, because tracks are minmax(0, 1fr).',
+    ],
+    propTokens: [
+      { prop: 'gap="medium"', property: 'row-gap and column-gap', token: 'spacing.medium' },
+      { prop: 'rowGap="extraSmall"', property: 'row-gap', token: 'spacing.extra-small' },
+      { prop: 'minColumnWidth="small"', property: 'grid-template-columns', token: 'size.item.sm' },
+    ],
+    tokens: [...spacingTokens, 'size.item.xs', 'size.item.sm', 'size.item.md', 'size.item.lg'],
+    composition: ['Grid items get min-inline-size: 0, so wide children (tables, code) scroll inside the item instead of widening the page.', 'Render as ul with li children for collections.'],
+    states: ['None.'],
+    accessibility: ['Visual order equals source order in every mode; nothing is reordered.'],
+    responsive: [
+      'Responsive and capped modes use auto-fit with min(…, 100%), so a single column never overflows a container narrower than the minimum.',
+      'Because the formula depends on the grid’s own width, the same Grid adapts in a sidebar, a dialog or a playground preview without media queries.',
+    ],
+    mistakes: ['Setting columns={4} for a card list on mobile: use minColumnWidth so it can drop to one column.', 'Adding padding to items to fake a gap.'],
+    tradeoffs: ['Only equal columns are supported. Named-area layouts are product decisions and live with the product.', 'Column counts are limited to 1, 2, 3, 4 and 6 to keep layouts consistent.'],
+    sourcePaths: ['src/design-system/layout/Grid.tsx', 'src/design-system/layout/Grid.module.css'],
+    Example: GridExample,
+  },
+  {
+    id: 'container',
+    purpose: 'Container centers content at a token-defined maximum width, adds fluid gutters, and can become a named query container for descendants.',
+    whenToUse: ['The outer wrapper of a page or a full-bleed band.', 'Any region whose children should adapt with @container rules.'],
+    whenNotToUse: ['Spacing between siblings: use Stack.', 'Narrow reading measure for prose: Text already caps paragraphs at layout.measure.'],
+    props: propsTable<ContainerOwnProps>({
+      width: { type: '"narrow" | "default" | "wide" | "full"', defaultValue: '"default"', description: 'Maximum inline size from size.container.*; full removes the cap.' },
+      gutters: { type: 'boolean', defaultValue: 'true', description: 'Fluid inline padding between layout.gutter and layout.gutter-wide.' },
+      queryName: { type: 'string', description: 'Makes the element a named inline-size query container.' },
+    }),
+    nativeProps: layoutNative,
+    precedence: ['queryName only adds container-type and container-name; it does not change size.'],
+    propTokens: [{ prop: 'width="narrow"', property: 'max-inline-size', token: 'size.container.narrow' }],
+    tokens: ['size.container.narrow', 'size.container.default', 'size.container.wide', 'layout.gutter', 'layout.gutter-wide'],
+    composition: ['Pages wrap their content in one Container; documentation pages name it "page" so the contents column can appear when there is room.'],
+    states: ['None.'],
+    accessibility: ['No role; use `as="main"` or other landmarks only where the page needs them.'],
+    responsive: ['Gutters scale with the viewport between two tokens using clamp(); content width is capped by the token.'],
+    mistakes: ['Nesting Containers, which doubles the gutters.'],
+    tradeoffs: ['Size containment means a query container cannot size itself from its content; it always fills its parent’s inline size.'],
+    sourcePaths: ['src/design-system/layout/Container.tsx', 'src/design-system/layout/Container.module.css'],
+    Example: ContainerExample,
+  },
+];

@@ -1,0 +1,45 @@
+@layer product {
+  .figure {
+    display: grid;
+    gap: var(--space-xs);
+    min-inline-size: 0;
+  }
+
+  .caption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2xs) var(--space-sm);
+    font-size: var(--typography-body-small-font-size);
+    color: var(--text-muted);
+  }
+
+  .path {
+    overflow-wrap: anywhere;
+  }
+
+  .description {
+    color: var(--text-muted);
+  }
+
+  .code {
+    max-block-size: 30rem;
+    overflow: auto;
+    padding: var(--space-md);
+    border: var(--border-width-thin) solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    background-color: var(--surface-sunken);
+    color: var(--text-primary);
+    font-size: var(--typography-code-font-size);
+    line-height: var(--typography-code-line-height);
+    tab-size: 2;
+  }
+
+  .message {
+    padding: var(--space-md);
+    border: var(--border-width-thin) dashed var(--border-default);
+    border-radius: var(--radius-md);
+    color: var(--text-muted);
+    font-size: var(--typography-body-small-font-size);
+  }
+}

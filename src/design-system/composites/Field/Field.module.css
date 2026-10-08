@@ -1,0 +1,42 @@
+@layer components {
+  .field {
+    display: grid;
+    gap: var(--space-2xs);
+    min-inline-size: 0;
+  }
+
+  .label {
+    font-size: var(--typography-label-font-size);
+    font-weight: var(--typography-label-font-weight);
+    line-height: var(--typography-label-line-height);
+    color: var(--text-primary);
+  }
+
+  .required {
+    color: var(--text-muted);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .description {
+    color: var(--text-muted);
+    font-size: var(--typography-body-small-font-size);
+    line-height: var(--typography-body-small-line-height);
+  }
+
+  .error {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2xs);
+    color: var(--tone-danger-text);
+    font-size: var(--typography-body-small-font-size);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--typography-body-small-line-height);
+  }
+
+  .errorIcon {
+    inline-size: 1em;
+    block-size: 1em;
+    flex: none;
+    margin-block-start: 0.2em;
+  }
+}

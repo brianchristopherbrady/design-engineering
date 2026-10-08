@@ -1,0 +1,8 @@
+@layer components {
+  .header {
+    display: grid;
+    gap: var(--space-lg);
+    padding-block: var(--space-xl) var(--space-lg);
+    min-inline-size: 0;
+  }
+}

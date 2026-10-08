@@ -1,0 +1,122 @@
+{
+  "$description": "Component tokens: component-specific decisions that alias semantic roles or reference scales. Props choose between them; CSS reads them.",
+  "button": {
+    "primary": {
+      "$description": "appearance=\"primary\": the one main action in a region.",
+      "background": { "$value": "{action.primary.background}" },
+      "background-hover": { "$value": "{action.primary.hover}" },
+      "background-active": { "$value": "{action.primary.active}" },
+      "foreground": { "$value": "{action.primary.foreground}" },
+      "border": { "$value": "{action.primary.border}" }
+    },
+    "secondary": {
+      "$description": "appearance=\"secondary\": neutral actions. Its border carries the 3:1 control boundary.",
+      "background": { "$value": "{action.secondary.background}" },
+      "background-hover": { "$value": "{action.secondary.hover}" },
+      "background-active": { "$value": "{action.secondary.active}" },
+      "foreground": { "$value": "{action.secondary.foreground}" },
+      "border": { "$value": "{action.secondary.border}" }
+    },
+    "ghost": {
+      "$description": "appearance=\"ghost\": low emphasis. The transparent border keeps ghost buttons aligned with bordered ones.",
+      "background": { "$value": "{action.ghost.background}" },
+      "background-hover": { "$value": "{action.ghost.hover}" },
+      "background-active": { "$value": "{action.ghost.active}" },
+      "foreground": { "$value": "{action.ghost.foreground}" },
+      "border": { "$value": "{action.ghost.border}" }
+    },
+    "danger": {
+      "$description": "appearance=\"danger\": destructive actions, usually inside a confirmation.",
+      "background": { "$value": "{action.danger.background}" },
+      "background-hover": { "$value": "{action.danger.hover}" },
+      "background-active": { "$value": "{action.danger.active}" },
+      "foreground": { "$value": "{action.danger.foreground}" },
+      "border": { "$value": "{action.danger.border}" }
+    },
+    "disabled": {
+      "$description": "Shared by every appearance when disabled. Exempt from contrast requirements, still distinguishable.",
+      "background": { "$value": "{action.disabled.background}" },
+      "foreground": { "$value": "{action.disabled.foreground}" },
+      "border": { "$value": "{action.disabled.border}" }
+    },
+    "radius": { "$value": "{control.radius}", "$description": "Used when the radius prop is not set." },
+    "gap": { "$value": "{space.xs}", "$description": "Space between an icon and the label." },
+    "height": {
+      "small": { "$value": "{control.height.small}" },
+      "medium": { "$value": "{control.height.medium}" },
+      "large": { "$value": "{control.height.large}" }
+    },
+    "padding-inline": {
+      "small": { "$value": "{space.sm}" },
+      "medium": { "$value": "{space.md}" },
+      "large": { "$value": "{space.lg}" }
+    },
+    "font-size": {
+      "small": { "$value": "{font.size.xs}" },
+      "medium": { "$value": "{font.size.sm}" },
+      "large": { "$value": "{font.size.md}" }
+    }
+  },
+  "badge": {
+    "radius": { "$value": "{radius.full}", "$description": "Used when the radius prop is not set." },
+    "height": {
+      "small": { "$value": "{size.badge.sm}" },
+      "medium": { "$value": "{size.badge.md}" },
+      "large": { "$value": "{size.badge.lg}" }
+    },
+    "padding-inline": {
+      "small": { "$value": "{space.xs}" },
+      "medium": { "$value": "{space.sm}" },
+      "large": { "$value": "{space.md}" }
+    },
+    "font-size": {
+      "small": { "$value": "{font.size.xs}" },
+      "medium": { "$value": "{font.size.sm}" },
+      "large": { "$value": "{font.size.md}" }
+    }
+  },
+  "card": {
+    "$description": "Defaults for Card when its visual props are not set.",
+    "background": { "$value": "{surface.panel}" },
+    "border": { "$value": "{border.subtle}" },
+    "radius": { "$value": "{radius.lg}" },
+    "padding": { "$value": "{spacing.large}" },
+    "elevation": { "$value": "{elevation.low}" }
+  },
+  "dialog": {
+    "$description": "Defaults for Dialog when its visual props are not set.",
+    "background": { "$value": "{surface.panel}" },
+    "border": { "$value": "{border.subtle}" },
+    "radius": { "$value": "{radius.xl}" },
+    "padding": { "$value": "{spacing.large}" },
+    "elevation": { "$value": "{elevation.high}" },
+    "backdrop": { "$value": "{overlay.backdrop}" },
+    "width": {
+      "small": { "$value": "{size.dialog.sm}" },
+      "medium": { "$value": "{size.dialog.md}" },
+      "large": { "$value": "{size.dialog.lg}" }
+    }
+  },
+  "input": {
+    "background": { "$value": "{surface.panel}" },
+    "border": {
+      "$value": "{border.strong}",
+      "$description": "Input boundaries must keep 3:1 contrast with adjacent surfaces (WCAG 1.4.11)."
+    }
+  },
+  "switch": {
+    "track-off": { "$value": "{border.strong}", "$description": "Off track. Uses the control-boundary role so the switch stays visible." },
+    "track-on": { "$value": "{action.primary.background}" },
+    "thumb": { "$value": "{surface.panel}" }
+  },
+  "skeleton": {
+    "base": { "$value": "{surface.sunken}" },
+    "highlight": { "$value": "{border.subtle}" },
+    "size": {
+      "$description": "Block height and circle diameter for shape=\"block\" and shape=\"circle\".",
+      "small": { "$value": "{space.xl}" },
+      "medium": { "$value": "{space.3xl}" },
+      "large": { "$value": "{size.item.xs}" }
+    }
+  }
+}

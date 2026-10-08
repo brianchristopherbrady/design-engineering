@@ -1,0 +1,42 @@
+@layer product {
+  .list {
+    display: grid;
+    padding: 0;
+    list-style: none;
+    container: activity / inline-size;
+  }
+
+  .item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--spacing-extra-small);
+    padding-block: var(--spacing-small);
+    border-block-end: var(--border-width-thin) solid var(--border-subtle);
+  }
+
+  .item:last-child {
+    border-block-end: 0;
+  }
+
+  .kind {
+    justify-self: start;
+  }
+
+  .summary {
+    overflow-wrap: anywhere;
+  }
+
+  .date {
+    color: var(--text-muted);
+    font-size: var(--typography-body-small-font-size);
+  }
+
+  /* 36rem: room for a badge column, a readable summary and a date column on one row. */
+  @container activity (min-inline-size: 36rem) {
+    .item {
+      grid-template-columns: 7rem minmax(0, 1fr) auto;
+      align-items: baseline;
+      gap: var(--spacing-medium);
+    }
+  }
+}

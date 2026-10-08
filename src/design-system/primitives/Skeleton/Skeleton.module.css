@@ -1,0 +1,76 @@
+@layer components {
+  .skeleton {
+    --_shimmer: linear-gradient(
+      90deg,
+      var(--skeleton-base) 0%,
+      var(--skeleton-highlight) 50%,
+      var(--skeleton-base) 100%
+    );
+  }
+
+  .text {
+    display: grid;
+    gap: calc(var(--typography-body-font-size) * 0.75);
+    padding-block: calc(var(--typography-body-font-size) * 0.375);
+  }
+
+  .line,
+  .block,
+  .circle {
+    background: var(--_shimmer);
+    background-size: 200% 100%;
+    animation: shimmer calc(var(--motion-duration-emphasis) * 4) var(--motion-easing-standard) infinite;
+  }
+
+  .line {
+    display: block;
+    block-size: var(--typography-body-font-size);
+    border-radius: var(--radius-sm);
+  }
+
+  .line:last-child:not(:first-child) {
+    inline-size: 60%;
+  }
+
+  .block {
+    inline-size: 100%;
+    block-size: var(--_size);
+    border-radius: var(--radius-md);
+  }
+
+  .circle {
+    inline-size: var(--_size);
+    block-size: var(--_size);
+    border-radius: var(--radius-full);
+  }
+
+  .small {
+    --_size: var(--skeleton-size-small);
+  }
+
+  .medium {
+    --_size: var(--skeleton-size-medium);
+  }
+
+  .large {
+    --_size: var(--skeleton-size-large);
+  }
+
+  @keyframes shimmer {
+    from {
+      background-position: 100% 0;
+    }
+
+    to {
+      background-position: -100% 0;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .line,
+    .block,
+    .circle {
+      border: var(--border-width-thin) solid GrayText;
+    }
+  }
+}

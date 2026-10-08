@@ -1,0 +1,24 @@
+@layer layout {
+  .inline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: var(--_align);
+    justify-content: var(--_justify);
+    gap: var(--_gap);
+    min-inline-size: 0;
+  }
+
+  .inline:is(ul, ol) {
+    list-style: none;
+    padding: 0;
+  }
+
+  .nowrap {
+    flex-wrap: nowrap;
+  }
+
+  /* Without wrapping, children must be allowed to shrink below their content size. */
+  .nowrap > * {
+    min-inline-size: 0;
+  }
+}

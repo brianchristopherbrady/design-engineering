@@ -1,0 +1,36 @@
+@layer components {
+  .checkbox {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: var(--space-sm);
+    align-items: center;
+  }
+
+  /* Native control keeps its platform semantics, forced-colors rendering and indeterminate state. */
+  .input {
+    inline-size: var(--size-icon-md);
+    block-size: var(--size-icon-md);
+    margin: 0;
+    accent-color: var(--action-primary-background);
+    cursor: pointer;
+  }
+
+  .input:disabled,
+  .input:disabled + .label {
+    opacity: var(--control-disabled-opacity);
+    cursor: not-allowed;
+  }
+
+  .label {
+    font-size: var(--typography-body-font-size);
+    line-height: var(--typography-body-line-height);
+    cursor: pointer;
+  }
+
+  .description {
+    grid-column: 2;
+    color: var(--text-muted);
+    font-size: var(--typography-body-small-font-size);
+    line-height: var(--typography-body-small-line-height);
+  }
+}

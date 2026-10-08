@@ -1,0 +1,165 @@
+import { useEffect, useId, useRef, useState } from 'react';
+import { Alert, Card, EmptyState } from '@/design-system/composites';
+import { Grid, Inline, Stack } from '@/design-system/layout';
+import { Button, Heading, Icon, Link, Skeleton, Text } from '@/design-system/primitives';
+import { entryLayers, EntryCard, type CatalogEntry } from '@/domain/system';
+import { defaultFilters, DirectoryFilters, filterEntries, type DirectoryFilterValues } from '@/features/directory';
+import { useRequest, type DemoScenario } from '@/features/scenarios';
+import { fetchEntries, noResultsQuery } from './fixtures';
+import { entryHref } from './hrefs';
+
+/**
+ * A searchable directory of the system's own catalog. The scenario only changes what the
+ * simulated request returns (and the initial search for No results); everything else is
+ * the same code path.
+ */
+export function ResourceDirectory({ scenario }: { scenario: DemoScenario }) {
+  const { state, load } = useRequest(fetchEntries);
+  const attempt = useRef(0);
+  const headingId = useId();
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const [filters, setFilters] = useState<DirectoryFilterValues>(() =>
+    scenario === 'noResults' ? { ...defaultFilters, query: noResultsQuery } : defaultFilters,
+  );
+  const [pinned, setPinned] = useState<ReadonlySet<string>>(() => new Set());
+
+  useEffect(() => {
+    load({ scenario, attempt: 0 });
+  }, [load, scenario]);
+
+  // After a successful retry the Retry button is gone; move focus to the heading so it is not lost.
+  useEffect(() => {
+    if (state.status === 'success' && attempt.current > 0) headingRef.current?.focus();
+  }, [state.status]);
+
+  const retry = () => {
+    attempt.current += 1;
+    load({ scenario, attempt: attempt.current });
+  };
+
+  const togglePin = (id: string) =>
+    setPinned((current) => {
+      const next = new Set(current);
+      if (!next.delete(id)) next.add(id);
+      return next;
+    });
+
+  const pending = state.status === 'idle' || state.status === 'pending';
+
+  return (
+    <section aria-labelledby={headingId} aria-busy={pending}>
+      <Stack gap="medium">
+        <Inline justify="between" gap="small">
+          <Heading level={3} size="medium" id={headingId} ref={headingRef} tabIndex={-1}>
+            System directory
+          </Heading>
+          {state.status === 'success' && state.data.length > 0 && (
+            <Text variant="bodySmall" tone="muted">
+              {pinned.size} pinned
+            </Text>
+          )}
+        </Inline>
+
+        {pending && <LoadingEntries />}
+
+        {state.status === 'error' && (
+          <Alert
+            tone="danger"
+            role="alert"
+            title="Entries could not be loaded"
+            actions={
+              <Button size="small" iconStart={<Icon name="refresh" />} onClick={retry}>
+                Retry
+              </Button>
+            }
+          >
+            {state.message} Retrying is safe: nothing was changed.
+          </Alert>
+        )}
+
+        {state.status === 'success' && state.data.length === 0 && (
+          <EmptyState
+            headingLevel={4}
+            title="No entries yet"
+            description="The catalog has nothing published yet. Entries appear here as soon as a component, foundation or pattern is added to the catalog."
+            action={<Link href="/#contributing">Read how entries are added</Link>}
+          />
+        )}
+
+        {state.status === 'success' && state.data.length > 0 && (
+          <Results entries={state.data} filters={filters} onFiltersChange={setFilters} pinned={pinned} onTogglePin={togglePin} />
+        )}
+      </Stack>
+    </section>
+  );
+}
+
+function LoadingEntries() {
+  return (
+    <>
+      <Text role="status" variant="bodySmall" tone="muted">
+        Loading entries…
+      </Text>
+      <Grid minColumnWidth="medium" gap="medium" aria-hidden="true">
+        {[0, 1, 2].map((index) => (
+          <Card key={index} padding="medium">
+            <Stack gap="small">
+              <Skeleton lines={1} />
+              <Skeleton lines={2} />
+            </Stack>
+          </Card>
+        ))}
+      </Grid>
+    </>
+  );
+}
+
+function Results({
+  entries,
+  filters,
+  onFiltersChange,
+  pinned,
+  onTogglePin,
+}: {
+  entries: readonly CatalogEntry[];
+  filters: DirectoryFilterValues;
+  onFiltersChange: (filters: DirectoryFilterValues) => void;
+  pinned: ReadonlySet<string>;
+  onTogglePin: (id: string) => void;
+}) {
+  const results = filterEntries(entries, filters);
+  return (
+    <Stack gap="medium">
+      <DirectoryFilters
+        filters={filters}
+        onChange={onFiltersChange}
+        layers={entryLayers}
+        resultCount={results.length}
+        totalCount={entries.length}
+        label="Filter the directory"
+      />
+      {results.length === 0 ? (
+        <EmptyState
+          headingLevel={4}
+          title={filters.query ? `No entries match “${filters.query}”` : 'No entries match these filters'}
+          description="The directory has entries, but none fit the current search and filters. Check the spelling, try a broader term, or clear the filters."
+          action={<Button onClick={() => onFiltersChange(defaultFilters)}>Clear filters</Button>}
+        />
+      ) : (
+        <Grid as="ul" minColumnWidth="medium" gap="medium">
+          {results.map((entry) => (
+            <li key={entry.id}>
+              <EntryCard
+                entry={entry}
+                href={entryHref(entry)}
+                headingLevel={4}
+                pinned={pinned.has(entry.id)}
+                onTogglePin={() => onTogglePin(entry.id)}
+              />
+            </li>
+          ))}
+        </Grid>
+      )}
+    </Stack>
+  );
+}

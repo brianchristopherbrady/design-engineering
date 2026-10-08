@@ -1,0 +1,108 @@
+@layer components {
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    min-block-size: var(--_height);
+    padding-inline: var(--_padding);
+    border: var(--border-width-thin) solid var(--_border);
+    border-radius: var(--_radius, var(--badge-radius));
+    background-color: var(--_background);
+    color: var(--_foreground);
+    font-size: var(--_font-size);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--font-line-height-snug);
+    white-space: nowrap;
+  }
+
+  .icon {
+    display: inline-flex;
+    flex: none;
+  }
+
+  /* Tone: picks the five tone tokens. */
+  .tone-neutral {
+    --_text: var(--tone-neutral-text);
+    --_surface: var(--tone-neutral-surface);
+    --_tone-border: var(--tone-neutral-border);
+    --_solid: var(--tone-neutral-solid);
+    --_on-solid: var(--tone-neutral-on-solid);
+  }
+
+  .tone-brand {
+    --_text: var(--tone-brand-text);
+    --_surface: var(--tone-brand-surface);
+    --_tone-border: var(--tone-brand-border);
+    --_solid: var(--tone-brand-solid);
+    --_on-solid: var(--tone-brand-on-solid);
+  }
+
+  .tone-success {
+    --_text: var(--tone-success-text);
+    --_surface: var(--tone-success-surface);
+    --_tone-border: var(--tone-success-border);
+    --_solid: var(--tone-success-solid);
+    --_on-solid: var(--tone-success-on-solid);
+  }
+
+  .tone-warning {
+    --_text: var(--tone-warning-text);
+    --_surface: var(--tone-warning-surface);
+    --_tone-border: var(--tone-warning-border);
+    --_solid: var(--tone-warning-solid);
+    --_on-solid: var(--tone-warning-on-solid);
+  }
+
+  .tone-danger {
+    --_text: var(--tone-danger-text);
+    --_surface: var(--tone-danger-surface);
+    --_tone-border: var(--tone-danger-border);
+    --_solid: var(--tone-danger-solid);
+    --_on-solid: var(--tone-danger-on-solid);
+  }
+
+  .tone-info {
+    --_text: var(--tone-info-text);
+    --_surface: var(--tone-info-surface);
+    --_tone-border: var(--tone-info-border);
+    --_solid: var(--tone-info-solid);
+    --_on-solid: var(--tone-info-on-solid);
+  }
+
+  /* Appearance: decides which tone tokens become background, foreground and border. */
+  .filled {
+    --_background: var(--_solid);
+    --_foreground: var(--_on-solid);
+    --_border: var(--_solid);
+  }
+
+  .subtle {
+    --_background: var(--_surface);
+    --_foreground: var(--_text);
+    --_border: var(--_surface);
+  }
+
+  .outlined {
+    --_background: transparent;
+    --_foreground: var(--_text);
+    --_border: var(--_tone-border);
+  }
+
+  .small {
+    --_height: var(--badge-height-small);
+    --_padding: var(--badge-padding-inline-small);
+    --_font-size: var(--badge-font-size-small);
+  }
+
+  .medium {
+    --_height: var(--badge-height-medium);
+    --_padding: var(--badge-padding-inline-medium);
+    --_font-size: var(--badge-font-size-medium);
+  }
+
+  .large {
+    --_height: var(--badge-height-large);
+    --_padding: var(--badge-padding-inline-large);
+    --_font-size: var(--badge-font-size-large);
+  }
+}

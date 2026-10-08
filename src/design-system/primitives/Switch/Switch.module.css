@@ -1,0 +1,102 @@
+@layer components {
+  .switch {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: var(--space-sm);
+    align-items: center;
+  }
+
+  .control {
+    position: relative;
+    display: inline-flex;
+  }
+
+  /* The real input covers the track so pointer, keyboard and assistive technology all hit it. */
+  .input {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .track {
+    display: inline-flex;
+    align-items: center;
+    inline-size: calc(var(--size-icon-md) * 2);
+    block-size: var(--size-icon-md);
+    padding: var(--space-2xs);
+    box-sizing: content-box;
+    border: var(--border-width-thin) solid var(--input-border);
+    border-radius: var(--radius-full);
+    background-color: var(--switch-track-off);
+    transition: background-color var(--motion-duration-feedback) var(--motion-easing-standard);
+  }
+
+  .thumb {
+    inline-size: var(--size-icon-md);
+    block-size: var(--size-icon-md);
+    border-radius: var(--radius-full);
+    background-color: var(--switch-thumb);
+    transition: transform var(--motion-duration-transition) var(--motion-easing-standard);
+  }
+
+  .input:checked + .track {
+    border-color: var(--switch-track-on);
+    background-color: var(--switch-track-on);
+  }
+
+  .input:checked + .track .thumb {
+    transform: translateX(100%);
+  }
+
+  .input:checked + .track .thumb:dir(rtl) {
+    transform: translateX(-100%);
+  }
+
+  .input:focus-visible + .track {
+    outline: var(--focus-width) solid var(--focus-ring);
+    outline-offset: var(--focus-offset);
+  }
+
+  .input:disabled,
+  .input:disabled + .track,
+  .switch:has(.input:disabled) .label {
+    opacity: var(--control-disabled-opacity);
+    cursor: not-allowed;
+  }
+
+  .label {
+    font-size: var(--typography-body-font-size);
+    line-height: var(--typography-body-line-height);
+    cursor: pointer;
+  }
+
+  .description {
+    grid-column: 2;
+    color: var(--text-muted);
+    font-size: var(--typography-body-small-font-size);
+    line-height: var(--typography-body-small-line-height);
+  }
+
+  @media (forced-colors: active) {
+    .track {
+      forced-color-adjust: none;
+      border-color: CanvasText;
+      background-color: Canvas;
+    }
+
+    .thumb {
+      background-color: CanvasText;
+    }
+
+    .input:checked + .track {
+      border-color: Highlight;
+      background-color: Highlight;
+    }
+
+    .input:checked + .track .thumb {
+      background-color: HighlightText;
+    }
+  }
+}

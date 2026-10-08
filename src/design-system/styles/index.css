@@ -1,0 +1,16 @@
+/*
+ * Global stylesheet entry, imported once by src/main.tsx before any component.
+ * The layer statement fixes cascade priority for the whole app: a later layer wins
+ * over an earlier one regardless of selector specificity or file import order.
+ *   reset      → browser normalisation
+ *   tokens     → generated custom properties (one block per theme)
+ *   base       → element defaults: body text, focus ring, inline code, preferences
+ *   layout     → Box, Stack, Inline, Grid, Container
+ *   components → primitives and composites
+ *   product    → domain, feature, content and app styles (may adjust components)
+ */
+@layer reset, tokens, base, layout, components, product;
+
+@import './reset.css';
+@import '../tokens/generated/tokens.css';
+@import './base.css';

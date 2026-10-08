@@ -1,0 +1,58 @@
+@layer product {
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'header'
+      'toc'
+      'content';
+    gap: var(--space-lg) var(--space-xl);
+  }
+
+  .single {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'header'
+      'content';
+    gap: var(--spacing-large);
+  }
+
+  .header {
+    grid-area: header;
+    min-inline-size: 0;
+  }
+
+  .toc {
+    grid-area: toc;
+    container-type: inline-size;
+    min-inline-size: 0;
+  }
+
+  .content {
+    grid-area: content;
+    min-inline-size: 0;
+  }
+
+  .pager {
+    padding-block-start: var(--space-lg);
+    border-block-start: var(--border-width-thin) solid var(--border-subtle);
+  }
+
+  /* 56rem of page container: a 42rem reading column, a 12rem contents column and the gap. */
+  @container page (min-inline-size: 56rem) {
+    .layout {
+      grid-template-columns: minmax(0, 1fr) 12rem;
+      grid-template-areas:
+        'header toc'
+        'content toc';
+    }
+
+    .toc {
+      position: sticky;
+      inset-block-start: var(--space-lg);
+      align-self: start;
+      margin-block-start: var(--space-xl);
+    }
+  }
+}

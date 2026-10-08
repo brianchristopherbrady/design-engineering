@@ -1,0 +1,42 @@
+@layer layout {
+  .grid {
+    display: grid;
+    row-gap: var(--_row-gap);
+    column-gap: var(--_column-gap);
+    align-items: var(--_align);
+    min-inline-size: 0;
+  }
+
+  .grid:is(ul, ol) {
+    list-style: none;
+    padding: 0;
+  }
+
+  .grid > * {
+    min-inline-size: 0;
+  }
+
+  /* Exactly N columns; minmax(0, 1fr) lets them shrink instead of overflowing. */
+  .fixed {
+    grid-template-columns: repeat(var(--_columns), minmax(0, 1fr));
+  }
+
+  /* As many columns as fit. min(…, 100%) lets one column shrink below --_min in a narrow container. */
+  .responsive {
+    grid-template-columns: repeat(auto-fit, minmax(min(var(--_min), 100%), 1fr));
+  }
+
+  /*
+   * Like responsive, but never more than --_columns: each track is at least the width of one
+   * column when the row holds the maximum count, so extra columns cannot fit.
+   */
+  .capped {
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(
+        min(100%, max(var(--_min), (100% - (var(--_columns) - 1) * var(--_column-gap)) / var(--_columns))),
+        1fr
+      )
+    );
+  }
+}

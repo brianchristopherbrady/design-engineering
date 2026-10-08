@@ -1,0 +1,72 @@
+@layer components {
+  .heading {
+    color: var(--_tone);
+    font-family: var(--typography-heading-1-font-family);
+  }
+
+  /* Fluid between two type tokens; the rem term keeps it responsive to user font settings. */
+  .display {
+    font-size: clamp(var(--font-size-3xl), 1.5rem + 2vw, var(--font-size-4xl));
+    font-weight: var(--typography-heading-1-font-weight);
+    line-height: var(--typography-heading-1-line-height);
+    letter-spacing: var(--typography-heading-1-letter-spacing);
+  }
+
+  .extraLarge {
+    font-size: var(--typography-heading-1-font-size);
+    font-weight: var(--typography-heading-1-font-weight);
+    line-height: var(--typography-heading-1-line-height);
+    letter-spacing: var(--typography-heading-1-letter-spacing);
+  }
+
+  .large {
+    font-size: var(--typography-heading-2-font-size);
+    font-weight: var(--typography-heading-2-font-weight);
+    line-height: var(--typography-heading-2-line-height);
+    letter-spacing: var(--typography-heading-2-letter-spacing);
+  }
+
+  .medium {
+    font-size: var(--typography-heading-3-font-size);
+    font-weight: var(--typography-heading-3-font-weight);
+    line-height: var(--typography-heading-3-line-height);
+    letter-spacing: var(--typography-heading-3-letter-spacing);
+  }
+
+  .small {
+    font-size: var(--typography-heading-4-font-size);
+    font-weight: var(--typography-heading-4-font-weight);
+    line-height: var(--typography-heading-4-line-height);
+    letter-spacing: var(--typography-heading-4-letter-spacing);
+  }
+
+  .tone-default {
+    --_tone: var(--text-primary);
+  }
+
+  .tone-muted {
+    --_tone: var(--text-muted);
+  }
+
+  .tone-brand {
+    --_tone: var(--tone-brand-text);
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  .end {
+    text-align: end;
+  }
+
+  /* Headings that receive focus after navigation should not look like controls. */
+  .heading[tabindex='-1']:focus {
+    outline: none;
+  }
+
+  .heading[tabindex='-1']:focus-visible {
+    outline: var(--focus-width) solid var(--focus-ring);
+    outline-offset: var(--focus-offset);
+  }
+}

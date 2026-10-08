@@ -1,0 +1,14 @@
+@layer layout {
+  .stack {
+    display: flex;
+    flex-direction: column;
+    align-items: var(--_align);
+    gap: var(--_gap);
+    min-inline-size: 0;
+  }
+
+  .stack:is(ul, ol) {
+    list-style: none;
+    padding: 0;
+  }
+}

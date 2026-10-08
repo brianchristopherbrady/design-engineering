@@ -1,0 +1,84 @@
+{
+  "$description": "Semantic roles that stay the same in every theme. Components read these, or component tokens that alias them.",
+  "spacing": {
+    "$description": "The spacing vocabulary shared by every gap and padding prop: extraSmall, small, medium, large, extraLarge, extraExtraLarge. 'none' is the structural value 0 and has no token.",
+    "extra-small": { "$value": "{space.2xs}" },
+    "small": { "$value": "{space.xs}" },
+    "medium": { "$value": "{space.md}" },
+    "large": { "$value": "{space.lg}" },
+    "extra-large": { "$value": "{space.xl}" },
+    "extra-extra-large": { "$value": "{space.2xl}", "$description": "Vertical rhythm between page sections." }
+  },
+  "focus": {
+    "width": { "$value": "{border-width.thick}", "$description": "Thickness of the keyboard focus outline." },
+    "offset": {
+      "$type": "dimension",
+      "$value": { "value": 2, "unit": "px" },
+      "$description": "Gap between a control and its focus outline so the ring never touches the control's own border."
+    }
+  },
+  "control": {
+    "height": {
+      "small": { "$value": "{size.control.sm}", "$description": "Dense toolbars; still above the 24px WCAG 2.2 target minimum." },
+      "medium": { "$value": "{size.control.md}", "$description": "Default for buttons, inputs and selects: 44px at the default text size." },
+      "large": { "$value": "{size.control.lg}" }
+    },
+    "padding-inline": { "$value": "{space.sm}" },
+    "radius": { "$value": "{radius.md}" },
+    "border-width": { "$value": "{border-width.thin}" },
+    "disabled-opacity": {
+      "$value": "{opacity.disabled}",
+      "$description": "Disabled form fields are exempt from contrast requirements but must still look unavailable."
+    }
+  },
+  "layout": {
+    "gutter": { "$value": "{space.md}", "$description": "Minimum inline padding between content and the viewport edge." },
+    "gutter-wide": { "$value": "{space.xl}", "$description": "Upper bound for fluid page gutters on wide viewports." },
+    "measure": { "$value": "{size.measure}", "$description": "Comfortable line length for running text." }
+  },
+  "motion": {
+    "duration": {
+      "feedback": { "$value": "{duration.fast}", "$description": "Hover, press and focus feedback." },
+      "transition": { "$value": "{duration.base}", "$description": "Small state transitions such as a switch thumb." },
+      "emphasis": { "$value": "{duration.slow}", "$description": "Larger entrances such as a dialog appearing." }
+    },
+    "easing": {
+      "standard": { "$value": "{easing.standard}" },
+      "enter": { "$value": "{easing.decelerate}", "$description": "Elements arriving on screen." }
+    }
+  },
+  "typography": {
+    "$type": "typography",
+    "$description": "Text roles. Text and Heading map their variants and sizes onto these.",
+    "body": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.md}", "fontWeight": "{font.weight.regular}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.normal}" }
+    },
+    "body-small": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.sm}", "fontWeight": "{font.weight.regular}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.normal}" }
+    },
+    "lead": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.lg}", "fontWeight": "{font.weight.regular}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.normal}" }
+    },
+    "label": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.sm}", "fontWeight": "{font.weight.semibold}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.snug}" }
+    },
+    "caption": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.xs}", "fontWeight": "{font.weight.medium}", "letterSpacing": "{font.letter-spacing.wide}", "lineHeight": "{font.line-height.snug}" }
+    },
+    "code": {
+      "$value": { "fontFamily": "{font.family.mono}", "fontSize": "{font.size.sm}", "fontWeight": "{font.weight.regular}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.normal}" }
+    },
+    "heading-1": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.3xl}", "fontWeight": "{font.weight.bold}", "letterSpacing": "{font.letter-spacing.tight}", "lineHeight": "{font.line-height.tight}" }
+    },
+    "heading-2": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.2xl}", "fontWeight": "{font.weight.semibold}", "letterSpacing": "{font.letter-spacing.tight}", "lineHeight": "{font.line-height.tight}" }
+    },
+    "heading-3": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.xl}", "fontWeight": "{font.weight.semibold}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.snug}" }
+    },
+    "heading-4": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.lg}", "fontWeight": "{font.weight.semibold}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.snug}" }
+    }
+  }
+}

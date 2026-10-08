@@ -1,0 +1,37 @@
+@layer components {
+  /*
+   * Precedence: an explicit prop sets a private --_ property, which wins;
+   * otherwise the card.* component token applies.
+   */
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-medium);
+    min-inline-size: 0;
+    padding: var(--_padding, var(--card-padding));
+    border: var(--border-width-thin) solid var(--_border, var(--card-border));
+    border-radius: var(--_radius, var(--card-radius));
+    background-color: var(--_background, var(--card-background));
+    box-shadow: var(--_elevation, var(--card-elevation));
+    color: var(--text-primary);
+  }
+
+  li.card {
+    list-style: none;
+  }
+
+  .header,
+  .body,
+  .footer {
+    min-inline-size: 0;
+  }
+
+  .body {
+    flex: 1;
+  }
+
+  .footer {
+    padding-block-start: var(--spacing-small);
+    border-block-start: var(--border-width-thin) solid var(--border-subtle);
+  }
+}

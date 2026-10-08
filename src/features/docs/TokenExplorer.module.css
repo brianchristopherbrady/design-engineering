@@ -1,0 +1,119 @@
+@layer product {
+  .scroller {
+    max-block-size: 40rem;
+    overflow: auto;
+    border: var(--border-width-thin) solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    background-color: var(--surface-panel);
+  }
+
+  .table {
+    inline-size: 100%;
+    min-inline-size: 44rem;
+    font-size: var(--typography-body-small-font-size);
+    line-height: var(--typography-body-small-line-height);
+  }
+
+  .caption {
+    padding: var(--space-sm) var(--space-md);
+    text-align: start;
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .table th,
+  .table td {
+    padding: var(--space-xs) var(--space-md);
+    border-block-start: var(--border-width-thin) solid var(--border-subtle);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  .table thead th {
+    position: sticky;
+    inset-block-start: 0;
+    background-color: var(--surface-sunken);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .table tbody th {
+    font-weight: var(--font-weight-regular);
+  }
+
+  .cssVar,
+  .themed,
+  .description {
+    color: var(--text-muted);
+  }
+
+  .description {
+    margin-block-start: var(--space-2xs);
+    max-inline-size: 28rem;
+  }
+
+  .value {
+    overflow-wrap: anywhere;
+  }
+
+  .resolved {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .swatch {
+    display: inline-block;
+    inline-size: 1.25rem;
+    block-size: 1.25rem;
+    flex: none;
+    border: var(--border-width-thin) solid var(--border-strong);
+    border-radius: var(--radius-sm);
+  }
+
+  .chains {
+    display: grid;
+    grid-template-columns: minmax(0, max-content) minmax(0, 1fr);
+    gap: var(--space-xs) var(--space-md);
+    align-items: center;
+  }
+
+  .chainTheme {
+    font-size: var(--typography-label-font-size);
+    font-weight: var(--typography-label-font-weight);
+  }
+
+  .chain {
+    min-inline-size: 0;
+  }
+
+  .chainList {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2xs) var(--space-xs);
+    padding: 0;
+    list-style: none;
+  }
+
+  .chainStep {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2xs);
+    min-inline-size: 0;
+  }
+
+  .chainStep code {
+    overflow-wrap: anywhere;
+  }
+
+  .chainStep + .chainStep::before {
+    content: '→' / '';
+    color: var(--text-muted);
+    padding-inline-end: var(--space-xs);
+  }
+
+  .tier {
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+  }
+}
