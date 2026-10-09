@@ -1,6 +1,6 @@
 # Architecture
 
-System Lab is one Vite + React application with internal boundaries. The site documents the
+Design System Lab is one Vite + React application with internal boundaries. The site documents the
 design system and is built from it. This file explains the layers, the token tiers, how props map
 to tokens, and where state lives. The Overview page shows the same material with live data.
 
@@ -110,7 +110,7 @@ property with the component token as fallback, for example
 `background-color: var(--_background, var(--card-background))`. That is the documented precedence:
 an explicit prop wins, an unset prop uses the component token. Example trace:
 `appearance="primary"` → `--button-primary-background` → `--action-primary-background` →
-`--color-neutral-950` (System Lab, light) / `--brand-harbor-strong` (Harbor, either theme).
+`--color-neutral-950` (Design System Lab, light) / `--brand-harbor-strong` (Harbor, either theme).
 
 Option arrays (`buttonAppearances`, `badgeSizes`, `gridColumnCounts` …) and default objects are
 exported next to each component. The component, its docs and its playground story all import the

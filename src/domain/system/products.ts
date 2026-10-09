@@ -13,7 +13,7 @@ export interface ProductProfile {
 export const productProfiles: Record<ProductName, ProductProfile> = {
   'system-lab': {
     id: 'system-lab',
-    name: 'System Lab',
+    name: 'Design System Lab',
     audience: 'The design system itself and its documentation.',
     overrides: 'Nothing: the base mappings.',
   },

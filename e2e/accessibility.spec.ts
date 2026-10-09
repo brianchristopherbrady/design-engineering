@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import { expectNoAxeViolations } from './axe';
 
 const pages = [
-  { name: 'overview', path: '/', ready: 'System Lab design system' },
+  { name: 'overview', path: '/', ready: 'Design System Lab' },
   { name: 'color foundation', path: '/foundations/color', ready: 'Verified contrast' },
   { name: 'themes foundation', path: '/foundations/themes', ready: 'Same roles, different mappings' },
   { name: 'responsive foundation', path: '/foundations/responsive', ready: 'Resize a container' },
@@ -75,7 +75,7 @@ test.describe('keyboard and focus', () => {
     }
     expect(names).toEqual([
       'Skip to main content',
-      'System Lab',
+      'Design System Lab',
       'Overview',
       'Foundations',
       'Components',
@@ -98,7 +98,7 @@ test.describe('keyboard and focus', () => {
     await page.goto('/');
     await page.getByRole('navigation', { name: 'Sections' }).getByRole('link', { name: 'Components' }).click();
     await expect(page.getByRole('heading', { level: 1, name: 'Components' })).toBeFocused();
-    await expect(page).toHaveTitle('Components · System Lab');
+    await expect(page).toHaveTitle('Components · Design System Lab');
   });
 
   test('the dialog traps focus, closes on Escape and restores focus to its opener', async ({ page }) => {

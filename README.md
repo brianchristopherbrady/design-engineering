@@ -1,6 +1,6 @@
-# System Lab
+# Design System Lab
 
-The System Lab design system and its reference site. The site documents tokens, foundations,
+Design System Lab is a design system and its reference site. The site documents tokens, foundations,
 components and patterns with live demos, and it is built entirely from the components it
 documents: the navigation, the Components index and the pattern demos all read the same catalog.
 
@@ -24,7 +24,7 @@ Sections:
   validated form, with a **Demo scenario** selector for loading, empty, success, error and
   no-results states, and an overlay of the query containers each demo responds to.
 
-The header switches the whole site between products (System Lab, Harbor, Meadow), themes and
+The header switches the whole site between products (Design System Lab, Harbor, Meadow), themes and
 densities; nothing in a component knows which one is active.
 
 ## Run it

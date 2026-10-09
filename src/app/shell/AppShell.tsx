@@ -3,7 +3,7 @@ import { Outlet, useLocation } from 'react-router';
 import { Container, Inline } from '@/design-system/layout';
 import { Button, Icon, Link, Text } from '@/design-system/primitives';
 import { entriesOfKind, entryLayers, type CatalogEntry } from '@/domain/system';
-import { paths, sections } from '../paths';
+import { appName, paths, sections } from '../paths';
 import styles from './AppShell.module.css';
 import { Lens } from './Lens';
 import { ThemeSelect } from './ThemeSelect';
@@ -69,7 +69,7 @@ export function AppShell() {
           <div className={styles.headerRow}>
             <Link href={paths.overview} variant="standalone" className={styles.brand}>
               <Lens className={styles.logo} />
-              <span className={styles.brandName}>System Lab</span>
+              <span className={styles.brandName}>{appName}</span>
             </Link>
             <nav aria-label="Sections" className={styles.primaryNav}>
               <Inline as="ul" gap="extraSmall">
@@ -158,7 +158,7 @@ export function AppShell() {
         <Container width="full">
           <Inline gap="medium" justify="between">
             <Text variant="bodySmall" tone="muted">
-              System Lab design system. This site is built with the components it documents.
+              {appName}. This site is built with the components it documents.
             </Text>
             <Text variant="bodySmall" tone="muted">
               <Link href={paths.foundation('tokens')}>Token architecture</Link> ·{' '}

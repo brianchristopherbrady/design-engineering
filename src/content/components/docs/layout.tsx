@@ -15,7 +15,7 @@ export const layoutDocs: ComponentDoc[] = [
       'ThemeScope re-themes a region of the page: a different theme, product or density for everything inside it. It renders one element carrying all three data attributes and publishes the values to nested scopes, so anything it does not set is inherited from the nearest parent scope rather than reset.',
     whenToUse: [
       'Previews and comparisons, such as the playground frame and the products × themes matrix.',
-      'A product area embedded in another product, such as a Harbor widget inside a System Lab page.',
+      'A product area embedded in another product, such as a Harbor widget inside a Design System Lab page.',
       'A permanently dark region, such as a code panel or media viewer.',
     ],
     whenNotToUse: [

@@ -1,3 +1,6 @@
+/** The site's name, shown in the header, the footer and every browser tab title. */
+export const appName = 'Design System Lab';
+
 /** Deployment base path without the trailing slash: "" locally, "/design-system-lab" on GitHub Pages. */
 export const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
 

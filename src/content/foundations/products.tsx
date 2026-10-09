@@ -499,7 +499,7 @@ function ProductsContent() {
         <Prose>
           <p>
             The DTCG resolver describes conditional values with <em>modifiers</em>: named axes whose contexts add or
-            replace tokens. System Lab has three. Their product, {permutationCount} permutations, is resolved at build time
+            replace tokens. Design System Lab has three. Their product, {permutationCount} permutations, is resolved at build time
             from one set of source files.
           </p>
           <div className={styles.scroller} tabIndex={0} role="region" aria-labelledby="modifiers-caption">

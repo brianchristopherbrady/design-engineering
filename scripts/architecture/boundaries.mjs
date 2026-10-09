@@ -1,6 +1,6 @@
 // @ts-check
 /**
- * Dependency rules for System Lab. Pure: takes source text, returns violations.
+ * Dependency rules for Design System Lab. Pure: takes source text, returns violations.
  * check-boundaries.mjs supplies files from disk; boundaries.test.mjs supplies fixtures.
  */
 import ts from 'typescript';

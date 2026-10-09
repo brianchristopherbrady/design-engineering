@@ -1,8 +1,8 @@
 {
   "$schema": "https://www.designtokens.org/schemas/2025.10/resolver.json",
-  "name": "System Lab tokens",
+  "name": "Design System Lab tokens",
   "version": "2025.10",
-  "description": "Combines reference, semantic and component token sets with three modifiers: theme (light/dark), product (System Lab, Harbor, Meadow) and density (comfortable/compact). Read by scripts/tokens/build-tokens.mjs.",
+  "description": "Combines reference, semantic and component token sets with three modifiers: theme (light/dark), product (Design System Lab, Harbor, Meadow) and density (comfortable/compact). Read by scripts/tokens/build-tokens.mjs.",
   "sets": {
     "reference": {
       "description": "Raw scales and palettes. Never consumed directly by components.",

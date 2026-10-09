@@ -59,7 +59,7 @@ export function OverviewContent() {
       <DocSection id="purpose" title="Purpose">
         <Prose>
           <p>
-            System Lab is a small, complete design system: {tokenCounts.total} tokens, {summary.byKind.component}{' '}
+            Design System Lab is a small, complete design system: {tokenCounts.total} tokens, {summary.byKind.component}{' '}
             components, {summary.byKind.foundation} foundations and {summary.byKind.pattern} patterns. It exists so that
             product interfaces are built from shared, named decisions instead of one-off values, and so that every decision
             can be inspected from the prop a developer writes down to the color or length the browser paints.
