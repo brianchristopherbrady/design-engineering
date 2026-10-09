@@ -1,22 +1,11 @@
 @layer product {
-  .details {
-    border: var(--border-width-thin) solid var(--border-subtle);
-    border-radius: var(--radius-md);
-    background-color: var(--surface-panel);
-  }
-
-  .summary {
-    padding: var(--space-sm) var(--space-md);
-    cursor: pointer;
-  }
-
   .summaryText {
-    display: inline-grid;
+    display: grid;
     gap: var(--space-2xs);
-    vertical-align: top;
+    padding-block: var(--spacing-extra-small);
   }
 
-  .summary:hover .path {
+  .item summary:hover .path {
     text-decoration: underline;
   }
 
@@ -29,9 +18,5 @@
   .note {
     color: var(--text-muted);
     font-size: var(--typography-body-small-font-size);
-  }
-
-  .body {
-    padding: 0 var(--space-md) var(--space-md);
   }
 }

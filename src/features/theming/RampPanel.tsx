@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react';
+import { ScrollRegion } from '@/design-system/layout';
 import { brandRoles, type BrandRole } from './brand';
 import { wcagContrast } from './color';
 import styles from './ThemeStudio.module.css';
@@ -134,7 +135,7 @@ export function RoleMap({ studio }: { studio: ThemeStudioState }) {
     );
   };
   return (
-    <div className={styles.scroller} tabIndex={0} role="region" aria-labelledby="studio-roles-caption">
+    <ScrollRegion aria-labelledby="studio-roles-caption">
       <table className={`${styles.table} ${styles.roleTable}`}>
         <caption id="studio-roles-caption" className={styles.tableCaption}>
           Brand roles by theme
@@ -160,6 +161,6 @@ export function RoleMap({ studio }: { studio: ThemeStudioState }) {
           ))}
         </tbody>
       </table>
-    </div>
+    </ScrollRegion>
   );
 }

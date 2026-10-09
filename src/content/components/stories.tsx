@@ -5,10 +5,13 @@ import {
   Card,
   Dialog,
   dialogSizes,
+  Disclosure,
+  disclosureAppearances,
   EmptyState,
   type AlertProps,
   type CardProps,
   type DialogProps,
+  type DisclosureProps,
   type EmptyStateProps,
 } from '@/design-system/composites';
 import {
@@ -478,6 +481,22 @@ export const playgroundStories: readonly AnyStory[] = [
     ],
     presets: [{ name: 'No action', values: { action: '' } }],
     render: (props) => <EmptyState {...props} />,
+  }),
+  defineStory<DisclosureProps>({
+    id: 'disclosure',
+    component: 'Disclosure',
+    summary: 'Native details and summary with the system target size, marker and surfaces.',
+    imports: [composites('Disclosure')],
+    controls: [
+      { kind: 'text', prop: 'summary', defaultValue: 'Which tokens does it read?', description: 'Always-visible label.' },
+      { kind: 'text', prop: 'children', defaultValue: 'button.primary.background → action.primary.background', description: 'Content shown while open.' },
+      { kind: 'select', prop: 'appearance', options: disclosureAppearances, defaultValue: 'bordered', description: 'Standalone panel or flush row.' },
+      { kind: 'switch', prop: 'defaultOpen', defaultValue: false, description: 'Initial state only.' },
+      { kind: 'switch', prop: 'lazy', defaultValue: false, description: 'Render content only while open.' },
+    ],
+    presets: [{ name: 'Open, flush', values: { appearance: 'flush', defaultOpen: true } }],
+    // defaultOpen is read once, so remount when it changes for the preview to follow the control.
+    render: (props) => <Disclosure key={String(props.defaultOpen)} {...props} />,
   }),
   defineStory<LinkProps>({
     id: 'link',

@@ -2,9 +2,9 @@
  * The system's own inventory. The site's navigation, the Components index and the
  * resource directory demos all read this list, so the demo data is the real content.
  */
-export const entryKinds = ['component', 'foundation', 'pattern'] as const;
-export const entryLayers = ['Layout', 'Primitive', 'Composite', 'Foundation', 'Pattern'] as const;
-export const maturities = ['stable', 'beta', 'deprecated'] as const;
+export const entryKinds = ['guide', 'component', 'foundation', 'pattern'] as const;
+export const entryLayers = ['Guide', 'Layout', 'Primitive', 'Composite', 'Foundation', 'Pattern'] as const;
+export const maturities = ['experimental', 'beta', 'stable', 'deprecated'] as const;
 
 export type EntryKind = (typeof entryKinds)[number];
 export type EntryLayer = (typeof entryLayers)[number];
@@ -26,12 +26,14 @@ export interface CatalogEntry {
 }
 
 export const kindLabels: Record<EntryKind, string> = {
+  guide: 'Guide',
   component: 'Component',
   foundation: 'Foundation',
   pattern: 'Pattern',
 };
 
 export const maturityLabels: Record<Maturity, string> = {
+  experimental: 'Experimental',
   stable: 'Stable',
   beta: 'Beta',
   deprecated: 'Deprecated',
@@ -40,6 +42,20 @@ export const maturityLabels: Record<Maturity, string> = {
 const ds = 'src/design-system';
 
 export const catalog: readonly CatalogEntry[] = [
+  // Wiki articles, in reading order
+  { id: 'start', name: 'Start here', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'What a design system is, what it is made of, and where to begin, whether you are starting fresh or working with products that already exist.', tags: ['overview', 'planning'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/start.tsx' },
+  { id: 'principles', name: 'Design principles', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'A few short statements that settle recurring arguments, so teams make the same call without a meeting.', tags: ['principles', 'decisions'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/principles.ts' },
+  { id: 'design-language', name: 'Design language', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'Color, type, space, shape, icons, motion and voice: how your products look, move and speak, agreed before it is built.', tags: ['color', 'typography', 'spacing', 'voice'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/designLanguage.tsx' },
+  { id: 'design-tokens', name: 'Design tokens', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'The design language as named decisions that design tools and code both read, so one change reaches every product.', tags: ['tokens', 'theming'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/tokens.tsx' },
+  { id: 'primitives', name: 'Primitives', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'The smallest reusable parts, such as buttons, inputs and checkboxes, built once on native elements with every state.', tags: ['components', 'accessibility'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/primitives.tsx' },
+  { id: 'composites', name: 'Composite components', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'Components built from primitives, such as form fields, dialogs and tabs, that handle focus, keyboard behavior and structure.', tags: ['components', 'focus', 'keyboard'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/composites.tsx' },
+  { id: 'patterns', name: 'Patterns', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'Proven ways to solve tasks people repeat, such as forms and filtered lists, with every state and the words to go with it.', tags: ['patterns', 'states', 'content'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/patterns.tsx' },
+  { id: 'documentation', name: 'Documentation', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'Pages people can find, trust and copy from: live examples, generated reference and a map from design tool to code.', tags: ['documentation', 'design to code'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/documentation.tsx' },
+  { id: 'governance', name: 'Governance', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'Who owns the system, how changes get in, what each maturity label promises, and how releases and exceptions work.', tags: ['ownership', 'contribution', 'maturity', 'versioning'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/governance.ts' },
+  { id: 'migration', name: 'Migrating existing products', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'How to move products that already exist onto the system step by step, without a feature freeze or a big rewrite.', tags: ['migration', 'adoption'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/migration.ts' },
+  { id: 'measure', name: 'Measuring success', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'Ten measures of a system’s effect rather than its size, with how to start collecting each one and how it can mislead.', tags: ['measurement', 'adoption'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/measure.ts' },
+  { id: 'sharing', name: 'Sharing across products', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'What several products should share, layer by layer, and why brand, theme, density, screen size and input are separate settings.', tags: ['multi-product', 'architecture'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/sharing.tsx' },
+  { id: 'frameworks', name: 'Supporting several frameworks', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'How one system serves products built with different frameworks: shared tokens and CSS, framework libraries, or Web Components with thin wrappers.', tags: ['web components', 'react', 'angular'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/frameworks.ts' },
   // Layout
   { id: 'box', name: 'Box', kind: 'component', layer: 'Layout', maturity: 'stable', summary: 'A plain surface with token-based padding, background, border and radius.', tags: ['surface', 'spacing'], updatedAt: '2026-10-06', sourcePath: `${ds}/layout/Box.tsx` },
   { id: 'stack', name: 'Stack', kind: 'component', layer: 'Layout', maturity: 'stable', summary: 'Vertical flow with one gap between children.', tags: ['spacing', 'flow'], updatedAt: '2026-10-06', sourcePath: `${ds}/layout/Stack.tsx` },
@@ -47,7 +63,8 @@ export const catalog: readonly CatalogEntry[] = [
   { id: 'grid', name: 'Grid', kind: 'component', layer: 'Layout', maturity: 'stable', summary: 'Equal columns: a fixed count, as many as fit, or as many as fit up to a cap.', tags: ['columns', 'responsive', 'spacing'], updatedAt: '2026-10-06', sourcePath: `${ds}/layout/Grid.tsx` },
   { id: 'container', name: 'Container', kind: 'component', layer: 'Layout', maturity: 'stable', summary: 'Centers content at a maximum width with fluid gutters and can name a query container.', tags: ['page', 'container queries'], updatedAt: '2026-09-18', sourcePath: `${ds}/layout/Container.tsx` },
   { id: 'theme-scope', name: 'ThemeScope', kind: 'component', layer: 'Layout', maturity: 'beta', summary: 'Re-themes a region by theme, product and density, inheriting whatever it does not set.', tags: ['theming', 'multi-brand', 'density'], updatedAt: '2026-10-08', sourcePath: `${ds}/layout/ThemeScope.tsx` },
-  // Primitives
+    { id: 'scroll-region', name: 'ScrollRegion', kind: 'component', layer: 'Layout', maturity: 'beta', summary: 'Lets wide tables and code scroll inside the page, as a named region keyboard users can scroll.', tags: ['overflow', 'reflow', 'keyboard'], updatedAt: '2026-10-08', sourcePath: `${ds}/layout/ScrollRegion.tsx` },
+    // Primitives
   { id: 'text', name: 'Text', kind: 'component', layer: 'Primitive', maturity: 'stable', summary: 'Running text in one of the typography styles, with tone and alignment.', tags: ['typography'], updatedAt: '2026-10-06', sourcePath: `${ds}/primitives/Text/Text.tsx` },
   { id: 'heading', name: 'Heading', kind: 'component', layer: 'Primitive', maturity: 'stable', summary: 'A section heading whose outline level and visual size are chosen separately.', tags: ['typography', 'outline'], updatedAt: '2026-10-06', sourcePath: `${ds}/primitives/Heading/Heading.tsx` },
   { id: 'button', name: 'Button', kind: 'component', layer: 'Primitive', maturity: 'stable', summary: 'A native button with appearance, size, border, radius, loading and icon options.', tags: ['action', 'form', 'icon'], updatedAt: '2026-10-07', sourcePath: `${ds}/primitives/Button/Button.tsx` },
@@ -66,9 +83,11 @@ export const catalog: readonly CatalogEntry[] = [
   { id: 'dialog', name: 'Dialog', kind: 'component', layer: 'Composite', maturity: 'beta', summary: 'A modal dialog on the native dialog element with labelling and focus restoration.', tags: ['overlay', 'focus', 'confirmation'], updatedAt: '2026-10-07', sourcePath: `${ds}/composites/Dialog/Dialog.tsx` },
   { id: 'alert', name: 'Alert', kind: 'component', layer: 'Composite', maturity: 'beta', summary: 'A message about the page or an operation, with an icon, title and actions.', tags: ['status', 'feedback', 'error'], updatedAt: '2026-10-07', sourcePath: `${ds}/composites/Alert/Alert.tsx` },
   { id: 'tabs', name: 'Tabs', kind: 'component', layer: 'Composite', maturity: 'beta', summary: 'Switches between related panels with the ARIA tabs keyboard pattern.', tags: ['navigation', 'keyboard'], updatedAt: '2026-10-07', sourcePath: `${ds}/composites/Tabs/Tabs.tsx` },
+  { id: 'disclosure', name: 'Disclosure', kind: 'component', layer: 'Composite', maturity: 'beta', summary: 'Shows and hides secondary content on native details and summary, optionally rendering it only when open.', tags: ['disclosure', 'keyboard', 'progressive'], updatedAt: '2026-10-08', sourcePath: `${ds}/composites/Disclosure/Disclosure.tsx` },
   { id: 'field', name: 'Field', kind: 'component', layer: 'Composite', maturity: 'stable', summary: 'Wires one control to its label, description and error message.', tags: ['form', 'validation'], updatedAt: '2026-10-06', sourcePath: `${ds}/composites/Field/Field.tsx` },
   { id: 'page-header', name: 'PageHeader', kind: 'component', layer: 'Composite', maturity: 'stable', summary: 'The introduction of a page: one focusable h1 with context, description and actions.', tags: ['page', 'outline'], updatedAt: '2026-10-06', sourcePath: `${ds}/composites/PageHeader/PageHeader.tsx` },
   { id: 'empty-state', name: 'EmptyState', kind: 'component', layer: 'Composite', maturity: 'stable', summary: 'Explains why a region is empty and offers a next step.', tags: ['feedback', 'empty'], updatedAt: '2026-10-06', sourcePath: `${ds}/composites/EmptyState/EmptyState.tsx` },
+  { id: 'radio-group', name: 'RadioGroup', kind: 'component', layer: 'Composite', maturity: 'beta', summary: 'One choice from a short set, on native radios, as a plain list or as selectable cards with descriptions.', tags: ['form', 'choice', 'keyboard'], updatedAt: '2026-10-08', sourcePath: `${ds}/composites/RadioGroup/RadioGroup.tsx` },
   // Foundations
   { id: 'tokens', name: 'Token architecture', kind: 'foundation', layer: 'Foundation', maturity: 'stable', summary: 'Reference, semantic and component tiers, and how a value travels from source to CSS.', tags: ['tokens', 'pipeline'], updatedAt: '2026-10-05', sourcePath: `${ds}/tokens/source/system-lab.resolver.json` },
   { id: 'color', name: 'Color', kind: 'foundation', layer: 'Foundation', maturity: 'stable', summary: 'Palettes, semantic color roles, tones and verified contrast pairs.', tags: ['tokens', 'contrast', 'tone'], updatedAt: '2026-10-05', sourcePath: `${ds}/tokens/source/reference.tokens.json` },

@@ -20,7 +20,7 @@ export interface ModifierInput {
 export const modifierDefaults: ModifierInput = {"theme":"light","product":"system-lab","density":"comfortable"};
 
 /** Token counts per tier, so summaries need not load the full manifest. */
-export const tokenCounts = {"total":345,"reference":146,"semantic":131,"component":68} as const;
+export const tokenCounts = {"total":349,"reference":146,"semantic":131,"component":72} as const;
 
 /** Direct children of `space`. */
 export const spaceTokens = ["2xs","xs","sm","md","lg","xl","2xl","3xl"] as const;
@@ -396,6 +396,10 @@ export type TokenPath =
   | 'dialog.width.large'
   | 'input.background'
   | 'input.border'
+  | 'radio-group.card-radius'
+  | 'radio-group.card-border'
+  | 'radio-group.card-border-checked'
+  | 'radio-group.card-background-checked'
   | 'switch.track-off'
   | 'switch.track-on'
   | 'switch.thumb'

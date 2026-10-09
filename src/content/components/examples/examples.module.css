@@ -80,4 +80,20 @@
   .iconCell code {
     overflow-wrap: anywhere;
   }
+
+  /* Columns that need about 34rem: narrower containers scroll the table instead of crushing it. */
+  .table {
+    inline-size: 100%;
+    min-inline-size: 34rem;
+    border-collapse: collapse;
+    font-size: var(--typography-body-small-font-size);
+  }
+
+  .table th,
+  .table td {
+    padding: var(--spacing-small);
+    border-block-end: var(--border-width-thin) solid var(--border-subtle);
+    text-align: start;
+    vertical-align: top;
+  }
 }

@@ -28,6 +28,8 @@ export interface PropTokenTrace {
   property: string;
   /** The first token the CSS reads. Its alias chain is shown from the manifest. */
   token: TokenPath;
+  /** Catalog id of the component that reads the token, when this component passes the prop down to it. */
+  readBy?: string;
 }
 
 export interface ComponentDoc {
@@ -42,8 +44,6 @@ export interface ComponentDoc {
   /** Defaults, valid combinations and which prop wins when two affect the same style. */
   precedence: string[];
   propTokens: PropTokenTrace[];
-  /** Every token the component reads. */
-  tokens: TokenPath[];
   composition: ReactNode[];
   states: string[];
   accessibility: string[];

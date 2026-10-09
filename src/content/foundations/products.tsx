@@ -1,6 +1,6 @@
 import { Fragment, useMemo, useState } from 'react';
 import { Card, Field } from '@/design-system/composites';
-import { Grid, Inline, Stack, ThemeScope, useThemeScope } from '@/design-system/layout';
+import { Grid, Inline, ScrollRegion, Stack, ThemeScope, useThemeScope } from '@/design-system/layout';
 import { Badge, Button, Checkbox, Heading, Input, Link, Select, Switch, Text } from '@/design-system/primitives';
 import {
   densityNames,
@@ -88,7 +88,7 @@ function TokenInspector() {
             ))
           )}
         </Inline>
-        <div className={styles.scroller} tabIndex={0} role="region" aria-label={`${path} by modifier combination`}>
+        <ScrollRegion aria-label={`${path} by modifier combination`}>
           <table className={styles.table}>
             <thead>
               <tr>
@@ -116,7 +116,7 @@ function TokenInspector() {
               ))}
             </tbody>
           </table>
-        </div>
+        </ScrollRegion>
       </Stack>
     </LiveExample>
   );
@@ -276,11 +276,11 @@ function ModeComposer() {
             </span>
             <CopyButton text={jsx} label="Copy JSX" />
           </div>
-          <pre className={styles.code} data-theme="dark" tabIndex={0} role="region" aria-labelledby="composer-snippet">
+          <ScrollRegion as="pre" className={styles.code} data-theme="dark" aria-labelledby="composer-snippet">
             <code>{snippet}</code>
-          </pre>
+          </ScrollRegion>
         </div>
-        <div className={`${styles.scroller} ${styles.composerTable}`} tabIndex={0} role="region" aria-labelledby="composer-caption">
+        <ScrollRegion className={styles.composerTable} aria-labelledby="composer-caption">
           <table className={styles.table}>
             <caption id="composer-caption" className={styles.tableCaption}>
               Resolved in this mode
@@ -325,7 +325,7 @@ function ModeComposer() {
               })}
             </tbody>
           </table>
-        </div>
+        </ScrollRegion>
       </div>
     </div>
   );
@@ -347,7 +347,7 @@ function ProductDiff() {
         <p id="diff-caption" className={styles.tableCaption}>
           Product overrides, {theme} theme
         </p>
-        <div className={styles.scroller} tabIndex={0} role="region" aria-labelledby="diff-caption">
+        <ScrollRegion aria-labelledby="diff-caption">
           <table className={`${styles.table} ${styles.diff}`} aria-labelledby="diff-caption">
             <thead>
               <tr>
@@ -381,7 +381,7 @@ function ProductDiff() {
               ))}
             </tbody>
           </table>
-        </div>
+        </ScrollRegion>
       </div>
       <Text variant="bodySmall" tone="muted">
         {direct.length} tokens are overridden directly. {aliases.length} more follow through aliases, such as{' '}
@@ -424,9 +424,9 @@ const nestingSnippet = `<ThemeScope theme="dark" product="harbor">
 function NestedScopes() {
   return (
     <div className={styles.nesting}>
-      <pre className={styles.code} data-theme="dark" tabIndex={0} role="region" aria-label="Nested scope markup">
+      <ScrollRegion as="pre" className={styles.code} data-theme="dark" aria-label="Nested scope markup">
         <code>{nestingSnippet}</code>
-      </pre>
+      </ScrollRegion>
       <ThemeScope theme="dark" product="harbor" className={styles.nest}>
         <ScopeReport set={['theme', 'product']} />
         <NestSample />
@@ -450,7 +450,7 @@ function DensityTable() {
       <p id="density-caption" className={styles.tableCaption}>
         What compact density changes
       </p>
-      <div className={styles.scroller} tabIndex={0} role="region" aria-labelledby="density-caption">
+      <ScrollRegion aria-labelledby="density-caption">
         <table className={`${styles.table} ${styles.densityTable}`} aria-labelledby="density-caption">
           <thead>
             <tr>
@@ -484,7 +484,7 @@ function DensityTable() {
             })}
           </tbody>
         </table>
-      </div>
+      </ScrollRegion>
       <Text variant="bodySmall" tone="muted">
         Pixels at the default 16px text size. Every value is in rem, so all of them scale with the reader’s text setting.
       </Text>
@@ -502,7 +502,7 @@ function ProductsContent() {
             replace tokens. Design System Lab has three. Their product, {permutationCount} permutations, is resolved at build time
             from one set of source files.
           </p>
-          <div className={styles.scroller} tabIndex={0} role="region" aria-labelledby="modifiers-caption">
+          <ScrollRegion aria-labelledby="modifiers-caption">
             <table>
               <caption id="modifiers-caption">Modifiers, contexts and what each changes</caption>
               <thead>
@@ -536,7 +536,7 @@ function ProductsContent() {
                 </tr>
               </tbody>
             </table>
-          </div>
+          </ScrollRegion>
         </Prose>
         <ProductCards />
       </DocSection>
@@ -582,7 +582,7 @@ function ProductsContent() {
             aliases:
           </p>
         </Prose>
-        <div className={styles.scroller} tabIndex={0} role="region" aria-label="Tokens by dependency">
+        <ScrollRegion aria-label="Tokens by dependency">
           <table className={styles.table}>
             <thead>
               <tr>
@@ -603,7 +603,7 @@ function ProductsContent() {
               ))}
             </tbody>
           </table>
-        </div>
+        </ScrollRegion>
         <TokenInspector />
         <Note title="Why scopes set every attribute">
           <p>

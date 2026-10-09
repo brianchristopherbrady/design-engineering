@@ -23,6 +23,14 @@ export {
   type InlineProps,
 } from './Inline';
 export { withCustomProperties, type LayoutElement } from './layoutProps';
+export {
+  ScrollRegion,
+  scrollRegionAxes,
+  scrollRegionDefaults,
+  type ScrollRegionAxis,
+  type ScrollRegionOwnProps,
+  type ScrollRegionProps,
+} from './ScrollRegion';
 export { Stack, stackAlignments, stackDefaults, type StackAlignment, type StackOwnProps, type StackProps } from './Stack';
 export {
   ThemeScope,

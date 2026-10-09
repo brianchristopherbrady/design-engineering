@@ -1,5 +1,5 @@
 {
-  "$description": "Compact density for data-heavy screens: shorter controls and one step less space. Overrides only sizing and spacing.",
+  "$description": "Compact density for data-heavy screens: shorter controls and one step less space. Overrides only sizing and spacing, in semantic roles and component tokens; reference scales never change.",
   "control": {
     "height": {
       "small": { "$value": "{size.compact.sm}" },
@@ -7,6 +7,14 @@
       "large": { "$value": "{size.compact.lg}" }
     },
     "padding-inline": { "$value": "{space.xs}" }
+  },
+  "button": {
+    "padding-inline": {
+      "$description": "One step less inline padding, matching the shorter control heights.",
+      "small": { "$value": "{space.xs}" },
+      "medium": { "$value": "{space.sm}" },
+      "large": { "$value": "{space.md}" }
+    }
   },
   "spacing": {
     "small": { "$value": "{space.2xs}" },

@@ -1,6 +1,7 @@
 import { useId, type ReactNode } from 'react';
 import type { TokenPath } from '@/design-system/tokens';
 import { tokenManifest } from '@/design-system/tokens/manifest';
+import { ScrollRegion } from '@/design-system/layout';
 import { TokenSwatch } from '@/features/docs';
 import styles from './foundations.module.css';
 
@@ -21,7 +22,7 @@ export interface TokenTableProps {
 export function TokenTable({ caption, paths, preview }: TokenTableProps) {
   const captionId = useId();
   return (
-    <div className={styles.scroller} tabIndex={0} role="region" aria-labelledby={captionId}>
+    <ScrollRegion aria-labelledby={captionId}>
       <table className={styles.table}>
         <caption id={captionId} className={styles.caption}>
           {caption}
@@ -59,6 +60,6 @@ export function TokenTable({ caption, paths, preview }: TokenTableProps) {
           })}
         </tbody>
       </table>
-    </div>
+    </ScrollRegion>
   );
 }

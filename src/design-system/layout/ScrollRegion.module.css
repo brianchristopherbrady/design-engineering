@@ -1,0 +1,20 @@
+@layer layout {
+  .region {
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    scrollbar-color: var(--border-default) transparent;
+  }
+
+  .inline {
+    overflow-x: auto;
+  }
+
+  .both {
+    overflow: auto;
+  }
+
+  /* Inside the box: ancestors that clip overflow (rounded panels) would otherwise cut the ring. */
+  .region:focus-visible {
+    outline-offset: calc(var(--focus-width) * -1);
+  }
+}

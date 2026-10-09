@@ -64,7 +64,7 @@ test.describe('keyboard and focus', () => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/');
     const names: string[] = [];
-    for (let index = 0; index < 10; index += 1) {
+    for (let index = 0; index < 11; index += 1) {
       await page.keyboard.press('Tab');
       names.push(
         await page.evaluate(() => {
@@ -77,6 +77,7 @@ test.describe('keyboard and focus', () => {
       'Skip to main content',
       'Design System Lab',
       'Overview',
+      'Wiki',
       'Foundations',
       'Components',
       'Playground',

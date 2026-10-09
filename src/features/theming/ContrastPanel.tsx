@@ -1,5 +1,5 @@
 import { useId } from 'react';
-import { Grid, Inline } from '@/design-system/layout';
+import { Grid, Inline, ScrollRegion } from '@/design-system/layout';
 import { Badge, Text } from '@/design-system/primitives';
 import type { ContrastCheck } from './brand';
 import styles from './ThemeStudio.module.css';
@@ -9,7 +9,7 @@ function Checks({ caption, checks }: { caption: string; checks: ContrastCheck[] 
   const captionId = useId();
   const passed = checks.filter((check) => check.pass).length;
   return (
-    <div className={styles.scroller} tabIndex={0} role="region" aria-labelledby={captionId}>
+    <ScrollRegion aria-labelledby={captionId}>
       <table className={styles.table}>
         <caption id={captionId} className={styles.tableCaption}>
           {caption} · {passed}/{checks.length} pass
@@ -45,7 +45,7 @@ function Checks({ caption, checks }: { caption: string; checks: ContrastCheck[] 
           ))}
         </tbody>
       </table>
-    </div>
+    </ScrollRegion>
   );
 }
 

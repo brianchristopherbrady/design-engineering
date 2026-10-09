@@ -7,6 +7,8 @@ export const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
 /** Route paths. The route table in routes.tsx and every link built by the app use these. */
 export const paths = {
   overview: '/',
+  guides: '/guides',
+  guide: (id: string) => `/guides/${id}`,
   foundations: '/foundations',
   foundation: (id: string) => `/foundations/${id}`,
   components: '/components',
@@ -19,6 +21,7 @@ export const paths = {
 
 export const sections = [
   { href: paths.overview, label: 'Overview' },
+  { href: paths.guides, label: 'Wiki' },
   { href: paths.foundations, label: 'Foundations' },
   { href: paths.components, label: 'Components' },
   { href: paths.playground, label: 'Playground' },

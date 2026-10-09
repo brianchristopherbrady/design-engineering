@@ -1,0 +1,144 @@
+@layer components {
+  .group {
+    display: grid;
+    gap: var(--space-2xs);
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .legend {
+    padding: 0;
+    margin-block-end: var(--space-2xs);
+    color: var(--text-primary);
+    font-size: var(--typography-label-font-size);
+    font-weight: var(--typography-label-font-weight);
+    line-height: var(--typography-label-line-height);
+  }
+
+  .required {
+    color: var(--text-muted);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .description,
+  .optionDescription {
+    color: var(--text-muted);
+    font-size: var(--typography-body-small-font-size);
+    line-height: var(--typography-body-small-line-height);
+  }
+
+  .options {
+    display: grid;
+    gap: var(--spacing-small);
+    margin-block-start: var(--space-2xs);
+  }
+
+  .option {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: var(--space-sm);
+    align-items: center;
+    min-inline-size: 0;
+  }
+
+  /* Native radios keep platform semantics, arrow-key behavior and forced-colors rendering. */
+  .radio {
+    inline-size: var(--size-icon-md);
+    block-size: var(--size-icon-md);
+    margin: 0;
+    accent-color: var(--action-primary-background);
+    cursor: pointer;
+  }
+
+  .label {
+    font-size: var(--typography-body-font-size);
+    line-height: var(--typography-body-line-height);
+    cursor: pointer;
+  }
+
+  .optionDescription {
+    grid-column: 2;
+  }
+
+  .group:disabled .option,
+  .option:has(.radio:disabled) {
+    opacity: var(--control-disabled-opacity);
+  }
+
+  .group:disabled .label,
+  .option:has(.radio:disabled) .label {
+    cursor: not-allowed;
+  }
+
+  /* Cards: each option is a bordered target; the label's overlay makes the whole card clickable. */
+  .cards .options {
+    grid-template-columns: repeat(auto-fill, minmax(min(var(--size-item-sm), 100%), 1fr));
+  }
+
+  .cards .option {
+    align-items: start;
+    /* Cards in a row stretch to equal height; keep the extra space below the content, not between rows. */
+    align-content: start;
+    padding: var(--spacing-medium);
+    border: var(--border-width-thin) solid var(--radio-group-card-border);
+    border-radius: var(--radio-group-card-radius);
+    background-color: var(--surface-panel);
+    transition: border-color var(--motion-duration-feedback) var(--motion-easing-standard),
+      background-color var(--motion-duration-feedback) var(--motion-easing-standard);
+  }
+
+  .cards .radio {
+    position: relative;
+    z-index: 1;
+    margin-block-start: 0.15em;
+  }
+
+  .cards .label {
+    font-weight: var(--typography-label-font-weight);
+  }
+
+  .cards .label::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  .cards .option[data-checked] {
+    border-color: var(--radio-group-card-border-checked);
+    background-color: var(--radio-group-card-background-checked);
+  }
+
+  .cards .option:has(.radio:focus-visible) {
+    outline: var(--focus-width) solid var(--focus-ring);
+    outline-offset: var(--focus-offset);
+  }
+
+  .error {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2xs);
+    margin-block-start: var(--space-2xs);
+    color: var(--tone-danger-text);
+    font-size: var(--typography-body-small-font-size);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--typography-body-small-line-height);
+  }
+
+  .errorIcon {
+    inline-size: 1em;
+    block-size: 1em;
+    flex: none;
+    margin-block-start: 0.2em;
+  }
+
+  @media (forced-colors: active) {
+    .cards .option[data-checked] {
+      border-color: Highlight;
+      border-width: var(--border-width-thick);
+    }
+  }
+}

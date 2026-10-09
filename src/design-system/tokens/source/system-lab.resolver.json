@@ -5,7 +5,7 @@
   "description": "Combines reference, semantic and component token sets with three modifiers: theme (light/dark), product (Design System Lab, Harbor, Meadow) and density (comfortable/compact). Read by scripts/tokens/build-tokens.mjs.",
   "sets": {
     "reference": {
-      "description": "Raw scales and palettes. Never consumed directly by components.",
+      "description": "Raw scales and palettes, identical in every permutation (no modifier may override them). Palettes are read only by semantic tokens; non-color scales may be read directly for values that must never change by theme, product or density.",
       "sources": [{ "$ref": "reference.tokens.json" }, { "$ref": "reference.modes.tokens.json" }],
       "$extensions": { "org.systemlab": { "tier": "reference" } }
     },
@@ -15,7 +15,7 @@
       "$extensions": { "org.systemlab": { "tier": "semantic" } }
     },
     "component": {
-      "description": "A few deliberate component extension points that alias semantic roles.",
+      "description": "Deliberate component extension points. Each aliases a semantic role or, for values no modifier should change by default, a non-color reference scale.",
       "sources": [{ "$ref": "component.tokens.json" }],
       "$extensions": { "org.systemlab": { "tier": "component" } }
     }
@@ -41,7 +41,7 @@
       "$extensions": { "org.systemlab": { "tier": "semantic", "overrides": true } }
     },
     "density": {
-      "description": "Spacing and control size. Independent of theme and product.",
+      "description": "Spacing and control size, including button padding. Independent of theme and product.",
       "contexts": {
         "comfortable": [],
         "compact": [{ "$ref": "density.compact.tokens.json" }]

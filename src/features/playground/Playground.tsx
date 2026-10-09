@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { Field } from '@/design-system/composites';
-import { ThemeScope } from '@/design-system/layout';
+import { ScrollRegion, ThemeScope } from '@/design-system/layout';
 import { Button, Heading, iconNames, Input, Select, Switch, Text } from '@/design-system/primitives';
 import { densityNames, productNames, themeNames, type DensityName, type ProductName, type ThemeName } from '@/design-system/tokens';
 import { densityLabels, productProfiles } from '@/domain/system';
@@ -218,16 +218,16 @@ function Workbench({ story }: { story: AnyStory }) {
             {copied ? 'Copied' : ''}
           </span>
         </div>
-        <pre className={styles.code} data-theme="dark" tabIndex={0} role="region" aria-labelledby={ids.usage}>
+        <ScrollRegion as="pre" className={styles.code} data-theme="dark" aria-labelledby={ids.usage}>
           <code data-testid="playground-snippet">{snippet}</code>
-        </pre>
+        </ScrollRegion>
       </section>
 
       <section aria-labelledby={ids.props} className={styles.propsPanel}>
         <Heading level={2} size="small" id={ids.props}>
           Props
         </Heading>
-        <div className={styles.tableScroller} tabIndex={0} role="region" aria-label={`${story.component} controlled props`}>
+        <ScrollRegion aria-label={`${story.component} controlled props`}>
           <table className={styles.table}>
             <thead>
               <tr>
@@ -254,7 +254,7 @@ function Workbench({ story }: { story: AnyStory }) {
               ))}
             </tbody>
           </table>
-        </div>
+        </ScrollRegion>
       </section>
     </div>
   );

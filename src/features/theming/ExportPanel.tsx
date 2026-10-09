@@ -1,6 +1,7 @@
 import { useId } from 'react';
 import { Tabs } from '@/design-system/composites';
 import { Badge, Button, Icon, Text } from '@/design-system/primitives';
+import { ScrollRegion } from '@/design-system/layout';
 import type { ExportFile } from './brand';
 import { CopyButton } from './CopyButton';
 import styles from './ThemeStudio.module.css';
@@ -33,9 +34,9 @@ function ExportView({ file }: { file: ExportFile }) {
           </Button>
         </div>
       </div>
-      <pre className={styles.code} data-theme="dark" tabIndex={0} role="region" aria-labelledby={pathId}>
+      <ScrollRegion axis="both" as="pre" className={styles.code} data-theme="dark" aria-labelledby={pathId}>
         <code>{file.content}</code>
-      </pre>
+      </ScrollRegion>
     </div>
   );
 }

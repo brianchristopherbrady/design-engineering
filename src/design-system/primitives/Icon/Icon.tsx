@@ -5,6 +5,7 @@ const paths = {
   plus: 'M12 5v14M5 12h14',
   arrowRight: 'M5 12h14M13 6l6 6-6 6',
   arrowLeft: 'M19 12H5M11 6l-6 6 6 6',
+  chevronRight: 'M9 6l6 6-6 6',
   check: 'M5 12.5l4.5 4.5L19 7.5',
   close: 'M6 6l12 12M18 6 6 18',
   search: 'M10.5 17a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM20 20l-4.6-4.6',

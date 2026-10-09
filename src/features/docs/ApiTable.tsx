@@ -1,4 +1,5 @@
 import { useId } from 'react';
+import { ScrollRegion } from '@/design-system/layout';
 import type { PropDoc } from './docTypes';
 import styles from './ApiTable.module.css';
 
@@ -11,7 +12,7 @@ export interface ApiTableProps {
 export function ApiTable({ caption, props }: ApiTableProps) {
   const captionId = useId();
   return (
-    <div className={styles.scroller} tabIndex={0} role="region" aria-labelledby={captionId}>
+    <ScrollRegion className={styles.scroller} aria-labelledby={captionId}>
       <table className={styles.table}>
         <caption id={captionId} className={styles.caption}>
           {caption}
@@ -40,6 +41,6 @@ export function ApiTable({ caption, props }: ApiTableProps) {
           ))}
         </tbody>
       </table>
-    </div>
+    </ScrollRegion>
   );
 }

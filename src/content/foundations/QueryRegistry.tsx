@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Field } from '@/design-system/composites';
-import { Inline, Stack } from '@/design-system/layout';
+import { Inline, ScrollRegion, Stack } from '@/design-system/layout';
 import { Badge, Select, Text } from '@/design-system/primitives';
 import { loadSource, sourcePaths } from '@/features/docs';
 import { parseQueries, type QueryRule } from './queries';
@@ -65,7 +65,7 @@ export function QueryRegistry() {
           </Select>
         )}
       </Field>
-      <div className={styles.scroller} tabIndex={0} role="region" aria-label="Queries in the codebase">
+      <ScrollRegion aria-label="Queries in the codebase">
         <table className={`${styles.table} ${styles.registry}`}>
           <thead>
             <tr>
@@ -92,7 +92,7 @@ export function QueryRegistry() {
             ))}
           </tbody>
         </table>
-      </div>
+      </ScrollRegion>
     </Stack>
   );
 }

@@ -1,8 +1,4 @@
 @layer product {
-  .scroller {
-    overflow-x: auto;
-  }
-
   .table {
     inline-size: 100%;
     border-collapse: collapse;
@@ -100,7 +96,6 @@
   .code {
     margin: 0;
     padding: var(--spacing-medium) var(--spacing-large);
-    overflow-x: auto;
     border-radius: var(--radius-lg);
     background-color: var(--surface-sunken);
     color: var(--text-primary);

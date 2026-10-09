@@ -524,6 +524,11 @@ function addTokens(merged, list, override) {
       if (!existing) {
         throw new TokenError(`"${token.path}" in ${token.source} overrides nothing. Override modifiers may only replace existing tokens.`);
       }
+      if (existing.tier === 'reference') {
+        throw new TokenError(
+          `Token policy (invariant-reference): ${token.source} overrides the reference token "${token.path}". Reference scales are the same in every permutation; override a semantic or component token instead.`,
+        );
+      }
       merged.set(token.path, {
         ...existing,
         value: token.value,
@@ -651,6 +656,38 @@ export function applyResolver(resolver, loadSource) {
   return { modifiers, permutations, byInput, defaultInput };
 }
 
+/** Tiers the dependency policy knows, lowest first. Sets with other tier names are not checked. */
+const TIER_RANK = /** @type {Record<string, number>} */ ({ reference: 0, semantic: 1, component: 2 });
+
+/**
+ * The build-time half of the token dependency policy (src/design-system/tokens/policy.ts):
+ * aliases never point up a tier, component tokens are always aliases, and component colors
+ * alias semantic roles rather than palettes.
+ * @param {Map<string, ResolvedToken>} resolved
+ * @param {string} permutation
+ */
+export function checkTierPolicy(resolved, permutation) {
+  for (const token of resolved.values()) {
+    const rank = TIER_RANK[token.tier];
+    if (rank === undefined) continue;
+    const where = `"${token.path}" (${token.tier}, ${token.source}${permutation ? `, ${permutation}` : ''})`;
+    if (token.tier === 'component' && !referenceTarget(token.value)) {
+      throw new TokenError(`Token policy (component-alias): ${where} has a literal value. Component tokens alias a semantic role or a reference scale.`);
+    }
+    for (const target of token.references) {
+      const aliased = resolved.get(target);
+      const targetRank = aliased ? TIER_RANK[aliased.tier] : undefined;
+      if (!aliased || targetRank === undefined) continue;
+      if (targetRank > rank) {
+        throw new TokenError(`Token policy (tier-direction): ${where} aliases {${target}} (${aliased.tier}). Aliases point to the same tier or a lower one.`);
+      }
+      if (token.tier === 'component' && aliased.tier === 'reference' && aliased.type === 'color') {
+        throw new TokenError(`Token policy (palette-isolation): ${where} aliases the palette color {${target}}. Component colors alias a semantic role.`);
+      }
+    }
+  }
+}
+
 /** @param {string} name */
 const camel = (name) => name.replace(/-([a-z0-9])/g, (_, letter) => letter.toUpperCase());
 /** @param {string} name */
@@ -673,7 +710,11 @@ export function buildTokenOutputs(resolver, loadSource, options) {
 
   /** @type {Map<string, Map<string, ResolvedToken>>} */
   const resolvedByInput = new Map();
-  for (const [key, definitions] of byInput) resolvedByInput.set(key, resolveTokens(definitions));
+  for (const [key, definitions] of byInput) {
+    const resolved = resolveTokens(definitions);
+    checkTierPolicy(resolved, key);
+    resolvedByInput.set(key, resolved);
+  }
 
   const defaultKey = inputKey(defaultInput);
   const defaultResolved = /** @type {Map<string, ResolvedToken>} */ (resolvedByInput.get(defaultKey));
@@ -856,11 +897,14 @@ export function buildTokenOutputs(resolver, loadSource, options) {
     const key = inputKey({ ...defaultInput, ...input });
     const token = /** @type {ResolvedToken} */ (resolvedByInput.get(key)?.get(path));
     const authored = byInput.get(key)?.get(path)?.value;
-    return {
+    const value = {
       authored: referenceTarget(authored) ? String(authored) : toCssValue(token.type, token.resolved),
       resolved: toCssValue(token.type, token.resolved),
       chain: token.chain,
     };
+    // The file that set this value, recorded only where a context changed it.
+    const defaultSource = defaultResolved.get(path)?.source;
+    return token.source === defaultSource ? value : { ...value, source: token.source };
   };
 
   const manifest = paths.map((path) => {
@@ -895,6 +939,8 @@ export function buildTokenOutputs(resolver, loadSource, options) {
     '  authored: string;',
     '  resolved: string;',
     '  chain: string[];',
+    "  /** Source file that set this value, when it is not the record's own source. */",
+    '  source?: string;',
     '}',
     '',
     'export interface TokenRecord {',

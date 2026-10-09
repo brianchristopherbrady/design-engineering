@@ -69,7 +69,7 @@ test.describe('products and modes', () => {
   test('the product diff and nested scopes are computed, not written by hand', async ({ page }) => {
     await page.goto('/foundations/products');
     const diff = page.getByRole('region', { name: /Product overrides/ });
-    await expect(diff.getByRole('row')).toHaveCount(18);
+    await expect(diff.getByRole('row')).toHaveCount(19);
     await page.locator('#overrides').getByRole('radio', { name: 'Dark' }).check();
     await expect(page.locator('#diff-caption')).toHaveText('Product overrides, dark theme');
     const nested = page.locator('#inheritance');

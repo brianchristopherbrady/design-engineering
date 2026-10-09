@@ -1,5 +1,5 @@
 import { useState, type CSSProperties } from 'react';
-import { Stack } from '@/design-system/layout';
+import { ScrollRegion, Stack } from '@/design-system/layout';
 import { Text } from '@/design-system/primitives';
 import { closeDistance, formatDistance, rampSteps, statusTones } from './brand';
 import { ChoiceGroup } from './ChoiceGroup';
@@ -53,7 +53,7 @@ export function VisionPanel({ studio }: { studio: ThemeStudioState }) {
         <p id="studio-vision-caption" className={styles.tableCaption}>
           Distance from each status fill, {theme} theme
         </p>
-        <div className={styles.scroller} tabIndex={0} role="region" aria-labelledby="studio-vision-caption">
+        <ScrollRegion aria-labelledby="studio-vision-caption">
           <table className={`${styles.table} ${styles.visionTable}`} aria-labelledby="studio-vision-caption">
             <thead>
               <tr>
@@ -91,7 +91,7 @@ export function VisionPanel({ studio }: { studio: ThemeStudioState }) {
               ))}
             </tbody>
           </table>
-        </div>
+        </ScrollRegion>
         <Text variant="bodySmall" tone="muted">
           Each cell shows the brand’s strong fill beside the status fill as that vision type sees them, and the ΔEOK
           between them. Below {closeDistance} is flagged as close.

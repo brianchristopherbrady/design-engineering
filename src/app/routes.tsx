@@ -5,6 +5,8 @@ import { OverviewPage } from './pages/OverviewPage';
 import { AppShell } from './shell/AppShell';
 
 // The overview ships in the main bundle; the other sections load on demand.
+const GuidesIndexPage = lazy(() => import('./pages/GuidesIndexPage').then((module) => ({ default: module.GuidesIndexPage })));
+const GuidePage = lazy(() => import('./pages/GuidePage').then((module) => ({ default: module.GuidePage })));
 const FoundationsIndexPage = lazy(() => import('./pages/FoundationsIndexPage').then((module) => ({ default: module.FoundationsIndexPage })));
 const FoundationPage = lazy(() => import('./pages/FoundationPage').then((module) => ({ default: module.FoundationPage })));
 const ComponentsIndexPage = lazy(() => import('./pages/ComponentsIndexPage').then((module) => ({ default: module.ComponentsIndexPage })));
@@ -18,6 +20,8 @@ export function AppRoutes() {
     <Routes>
       <Route element={<AppShell />}>
         <Route index element={<OverviewPage />} />
+        <Route path="guides" element={<GuidesIndexPage />} />
+        <Route path="guides/:guideId" element={<GuidePage />} />
         <Route path="foundations" element={<FoundationsIndexPage />} />
         <Route path="foundations/:topicId" element={<FoundationPage />} />
         <Route path="components" element={<ComponentsIndexPage />} />

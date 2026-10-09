@@ -1,12 +1,17 @@
+/// <reference types="node" />
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { join, sep } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import * as composites from '@/design-system/composites';
 import * as layout from '@/design-system/layout';
 import * as primitives from '@/design-system/primitives';
+import { tokenManifest } from '@/design-system/tokens/manifest';
 import { componentDocs, playgroundStories } from '@/content/components';
 import { foundationTopics } from '@/content/foundations';
+import { guideTopics } from '@/content/guides';
 import { entryHref, patternDocs } from '@/content/patterns';
-import { catalog, entriesOfKind } from '@/domain/system';
-import { hasSource } from '@/features/docs';
+import { catalog, entriesOfKind, findEntry } from '@/domain/system';
+import { cssVarIndex, hasSource, tokenReadsOf } from '@/features/docs';
 import { paths } from '@/app/paths';
 
 const siteSources = import.meta.glob<string>(['/src/**/*.{ts,tsx}', '!/src/test/documentation.test.ts', '!/src/**/generated/**'], {
@@ -20,16 +25,17 @@ const projectText = import.meta.glob<string>(['/docs/**/*.md', '/README.md', '/e
   eager: true,
 });
 
-const ids = (kind: 'component' | 'foundation' | 'pattern') => entriesOfKind(kind).map((entry) => entry.id).sort();
+const ids = (kind: 'guide' | 'component' | 'foundation' | 'pattern') => entriesOfKind(kind).map((entry) => entry.id).sort();
 
 describe('the catalog drives the site', () => {
   it('has a ComponentDoc for every component entry and no orphan docs', () => {
     expect(componentDocs.map((doc) => doc.id).sort()).toEqual(ids('component'));
   });
 
-  it('has a topic for every foundation and a page for every pattern', () => {
+  it('has a topic for every foundation, a page for every pattern and content for every guide', () => {
     expect(foundationTopics.map((topic) => topic.id).sort()).toEqual(ids('foundation'));
     expect(patternDocs.map((doc) => doc.id).sort()).toEqual(ids('pattern'));
+    expect(guideTopics.map((topic) => topic.id).sort()).toEqual(ids('guide'));
   });
 
   it('documents every component the design system exports', () => {
@@ -56,15 +62,97 @@ describe('the catalog drives the site', () => {
 
   it('builds entry links that match the app routes', () => {
     for (const entry of catalog) {
-      const expected = { component: paths.component, foundation: paths.foundation, pattern: paths.pattern }[entry.kind](entry.id);
+      const expected = { guide: paths.guide, component: paths.component, foundation: paths.foundation, pattern: paths.pattern }[entry.kind](entry.id);
       expect(entryHref(entry)).toBe(expected);
     }
   });
 });
 
+describe('component docs agree with the implementation', () => {
+  const index = cssVarIndex(tokenManifest);
+  const read = (path: string) => readFileSync(path, 'utf8');
+
+  it('lists the stylesheet of every component that has one, so derived token reads are complete', () => {
+    const missing = componentDocs.flatMap((doc) => {
+      const source = findEntry(doc.id)?.sourcePath ?? '';
+      const stylesheet = source.replace(/\.tsx$/, '.module.css');
+      return existsSync(stylesheet) && !doc.sourcePaths.includes(stylesheet) ? [`${doc.id}: ${stylesheet}`] : [];
+    });
+    expect(missing).toEqual([]);
+  });
+
+  it('traces each prop to a token that the component’s own files read, or the child it names', () => {
+    const readsOf = (id: string) => {
+      const doc = componentDocs.find((candidate) => candidate.id === id);
+      return new Set(tokenReadsOf((doc?.sourcePaths ?? []).map((path) => ({ path, text: read(path) })), index).map((entry) => entry.path));
+    };
+    const wrong = componentDocs
+      .filter((doc) => doc.id !== 'theme-scope')
+      .flatMap((doc) =>
+        doc.propTokens
+          .filter((trace) => !readsOf(trace.readBy ?? doc.id).has(trace.token))
+          .map((trace) => `${doc.id}: ${trace.prop} → ${trace.token}`),
+      );
+    expect(wrong).toEqual([]);
+  });
+
+  it('traces each ThemeScope prop to a token that depends on the modifier it sets', () => {
+    const scope = componentDocs.find((doc) => doc.id === 'theme-scope');
+    const wrong = (scope?.propTokens ?? []).filter((trace) => {
+      const modifier = trace.prop.split('=')[0] ?? '';
+      return !tokenManifest.find((record) => record.path === trace.token)?.dependsOn.includes(modifier);
+    });
+    expect(scope?.propTokens.length).toBeGreaterThan(0);
+    expect(wrong).toEqual([]);
+  });
+});
+
+describe('maturity labels match their requirements', () => {
+  const walk = (dir: string): string[] =>
+    readdirSync(dir, { withFileTypes: true }).flatMap((entry) => (entry.isDirectory() ? walk(join(dir, entry.name)) : [join(dir, entry.name)]));
+  const tests = [...walk('src'), ...walk('e2e'), ...walk('scripts')]
+    .filter((file) => /\.(test\.tsx?|test\.mjs|spec\.ts)$/.test(file) && !file.endsWith('documentation.test.ts'))
+    .map((file) => readFileSync(file, 'utf8'));
+  const usage = walk('src')
+    .map((file) => file.split(sep).join('/'))
+    .filter((file) => /\.tsx$/.test(file) && !file.startsWith('src/content/components/') && !/\.test\.tsx$/.test(file))
+    .map((file) => ({ file, text: readFileSync(file, 'utf8') }));
+  const components = entriesOfKind('component');
+
+  it('documents keyboard, screen-reader and responsive behavior for beta and stable components', () => {
+    const missing = components
+      .filter((entry) => entry.maturity === 'beta' || entry.maturity === 'stable')
+      .filter((entry) => {
+        const doc = componentDocs.find((candidate) => candidate.id === entry.id);
+        return !doc || doc.accessibility.length === 0 || doc.responsive.length === 0;
+      })
+      .map((entry) => entry.id);
+    expect(missing).toEqual([]);
+  });
+
+  it('names every stable component in at least one automated test', () => {
+    const untested = components
+      .filter((entry) => entry.maturity === 'stable')
+      .filter((entry) => !tests.some((text) => new RegExp(`\\b${entry.name}\\b`).test(text)))
+      .map((entry) => entry.name);
+    expect(untested).toEqual([]);
+  });
+
+  it('uses every stable component somewhere other than its own documentation', () => {
+    const unused = components
+      .filter((entry) => entry.maturity === 'stable')
+      .filter((entry) => {
+        const folder = entry.sourcePath.slice(0, entry.sourcePath.lastIndexOf('/'));
+        return !usage.some(({ file, text }) => !file.startsWith(`${folder}/${entry.name}`) && file !== entry.sourcePath && new RegExp(`<${entry.name}\\b`).test(text));
+      })
+      .map((entry) => entry.name);
+    expect(unused).toEqual([]);
+  });
+});
+
 describe('links', () => {
   const known = new Set(catalog.map((entry) => entryHref(entry)));
-  const sectionRoots = new Set<string>([paths.overview, paths.foundations, paths.components, paths.playground, paths.patterns]);
+  const sectionRoots = new Set<string>([paths.overview, paths.guides, paths.foundations, paths.components, paths.playground, paths.patterns]);
   const isRoute = (href: string) => {
     const path = href.split(/[?#]/)[0] ?? '';
     return sectionRoots.has(path) || known.has(path);

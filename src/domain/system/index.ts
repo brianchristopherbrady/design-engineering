@@ -27,4 +27,6 @@ export {
 } from './catalog';
 export { EntryCard, type EntryCardProps } from './EntryCard';
 export { MaturityBadge } from './MaturityBadge';
+export { maturityDefinitions, type MaturityDefinition } from './maturity';
 export { densityLabels, productProfiles, type ProductProfile } from './products';
+export { wikiGroups } from './wiki';

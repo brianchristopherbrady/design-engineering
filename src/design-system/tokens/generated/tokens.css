@@ -244,9 +244,6 @@
     --button-ghost-border: var(--action-ghost-border);
     --button-disabled-foreground: var(--action-disabled-foreground);
     --button-gap: var(--space-xs);
-    --button-padding-inline-small: var(--space-sm);
-    --button-padding-inline-medium: var(--space-md);
-    --button-padding-inline-large: var(--space-lg);
     --button-font-size-small: var(--font-size-xs);
     --button-font-size-medium: var(--font-size-sm);
     --button-font-size-large: var(--font-size-md);
@@ -365,6 +362,7 @@
     --dialog-elevation: var(--elevation-high);
     --dialog-backdrop: var(--overlay-backdrop);
     --input-background: var(--surface-panel);
+    --radio-group-card-border: var(--border-default);
     --switch-thumb: var(--surface-panel);
     --skeleton-base: var(--surface-sunken);
     --skeleton-highlight: var(--border-subtle);
@@ -456,6 +454,7 @@
     --dialog-elevation: var(--elevation-high);
     --dialog-backdrop: var(--overlay-backdrop);
     --input-background: var(--surface-panel);
+    --radio-group-card-border: var(--border-default);
     --switch-thumb: var(--surface-panel);
     --skeleton-base: var(--surface-sunken);
     --skeleton-highlight: var(--border-subtle);
@@ -468,6 +467,7 @@
     --badge-radius: var(--radius-sm);
     --card-radius: var(--radius-lg);
     --dialog-radius: var(--radius-xl);
+    --radio-group-card-radius: var(--radius-md);
   }
 
   [data-product='harbor'] {
@@ -476,6 +476,7 @@
     --badge-radius: var(--radius-sm);
     --card-radius: var(--radius-md);
     --dialog-radius: var(--radius-md);
+    --radio-group-card-radius: var(--radius-sm);
   }
 
   [data-product='meadow'] {
@@ -484,6 +485,7 @@
     --badge-radius: var(--radius-full);
     --card-radius: var(--radius-xl);
     --dialog-radius: var(--radius-xl);
+    --radio-group-card-radius: var(--radius-lg);
   }
 
   :root,
@@ -499,6 +501,9 @@
     --button-height-small: var(--control-height-small);
     --button-height-medium: var(--control-height-medium);
     --button-height-large: var(--control-height-large);
+    --button-padding-inline-small: var(--space-sm);
+    --button-padding-inline-medium: var(--space-md);
+    --button-padding-inline-large: var(--space-lg);
     --card-padding: var(--spacing-large);
     --dialog-padding: var(--spacing-large);
   }
@@ -515,6 +520,9 @@
     --button-height-small: var(--control-height-small);
     --button-height-medium: var(--control-height-medium);
     --button-height-large: var(--control-height-large);
+    --button-padding-inline-small: var(--space-xs);
+    --button-padding-inline-medium: var(--space-sm);
+    --button-padding-inline-large: var(--space-md);
     --card-padding: var(--spacing-large);
     --dialog-padding: var(--spacing-large);
   }
@@ -539,6 +547,8 @@
     --button-primary-background-active: var(--action-primary-active);
     --button-primary-foreground: var(--action-primary-foreground);
     --button-primary-border: var(--action-primary-border);
+    --radio-group-card-border-checked: var(--action-primary-background);
+    --radio-group-card-background-checked: var(--surface-accent);
     --switch-track-on: var(--action-primary-background);
   }
 
@@ -561,6 +571,8 @@
     --button-primary-background-active: var(--action-primary-active);
     --button-primary-foreground: var(--action-primary-foreground);
     --button-primary-border: var(--action-primary-border);
+    --radio-group-card-border-checked: var(--action-primary-background);
+    --radio-group-card-background-checked: var(--surface-accent);
     --switch-track-on: var(--action-primary-background);
   }
 
@@ -583,6 +595,8 @@
     --button-primary-background-active: var(--action-primary-active);
     --button-primary-foreground: var(--action-primary-foreground);
     --button-primary-border: var(--action-primary-border);
+    --radio-group-card-border-checked: var(--action-primary-background);
+    --radio-group-card-background-checked: var(--surface-accent);
     --switch-track-on: var(--action-primary-background);
   }
 
@@ -605,6 +619,8 @@
     --button-primary-background-active: var(--action-primary-active);
     --button-primary-foreground: var(--action-primary-foreground);
     --button-primary-border: var(--action-primary-border);
+    --radio-group-card-border-checked: var(--action-primary-background);
+    --radio-group-card-background-checked: var(--surface-accent);
     --switch-track-on: var(--action-primary-background);
   }
 
@@ -627,6 +643,8 @@
     --button-primary-background-active: var(--action-primary-active);
     --button-primary-foreground: var(--action-primary-foreground);
     --button-primary-border: var(--action-primary-border);
+    --radio-group-card-border-checked: var(--action-primary-background);
+    --radio-group-card-background-checked: var(--surface-accent);
     --switch-track-on: var(--action-primary-background);
   }
 
@@ -649,6 +667,8 @@
     --button-primary-background-active: var(--action-primary-active);
     --button-primary-foreground: var(--action-primary-foreground);
     --button-primary-border: var(--action-primary-border);
+    --radio-group-card-border-checked: var(--action-primary-background);
+    --radio-group-card-background-checked: var(--surface-accent);
     --switch-track-on: var(--action-primary-background);
   }
 
@@ -759,6 +779,9 @@
       --dialog-elevation: var(--elevation-high);
       --dialog-backdrop: var(--overlay-backdrop);
       --input-background: var(--surface-panel);
+      --radio-group-card-border: var(--border-default);
+      --radio-group-card-border-checked: var(--action-primary-background);
+      --radio-group-card-background-checked: var(--surface-accent);
       --switch-track-on: var(--action-primary-background);
       --switch-thumb: var(--surface-panel);
       --skeleton-base: var(--surface-sunken);

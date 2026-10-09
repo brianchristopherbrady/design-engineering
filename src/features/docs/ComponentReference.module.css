@@ -19,21 +19,38 @@
     list-style: none;
   }
 
-  .tokens {
-    display: grid;
-    gap: var(--spacing-extra-small);
-    padding: 0;
-    list-style: none;
+  .readTable {
+    inline-size: 100%;
+    min-inline-size: 36rem;
     font-size: var(--typography-body-small-font-size);
+    line-height: var(--typography-body-small-line-height);
   }
 
-  .token {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-2xs) var(--spacing-small);
-    padding-block: var(--space-2xs);
+  .readCaption {
+    padding-block-end: var(--space-xs);
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--typography-caption-font-weight);
+    letter-spacing: var(--typography-caption-letter-spacing);
+    text-align: start;
+    text-transform: uppercase;
+  }
+
+  .readTable th,
+  .readTable td {
+    padding: var(--space-2xs) var(--spacing-small) var(--space-2xs) 0;
     border-block-end: var(--border-width-thin) solid var(--border-subtle);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  .readTable thead th {
+    color: var(--text-muted);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .readTable tbody th {
+    font-weight: var(--font-weight-regular);
     overflow-wrap: anywhere;
   }
 
@@ -48,18 +65,7 @@
     color: var(--text-muted);
   }
 
-  .details {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--spacing-small);
-    padding: var(--spacing-small);
-    border: var(--border-width-thin) solid var(--border-subtle);
-    border-radius: var(--radius-md);
-  }
-
-  .summary {
-    cursor: pointer;
+  .trace {
     font-size: var(--typography-body-small-font-size);
-    overflow-wrap: anywhere;
   }
 }

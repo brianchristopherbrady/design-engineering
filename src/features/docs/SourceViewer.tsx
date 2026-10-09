@@ -1,4 +1,5 @@
 import { useEffect, useId, useState, type ReactNode } from 'react';
+import { ScrollRegion } from '@/design-system/layout';
 import { loadSource } from './sourceFiles';
 import styles from './SourceViewer.module.css';
 
@@ -36,9 +37,9 @@ export function SourceViewer({ path, description }: SourceViewerProps) {
         {description && <span className={styles.description}>{description}</span>}
       </figcaption>
       {state.status === 'ready' && (
-        <pre className={styles.code} data-theme="dark" tabIndex={0} role="region" aria-labelledby={captionId}>
+        <ScrollRegion axis="both" as="pre" className={styles.code} data-theme="dark" aria-labelledby={captionId}>
           <code>{state.text}</code>
-        </pre>
+        </ScrollRegion>
       )}
       {state.status === 'loading' && (
         <p className={styles.message} role="status">

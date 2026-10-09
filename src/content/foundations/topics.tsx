@@ -1,7 +1,7 @@
 import { useState, type ComponentType } from 'react';
 import { Card, Field } from '@/design-system/composites';
-import { Box, Grid, Inline, Stack } from '@/design-system/layout';
-import { Badge, Button, Heading, Select, Text } from '@/design-system/primitives';
+import { Box, Grid, Inline, ScrollRegion, Stack } from '@/design-system/layout';
+import { Badge, Button, Heading, Link, Select, Text } from '@/design-system/primitives';
 import {
   borderScale,
   borderTokenPaths,
@@ -22,6 +22,7 @@ import { contrastRatio } from './contrast';
 import { productsTopic } from './products';
 import { studioTopic } from './studio';
 import { QueryRegistry } from './QueryRegistry';
+import { TokenPolicy } from './TokenPolicy';
 import { apcaContrast } from '@/features/theming';
 import { tokenRecord, TokenTable } from './TokenTable';
 import styles from './foundations.module.css';
@@ -55,27 +56,31 @@ function TokensContent() {
       <DocSection id="tiers" title="Three tiers">
         <Prose>
           <p>
-            Every visual value in the system is a token, and every token belongs to exactly one tier. Each tier may only
-            reference the tier below it, so a value always has one path back to its source.
+            Every visual value in the system is a token, and every token belongs to exactly one tier. An alias points to its
+            own tier or a lower one, so a value always has one path back to its source. The{' '}
+            <Link href="#policy">dependency policy</Link> below says exactly who may read what.
           </p>
         </Prose>
         <Grid minColumnWidth="small" gap="medium">
           <Card header={<Heading level={3} size="small">Reference ({tierCount('reference')})</Heading>}>
             <Text variant="bodySmall">
               Raw scales with no meaning: <code>color.blue.600</code>, <code>space.md</code>, <code>radius.lg</code>,{' '}
-              <code>shadow.medium</code>, <code>duration.base</code>. Components never read them directly.
+              <code>shadow.medium</code>, <code>duration.base</code>. Identical in every theme, product and density.
+              Palettes are read only through semantic roles; the other scales may be read directly for fixed values.
             </Text>
           </Card>
           <Card header={<Heading level={3} size="small">Semantic ({tierCount('semantic')})</Heading>}>
             <Text variant="bodySmall">
               Purpose-named aliases: <code>action.primary.background</code>, <code>text.muted</code>,{' '}
-              <code>surface.panel</code>, <code>tone.danger.text</code>, <code>focus.ring</code>. Themes remap these.
+              <code>surface.panel</code>, <code>control.height.medium</code>, <code>spacing.medium</code>. Themes, products and
+              densities remap these.
             </Text>
           </Card>
           <Card header={<Heading level={3} size="small">Component ({tierCount('component')})</Heading>}>
             <Text variant="bodySmall">
-              Decisions for one component, aliasing semantic tokens: <code>button.primary.background</code>,{' '}
-              <code>card.padding</code>, <code>dialog.width.medium</code>. Added only where a component needs a knob.
+              Decisions for one component: <code>button.primary.background</code>, <code>card.radius</code>,{' '}
+              <code>dialog.width.medium</code>. Each aliases a semantic role or a non-color scale, and is added only where a
+              component exposes a knob a product or density may retune.
             </Text>
           </Card>
         </Grid>
@@ -98,7 +103,8 @@ function TokensContent() {
             </li>
             <li>
               <code>scripts/tokens/pipeline.mjs</code> flattens the files, validates every value against its type, resolves
-              aliases, and rejects missing references, cycles, type mismatches and name collisions.
+              aliases in all twelve permutations, and rejects missing references, cycles, type mismatches, name collisions
+              and breaches of the dependency policy.
             </li>
             <li>
               It writes <code>tokens.css</code> (custom properties, with aliases kept as <code>var()</code> so a theme change
@@ -115,10 +121,10 @@ function TokensContent() {
 
       <DocSection id="trace" title="Trace a token">
         <LiveExample
-          title="Alias chain in both themes"
+          title="Alias chain in this context"
           kind="recommended"
           showHtml={false}
-          description="Choose a component token to follow it through the semantic tier to a reference value."
+          description="Choose a component token to follow it to a reference value for the product, theme and density set in the header, then compare the authored, resolved and computed readings."
           controls={
             <Field label="Token">
               {(control) => (
@@ -137,6 +143,17 @@ function TokensContent() {
         </LiveExample>
       </DocSection>
 
+      <DocSection id="policy" title="Dependency policy">
+        <Prose>
+          <p>
+            These rules decide which tokens may alias or read which. Rules marked common practice are widely shared; the
+            others are conventions this system chose for its size and its three modifiers, and a different system could
+            reasonably choose otherwise. Each rule names where it is enforced.
+          </p>
+        </Prose>
+        <TokenPolicy />
+      </DocSection>
+
       <DocSection id="explorer" title="Every token">
         <TokenExplorer />
       </DocSection>
@@ -146,7 +163,9 @@ function TokensContent() {
           sources={[
             { path: 'src/design-system/tokens/source/system-lab.resolver.json', note: 'Sets, theme modifier and tier metadata' },
             { path: 'src/design-system/tokens/source/component.tokens.json', note: 'Component tier' },
-            { path: 'scripts/tokens/pipeline.mjs', note: 'Validation, alias resolution and CSS output' },
+            { path: 'src/design-system/tokens/policy.ts', note: 'The dependency policy, its lanes and exceptions' },
+            { path: 'scripts/tokens/pipeline.mjs', note: 'Validation, alias resolution, policy checks and CSS output' },
+            { path: 'scripts/tokens/policy.test.mjs', note: 'Stylesheets and manifest checked against the policy' },
             { path: 'src/design-system/tokens/vocabulary.ts', note: 'Prop vocabularies mapped to token paths' },
           ]}
         />
@@ -256,7 +275,7 @@ function ColorContent() {
 
 function ContrastTable() {
   return (
-    <div className={styles.scroller} tabIndex={0} role="region" aria-label="Contrast ratios">
+    <ScrollRegion aria-label="Contrast ratios">
       <table className={styles.table}>
         <thead>
           <tr>
@@ -299,7 +318,7 @@ function ContrastTable() {
           ))}
         </tbody>
       </table>
-    </div>
+    </ScrollRegion>
   );
 }
 
@@ -379,7 +398,7 @@ function SpacingContent() {
             token.
           </p>
         </Prose>
-        <div className={styles.scroller} tabIndex={0} role="region" aria-label="Spacing vocabulary">
+        <ScrollRegion aria-label="Spacing vocabulary">
           <table className={styles.table}>
             <thead>
               <tr>
@@ -408,7 +427,7 @@ function SpacingContent() {
               })}
             </tbody>
           </table>
-        </div>
+        </ScrollRegion>
       </DocSection>
       <DocSection id="precedence" title="Gap precedence">
         <Prose>
@@ -748,6 +767,7 @@ export const foundationTopics: readonly FoundationTopic[] = [
       { id: 'tiers', label: 'Three tiers' },
       { id: 'pipeline', label: 'Pipeline' },
       { id: 'trace', label: 'Trace a token' },
+      { id: 'policy', label: 'Dependency policy' },
       { id: 'explorer', label: 'Every token' },
       { id: 'source', label: 'Source' },
     ],

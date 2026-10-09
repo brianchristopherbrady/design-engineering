@@ -1,7 +1,6 @@
 @layer product {
   .scroller {
     max-block-size: 40rem;
-    overflow: auto;
     border: var(--border-width-thin) solid var(--border-subtle);
     border-radius: var(--radius-md);
     background-color: var(--surface-panel);
@@ -77,20 +76,109 @@
     border-radius: var(--radius-sm);
   }
 
-  .chains {
+  .trace {
     display: grid;
-    grid-template-columns: minmax(0, max-content) minmax(0, 1fr);
-    gap: var(--space-xs) var(--space-md);
-    align-items: center;
-  }
-
-  .chainTheme {
-    font-size: var(--typography-label-font-size);
-    font-weight: var(--typography-label-font-weight);
-  }
-
-  .chain {
+    gap: var(--spacing-small);
     min-inline-size: 0;
+  }
+
+  .traceContext {
+    font-size: var(--typography-body-small-font-size);
+    line-height: var(--typography-body-small-line-height);
+  }
+
+  .muted {
+    color: var(--text-muted);
+  }
+
+  .readings {
+    display: grid;
+    gap: var(--space-2xs);
+    font-size: var(--typography-body-small-font-size);
+    line-height: var(--typography-body-small-line-height);
+  }
+
+  .readings > div {
+    display: grid;
+    /* 13rem: the longest reading label on one line beside its value. */
+    grid-template-columns: minmax(0, 13rem) minmax(0, 1fr);
+    gap: var(--space-xs);
+    align-items: baseline;
+  }
+
+  .readings dt {
+    color: var(--text-muted);
+  }
+
+  .readings dd {
+    min-inline-size: 0;
+  }
+
+  .match,
+  .mismatch {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+  }
+
+  .match {
+    color: var(--tone-success-text);
+  }
+
+  .mismatch {
+    color: var(--tone-danger-text);
+  }
+
+  .contexts {
+    inline-size: 100%;
+    font-size: var(--typography-body-small-font-size);
+    line-height: var(--typography-body-small-line-height);
+  }
+
+  .contextsCaption {
+    padding-block-end: var(--space-2xs);
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--typography-caption-font-weight);
+    letter-spacing: var(--typography-caption-letter-spacing);
+    text-align: start;
+    text-transform: uppercase;
+  }
+
+  .contexts th,
+  .contexts td {
+    padding: var(--space-2xs) var(--space-sm) var(--space-2xs) 0;
+    border-block-start: var(--border-width-thin) solid var(--border-subtle);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  .contexts thead th {
+    color: var(--text-muted);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .contexts tbody th {
+    font-weight: var(--font-weight-regular);
+    overflow-wrap: anywhere;
+  }
+
+  .currentRow th,
+  .currentRow td {
+    background-color: var(--surface-accent);
+  }
+
+  .currentLabel {
+    color: var(--tone-brand-text);
+    font-weight: var(--font-weight-medium);
+  }
+
+  /* 28rem: below this the 13rem labels leave too little room for a value, so they stack. */
+  @container (inline-size < 28rem) {
+    .readings > div {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+    }
   }
 
   .chainList {

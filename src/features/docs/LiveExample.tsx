@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, useState, type ReactNode, type RefObject } from 'react';
-import { Inline, Stack } from '@/design-system/layout';
+import { Disclosure } from '@/design-system/composites';
+import { Inline, ScrollRegion, Stack } from '@/design-system/layout';
 import { Badge, Heading, Text } from '@/design-system/primitives';
 import { formatHtml } from './formatHtml';
 import { SourceViewer } from './SourceViewer';
@@ -51,9 +52,9 @@ function RenderedHtml({ target }: { target: RefObject<HTMLDivElement | null> }) 
       <span id={labelId} hidden>
         Rendered HTML
       </span>
-      <pre className={styles.html} data-theme="dark" tabIndex={0} role="region" aria-labelledby={labelId}>
+      <ScrollRegion as="pre" axis="both" className={styles.html} data-theme="dark" aria-labelledby={labelId}>
         <code>{html}</code>
-      </pre>
+      </ScrollRegion>
     </>
   );
 }
@@ -70,8 +71,6 @@ export function LiveExample({
   headingLevel = 3,
 }: LiveExampleProps) {
   const stageRef = useRef<HTMLDivElement>(null);
-  const [htmlOpen, setHtmlOpen] = useState(false);
-  const [sourceOpen, setSourceOpen] = useState(false);
 
   return (
     <section className={styles.example} data-example-kind={kind}>
@@ -97,16 +96,14 @@ export function LiveExample({
       {(sourcePath || showHtml) && (
         <div className={styles.disclosures}>
           {sourcePath && (
-            <details className={styles.details} onToggle={(event) => setSourceOpen(event.currentTarget.open)}>
-              <summary className={styles.summary}>Source</summary>
-              {sourceOpen && <SourceViewer path={sourcePath} />}
-            </details>
+            <Disclosure appearance="flush" lazy className={styles.details} summary="Source">
+              <SourceViewer path={sourcePath} />
+            </Disclosure>
           )}
           {showHtml && (
-            <details className={styles.details} onToggle={(event) => setHtmlOpen(event.currentTarget.open)}>
-              <summary className={styles.summary}>Rendered HTML</summary>
-              {htmlOpen && <RenderedHtml target={stageRef} />}
-            </details>
+            <Disclosure appearance="flush" lazy className={styles.details} summary="Rendered HTML">
+              <RenderedHtml target={stageRef} />
+            </Disclosure>
           )}
         </div>
       )}

@@ -20,13 +20,13 @@ export const productProfiles: Record<ProductName, ProductProfile> = {
   harbor: {
     id: 'harbor',
     name: 'Harbor',
-    audience: 'A financial operations tool used all day by analysts.',
+    audience: 'Professional tools: people working at a desk all day, scanning and acting on dense lists.',
     overrides: 'Teal brand roles, tighter corners on controls, badges, cards and dialogs.',
   },
   meadow: {
     id: 'meadow',
     name: 'Meadow',
-    audience: 'A consumer app used in short, friendly sessions.',
+    audience: 'Consumer apps: people visiting a few times a year, on phones and desktops, who need guidance.',
     overrides: 'Violet brand roles, pill-shaped controls and badges, soft extra-large card corners.',
   },
 };

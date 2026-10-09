@@ -25,7 +25,6 @@
   /* A flight-deck display: always the dark scope (data-theme in SourceViewer), in either site theme. */
   .code {
     max-block-size: 30rem;
-    overflow: auto;
     padding: var(--space-md) var(--space-lg);
     border: var(--border-width-thin) solid var(--border-subtle);
     border-radius: var(--radius-lg);
@@ -34,7 +33,6 @@
     font-size: var(--typography-code-font-size);
     line-height: var(--typography-code-line-height);
     tab-size: 2;
-    scrollbar-color: var(--border-default) transparent;
   }
 
   /* Drawn inside the panel, where the dark scope's focus color is visible. */

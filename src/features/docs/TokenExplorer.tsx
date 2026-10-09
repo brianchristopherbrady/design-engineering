@@ -1,6 +1,6 @@
 import { useId, useState } from 'react';
 import { Field } from '@/design-system/composites';
-import { Grid, Stack } from '@/design-system/layout';
+import { Grid, ScrollRegion, Stack } from '@/design-system/layout';
 import { Button, Input, Select, Text } from '@/design-system/primitives';
 import { themeNames, type ThemeName } from '@/design-system/tokens';
 import { tokenManifest } from '@/design-system/tokens/manifest';
@@ -70,7 +70,7 @@ export function TokenExplorer({ initialTier = 'semantic' }: { initialTier?: Tier
         {rows.length} of {tokenManifest.length} tokens
       </Text>
 
-      <div className={styles.scroller} tabIndex={0} role="region" aria-labelledby={captionId}>
+      <ScrollRegion axis="both" className={styles.scroller} aria-labelledby={captionId}>
         <table className={styles.table}>
           <caption id={captionId} className={styles.caption}>
             Design tokens ({theme} theme)
@@ -119,7 +119,7 @@ export function TokenExplorer({ initialTier = 'semantic' }: { initialTier?: Tier
             })}
           </tbody>
         </table>
-      </div>
+      </ScrollRegion>
     </Stack>
   );
 }

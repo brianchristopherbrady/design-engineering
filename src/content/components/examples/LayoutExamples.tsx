@@ -1,8 +1,9 @@
-import { Box, Container, Grid, Inline, Stack } from '@/design-system/layout';
+import { Box, Container, Grid, Inline, ScrollRegion, Stack } from '@/design-system/layout';
 import { Badge, Button, Icon, Text } from '@/design-system/primitives';
 import { surfaceScale, toneScale } from '@/design-system/tokens';
 import { LiveExample } from '@/features/docs';
 import { Labelled, NarrowAndWide } from './frames';
+import styles from './examples.module.css';
 
 const source = 'src/content/components/examples/LayoutExamples.tsx';
 
@@ -161,6 +162,46 @@ export function ContainerExample() {
           </Box>
         </Container>
       </Box>
+    </LiveExample>
+  );
+}
+
+const releases = [
+  { version: '0.4.0', date: '8 Oct 2026', change: 'Adds Disclosure and ScrollRegion; docs disclosures meet the 24px target size.' },
+  { version: '0.3.0', date: '7 Oct 2026', change: 'Adds Dialog and Tabs, and renames Button variant to appearance.' },
+  { version: '0.2.0', date: '6 Oct 2026', change: 'Adds the Harbor and Meadow products and the compact density.' },
+];
+
+export function ScrollRegionExample() {
+  return (
+    <LiveExample
+      title="A wide table inside a narrow column"
+      kind="recommended"
+      sourcePath={source}
+      description="The table keeps its columns and scrolls on its own; the page never scrolls sideways. Tab to the region and use the arrow keys to scroll it."
+    >
+      <NarrowAndWide>
+        <ScrollRegion aria-label="Release history">
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th scope="col">Version</th>
+                <th scope="col">Date</th>
+                <th scope="col">Change</th>
+              </tr>
+            </thead>
+            <tbody>
+              {releases.map((release) => (
+                <tr key={release.version}>
+                  <th scope="row">{release.version}</th>
+                  <td>{release.date}</td>
+                  <td>{release.change}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </ScrollRegion>
+      </NarrowAndWide>
     </LiveExample>
   );
 }

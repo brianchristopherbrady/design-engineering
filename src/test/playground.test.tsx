@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { alertTones, dialogSizes } from '@/design-system/composites';
+import { alertTones, dialogSizes, disclosureAppearances } from '@/design-system/composites';
 import { gridColumnCounts } from '@/design-system/layout';
 import { badgeAppearances, buttonAppearances, buttonBorders, buttonSizes, iconNames } from '@/design-system/primitives';
 import { borderScale, elevationScale, radiusScale, spaceScale, surfaceScale, toneScale } from '@/design-system/tokens';
@@ -55,6 +55,7 @@ describe('playground stories', () => {
     expect(optionsOf('grid', 'gap')).toBe(spaceScale);
     expect(optionsOf('grid', 'columns')).toBe(gridColumnCounts);
     expect(optionsOf('alert', 'tone')).toBe(alertTones);
+    expect(optionsOf('disclosure', 'appearance')).toBe(disclosureAppearances);
   });
 
   it('use "appearance" for the Button background treatment', () => {

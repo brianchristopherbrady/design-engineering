@@ -1,26 +1,17 @@
-import { densityNames, productNames, themeNames, type ModifierInput, type ThemeName } from '@/design-system/tokens';
+import { densityNames, productNames, themeNames, tokenSelectorIn, tokenValueIn, type ModifierInput, type ThemeName } from '@/design-system/tokens';
 import { tokenManifest, type TokenRecord } from '@/design-system/tokens/manifest';
 
 const contextsOf = { theme: themeNames, product: productNames, density: densityNames } as const;
-type ModifierKey = keyof typeof contextsOf;
 
 export const permutationCount = Object.values(contextsOf).reduce((total, contexts) => total * contexts.length, 1);
 
 export const recordOf = (path: string) => tokenManifest.find((record) => record.path === path);
 
 /** The value a token takes in one permutation of the modifiers. */
-export function resolveFor(record: TokenRecord, input: ModifierInput) {
-  if (record.dependsOn.length === 0) return record.values.light;
-  if (!record.variants) return record.values[input.theme];
-  const match = record.variants.find((variant) => Object.entries(variant.input).every(([name, context]) => input[name as ModifierKey] === context));
-  return match ?? record.values[input.theme];
-}
+export const resolveFor = tokenValueIn;
 
 /** The selector the pipeline emits a token under for one permutation: only the modifiers it depends on. */
-export function selectorFor(record: TokenRecord, input: ModifierInput): string {
-  if (record.dependsOn.length === 0) return ':root';
-  return record.dependsOn.map((name) => `[data-${name}='${input[name as ModifierKey]}']`).join('');
-}
+export const selectorFor = tokenSelectorIn;
 
 /** 1-based position of a permutation, counting theme fastest, then product, then density. */
 export function permutationIndex(input: ModifierInput): number {

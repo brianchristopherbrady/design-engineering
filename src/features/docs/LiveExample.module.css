@@ -33,17 +33,8 @@
     border-block-start: var(--border-width-thin) solid var(--border-subtle);
   }
 
-  .details[open] {
-    padding-block-end: var(--space-md);
-  }
-
-  .details > :not(summary) {
-    margin-inline: var(--space-lg);
-  }
-
-  .summary {
-    padding: var(--space-sm) var(--space-lg);
-    cursor: pointer;
+  /* The panel's caption voice: small, tracked, muted until hovered or open. */
+  .details > summary {
     color: var(--text-muted);
     font-size: var(--typography-caption-font-size);
     font-weight: var(--typography-caption-font-weight);
@@ -52,27 +43,22 @@
     transition: color var(--motion-duration-feedback) var(--motion-easing-standard);
   }
 
-  .summary:hover,
-  .details[open] > .summary {
+  .details > summary:hover,
+  .details[open] > summary {
     color: var(--text-primary);
-  }
-
-  .summary:focus-visible {
-    outline-offset: calc(var(--focus-width) * -1);
   }
 
   /* Always the dark scope (data-theme in LiveExample): a display panel, like the source viewer. */
   .html {
     max-block-size: 24rem;
-    overflow: auto;
     padding: var(--space-md) var(--space-lg);
     border-radius: var(--radius-lg);
     background-color: var(--surface-sunken);
     font-size: var(--typography-code-font-size);
     line-height: var(--typography-code-line-height);
-    scrollbar-color: var(--border-default) transparent;
   }
 
+  /* Further inside than ScrollRegion's default, where the dark scope's focus color shows. */
   .html:focus-visible {
     outline-offset: calc(var(--focus-width) * -2);
   }

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Alert, alertTones, Card, Dialog, EmptyState, Field, Tabs } from '@/design-system/composites';
+import { Alert, alertTones, Card, Dialog, Disclosure, EmptyState, Field, RadioGroup, Tabs } from '@/design-system/composites';
 import { Grid, Inline, Stack } from '@/design-system/layout';
 import { Badge, Button, Heading, Icon, Input, Link, Text } from '@/design-system/primitives';
 import { elevationScale } from '@/design-system/tokens';
@@ -323,6 +323,29 @@ export function TabsExample() {
   );
 }
 
+export function DisclosureExample() {
+  return (
+    <LiveExample
+      title="Secondary detail, on request"
+      kind="recommended"
+      sourcePath={source}
+      description="Each row is a native summary: Tab to it, then Enter or Space toggles it. lazy renders the content only while it is open."
+    >
+      <Stack gap="extraSmall">
+        <Disclosure summary="Why is the primary button black?">
+          <Text variant="bodySmall">The monolith: one solid action per region, so the next step is never ambiguous.</Text>
+        </Disclosure>
+        <Disclosure summary="Which tokens does it read?" lazy>
+          <Text variant="bodySmall">button.primary.background → action.primary.background → color.neutral.950</Text>
+        </Disclosure>
+        <Disclosure summary="A summary with a much longer label that wraps onto a second line in narrow containers" defaultOpen>
+          <Text variant="bodySmall">Open on first render with defaultOpen; the marker turns to show the state.</Text>
+        </Disclosure>
+      </Stack>
+    </LiveExample>
+  );
+}
+
 export function FieldExample() {
   const [value, setValue] = useState('');
   const [submitted, setSubmitted] = useState(false);
@@ -380,5 +403,68 @@ export function EmptyStateExample() {
         action={<Button appearance="primary">Browse components</Button>}
       />
     </LiveExample>
+  );
+}
+
+const contactMethods = [
+  { value: 'email', label: 'Email', description: 'Updates and receipts in your inbox.' },
+  { value: 'text', label: 'Text message', description: 'Short alerts on your phone.' },
+  { value: 'call', label: 'Phone call', description: 'Only when something needs your answer today.' },
+] as const;
+
+export function RadioGroupExample() {
+  const [method, setMethod] = useState<string>();
+  const [submitted, setSubmitted] = useState(false);
+  return (
+    <Stack gap="large">
+      <LiveExample
+        title="Cards for options that need explaining"
+        kind="recommended"
+        sourcePath={source}
+        description="Required, controlled, with an error after an empty submit. Tab into the group, then use the arrow keys."
+      >
+        <form
+          noValidate
+          onSubmit={(event) => {
+            event.preventDefault();
+            setSubmitted(true);
+          }}
+        >
+          <Stack gap="medium">
+            <RadioGroup
+              legend="How should we contact you?"
+              appearance="cards"
+              required
+              options={contactMethods}
+              value={method}
+              onChange={setMethod}
+              error={submitted && !method ? 'Choose how we should contact you.' : undefined}
+            />
+            <Inline gap="small">
+              <Button type="submit" appearance="primary">
+                Continue
+              </Button>
+              {submitted && method && (
+                <Text role="status" tone="success">
+                  We will contact you by {contactMethods.find((option) => option.value === method)?.label.toLowerCase()}.
+                </Text>
+              )}
+            </Inline>
+          </Stack>
+        </form>
+      </LiveExample>
+      <LiveExample title="A plain list for short labels" kind="recommended" sourcePath={source}>
+        <RadioGroup
+          legend="Delivery window"
+          description="Times are in your local time zone."
+          defaultValue="morning"
+          options={[
+            { value: 'morning', label: '8:00 to 12:00' },
+            { value: 'afternoon', label: '12:00 to 17:00' },
+            { value: 'evening', label: '17:00 to 20:00', disabled: true, description: 'Fully booked this week.' },
+          ]}
+        />
+      </LiveExample>
+    </Stack>
   );
 }

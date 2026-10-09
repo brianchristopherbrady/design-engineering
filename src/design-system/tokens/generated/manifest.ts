@@ -5,6 +5,8 @@ export interface TokenValue {
   authored: string;
   resolved: string;
   chain: string[];
+  /** Source file that set this value, when it is not the record's own source. */
+  source?: string;
 }
 
 export interface TokenRecord {
@@ -3899,7 +3901,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "spacing.small",
           "space.2xs"
-        ]
+        ],
+        "source": "density.compact.tokens.json"
       }
     ]
   },
@@ -3953,7 +3956,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "spacing.medium",
           "space.sm"
-        ]
+        ],
+        "source": "density.compact.tokens.json"
       }
     ]
   },
@@ -4007,7 +4011,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "spacing.large",
           "space.md"
-        ]
+        ],
+        "source": "density.compact.tokens.json"
       }
     ]
   },
@@ -4061,7 +4066,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "spacing.extra-large",
           "space.lg"
-        ]
+        ],
+        "source": "density.compact.tokens.json"
       }
     ]
   },
@@ -4197,7 +4203,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "control.height.small",
           "size.compact.sm"
-        ]
+        ],
+        "source": "density.compact.tokens.json"
       }
     ]
   },
@@ -4251,7 +4258,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "control.height.medium",
           "size.compact.md"
-        ]
+        ],
+        "source": "density.compact.tokens.json"
       }
     ]
   },
@@ -4305,7 +4313,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "control.height.large",
           "size.compact.lg"
-        ]
+        ],
+        "source": "density.compact.tokens.json"
       }
     ]
   },
@@ -4359,7 +4368,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "control.padding-inline",
           "space.xs"
-        ]
+        ],
+        "source": "density.compact.tokens.json"
       }
     ]
   },
@@ -4413,7 +4423,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "control.radius",
           "radius.sm"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -4424,7 +4435,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "control.radius",
           "radius.full"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       }
     ]
   },
@@ -5382,7 +5394,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "surface.canvas",
           "color.neutral.900"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -5412,7 +5425,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "surface.panel",
           "color.neutral.850"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -5442,7 +5456,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "surface.sunken",
           "color.neutral.950"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -5473,7 +5488,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "surface.accent",
           "color.red.950"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     },
     "variants": [
@@ -5500,7 +5516,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "surface.accent",
           "brand.harbor.subtle",
           "color.harbor.50"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -5513,7 +5530,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "surface.accent",
           "brand.meadow.subtle",
           "color.meadow.50"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       },
       {
         "input": {
@@ -5525,7 +5543,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "surface.accent",
           "color.red.950"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       },
       {
         "input": {
@@ -5538,7 +5557,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "surface.accent",
           "brand.harbor.subtle",
           "color.harbor.975"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -5551,7 +5571,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "surface.accent",
           "brand.meadow.subtle",
           "color.meadow.950"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       }
     ]
   },
@@ -5581,7 +5602,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "text.primary",
           "color.neutral.100"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -5611,7 +5633,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "text.muted",
           "color.neutral.400"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -5642,7 +5665,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "text.link",
           "color.neutral.100"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     },
     "variants": [
@@ -5669,7 +5693,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "text.link",
           "brand.harbor.text",
           "color.harbor.700"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -5682,7 +5707,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "text.link",
           "brand.meadow.text",
           "color.meadow.700"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       },
       {
         "input": {
@@ -5694,7 +5720,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "text.link",
           "color.neutral.100"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       },
       {
         "input": {
@@ -5707,7 +5734,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "text.link",
           "brand.harbor.text",
           "color.harbor.300"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -5720,7 +5748,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "text.link",
           "brand.meadow.text",
           "color.meadow.300"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       }
     ]
   },
@@ -5750,7 +5779,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "border.subtle",
           "color.neutral.800"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -5780,7 +5810,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "border.default",
           "color.neutral.700"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -5808,7 +5839,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "border.strong",
           "color.neutral.500"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -5839,7 +5871,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.primary.background",
           "color.neutral.50"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     },
     "variants": [
@@ -5866,7 +5899,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "action.primary.background",
           "brand.harbor.strong",
           "color.harbor.700"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -5879,7 +5913,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "action.primary.background",
           "brand.meadow.strong",
           "color.meadow.600"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       },
       {
         "input": {
@@ -5891,7 +5926,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.primary.background",
           "color.neutral.50"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       },
       {
         "input": {
@@ -5904,7 +5940,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "action.primary.background",
           "brand.harbor.strong",
           "color.harbor.300"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -5917,7 +5954,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "action.primary.background",
           "brand.meadow.strong",
           "color.meadow.300"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       }
     ]
   },
@@ -5948,7 +5986,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.primary.hover",
           "color.neutral.200"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     },
     "variants": [
@@ -5975,7 +6014,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "action.primary.hover",
           "brand.harbor.stronger",
           "color.harbor.800"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -5988,7 +6028,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "action.primary.hover",
           "brand.meadow.stronger",
           "color.meadow.700"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       },
       {
         "input": {
@@ -6000,7 +6041,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.primary.hover",
           "color.neutral.200"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       },
       {
         "input": {
@@ -6013,7 +6055,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "action.primary.hover",
           "brand.harbor.stronger",
           "color.harbor.200"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -6026,7 +6069,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "action.primary.hover",
           "brand.meadow.stronger",
           "color.meadow.200"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       }
     ]
   },
@@ -6057,7 +6101,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.primary.active",
           "color.neutral.300"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     },
     "variants": [
@@ -6084,7 +6129,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "action.primary.active",
           "brand.harbor.strongest",
           "color.harbor.900"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -6097,7 +6143,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "action.primary.active",
           "brand.meadow.strongest",
           "color.meadow.800"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       },
       {
         "input": {
@@ -6109,7 +6156,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.primary.active",
           "color.neutral.300"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       },
       {
         "input": {
@@ -6122,7 +6170,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "action.primary.active",
           "brand.harbor.strongest",
           "color.harbor.100"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -6135,7 +6184,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "action.primary.active",
           "brand.meadow.strongest",
           "color.meadow.100"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       }
     ]
   },
@@ -6166,7 +6216,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.primary.foreground",
           "color.neutral.950"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     },
     "variants": [
@@ -6193,7 +6244,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "action.primary.foreground",
           "brand.harbor.on-strong",
           "color.harbor.50"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -6206,7 +6258,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "action.primary.foreground",
           "brand.meadow.on-strong",
           "color.meadow.50"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       },
       {
         "input": {
@@ -6218,7 +6271,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.primary.foreground",
           "color.neutral.950"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       },
       {
         "input": {
@@ -6231,7 +6285,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "action.primary.foreground",
           "brand.harbor.on-strong",
           "color.harbor.950"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -6244,7 +6299,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "action.primary.foreground",
           "brand.meadow.on-strong",
           "color.meadow.950"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       }
     ]
   },
@@ -6275,7 +6331,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.primary.border",
           "color.neutral.50"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     },
     "variants": [
@@ -6302,7 +6359,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "action.primary.border",
           "brand.harbor.strong",
           "color.harbor.700"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -6315,7 +6373,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "action.primary.border",
           "brand.meadow.strong",
           "color.meadow.600"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       },
       {
         "input": {
@@ -6327,7 +6386,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.primary.border",
           "color.neutral.50"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       },
       {
         "input": {
@@ -6340,7 +6400,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "action.primary.border",
           "brand.harbor.strong",
           "color.harbor.300"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -6353,7 +6414,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "action.primary.border",
           "brand.meadow.strong",
           "color.meadow.300"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       }
     ]
   },
@@ -6383,7 +6445,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.secondary.background",
           "color.neutral.850"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -6413,7 +6476,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.secondary.hover",
           "color.neutral.800"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -6443,7 +6507,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.secondary.active",
           "color.neutral.700"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -6473,7 +6538,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.secondary.foreground",
           "color.neutral.100"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -6501,7 +6567,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.secondary.border",
           "color.neutral.500"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -6529,7 +6596,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.ghost.background",
           "color.transparent"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -6559,7 +6627,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.ghost.hover",
           "color.neutral.800"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -6589,7 +6658,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.ghost.active",
           "color.neutral.700"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -6619,7 +6689,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.ghost.foreground",
           "color.neutral.100"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -6647,7 +6718,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.ghost.border",
           "color.transparent"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -6677,7 +6749,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.danger.background",
           "color.red.400"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -6707,7 +6780,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.danger.hover",
           "color.red.300"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -6737,7 +6811,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.danger.active",
           "color.red.200"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -6767,7 +6842,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.danger.foreground",
           "color.neutral.950"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -6797,7 +6873,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.danger.border",
           "color.red.300"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -6827,7 +6904,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.disabled.background",
           "color.neutral.800"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -6855,7 +6933,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.disabled.foreground",
           "color.neutral.500"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -6885,7 +6964,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "action.disabled.border",
           "color.neutral.700"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -6916,7 +6996,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "focus.ring",
           "color.neutral.50"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     },
     "variants": [
@@ -6943,7 +7024,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "focus.ring",
           "brand.harbor.border",
           "color.harbor.600"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -6956,7 +7038,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "focus.ring",
           "brand.meadow.border",
           "color.meadow.500"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       },
       {
         "input": {
@@ -6968,7 +7051,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "focus.ring",
           "color.neutral.50"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       },
       {
         "input": {
@@ -6981,7 +7065,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "focus.ring",
           "brand.harbor.border",
           "color.harbor.500"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -6994,7 +7079,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "focus.ring",
           "brand.meadow.border",
           "color.meadow.400"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       }
     ]
   },
@@ -7024,7 +7110,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "signal.current",
           "color.red.400"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -7054,7 +7141,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "signal.glow",
           "color.glow"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -7084,7 +7172,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.neutral.text",
           "color.neutral.300"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -7114,7 +7203,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.neutral.surface",
           "color.neutral.800"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -7142,7 +7232,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.neutral.border",
           "color.neutral.500"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -7172,7 +7263,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.neutral.solid",
           "color.neutral.300"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -7202,7 +7294,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.neutral.on-solid",
           "color.neutral.950"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -7233,7 +7326,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.brand.text",
           "color.neutral.50"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     },
     "variants": [
@@ -7260,7 +7354,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "tone.brand.text",
           "brand.harbor.text",
           "color.harbor.700"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -7273,7 +7368,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "tone.brand.text",
           "brand.meadow.text",
           "color.meadow.700"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       },
       {
         "input": {
@@ -7285,7 +7381,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.brand.text",
           "color.neutral.50"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       },
       {
         "input": {
@@ -7298,7 +7395,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "tone.brand.text",
           "brand.harbor.text",
           "color.harbor.300"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -7311,7 +7409,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "tone.brand.text",
           "brand.meadow.text",
           "color.meadow.300"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       }
     ]
   },
@@ -7342,7 +7441,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.brand.surface",
           "color.neutral.700"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     },
     "variants": [
@@ -7369,7 +7469,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "tone.brand.surface",
           "brand.harbor.subtle",
           "color.harbor.50"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -7382,7 +7483,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "tone.brand.surface",
           "brand.meadow.subtle",
           "color.meadow.50"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       },
       {
         "input": {
@@ -7394,7 +7496,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.brand.surface",
           "color.neutral.700"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       },
       {
         "input": {
@@ -7407,7 +7510,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "tone.brand.surface",
           "brand.harbor.subtle",
           "color.harbor.975"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -7420,7 +7524,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "tone.brand.surface",
           "brand.meadow.subtle",
           "color.meadow.950"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       }
     ]
   },
@@ -7451,7 +7556,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.brand.border",
           "color.neutral.100"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     },
     "variants": [
@@ -7478,7 +7584,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "tone.brand.border",
           "brand.harbor.border",
           "color.harbor.600"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -7491,7 +7598,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "tone.brand.border",
           "brand.meadow.border",
           "color.meadow.500"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       },
       {
         "input": {
@@ -7503,7 +7611,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.brand.border",
           "color.neutral.100"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       },
       {
         "input": {
@@ -7516,7 +7625,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "tone.brand.border",
           "brand.harbor.border",
           "color.harbor.500"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -7529,7 +7639,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "tone.brand.border",
           "brand.meadow.border",
           "color.meadow.400"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       }
     ]
   },
@@ -7560,7 +7671,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.brand.solid",
           "color.neutral.50"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     },
     "variants": [
@@ -7587,7 +7699,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "tone.brand.solid",
           "brand.harbor.strong",
           "color.harbor.700"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -7600,7 +7713,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "tone.brand.solid",
           "brand.meadow.strong",
           "color.meadow.600"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       },
       {
         "input": {
@@ -7612,7 +7726,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.brand.solid",
           "color.neutral.50"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       },
       {
         "input": {
@@ -7625,7 +7740,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "tone.brand.solid",
           "brand.harbor.strong",
           "color.harbor.300"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -7638,7 +7754,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "tone.brand.solid",
           "brand.meadow.strong",
           "color.meadow.300"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       }
     ]
   },
@@ -7669,7 +7786,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.brand.on-solid",
           "color.neutral.950"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     },
     "variants": [
@@ -7696,7 +7814,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "tone.brand.on-solid",
           "brand.harbor.on-strong",
           "color.harbor.50"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -7709,7 +7828,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "tone.brand.on-solid",
           "brand.meadow.on-strong",
           "color.meadow.50"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       },
       {
         "input": {
@@ -7721,7 +7841,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.brand.on-solid",
           "color.neutral.950"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       },
       {
         "input": {
@@ -7734,7 +7855,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "tone.brand.on-solid",
           "brand.harbor.on-strong",
           "color.harbor.950"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -7747,7 +7869,8 @@ export const tokenManifest: readonly TokenRecord[] = [
           "tone.brand.on-solid",
           "brand.meadow.on-strong",
           "color.meadow.950"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       }
     ]
   },
@@ -7777,7 +7900,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.success.text",
           "color.green.300"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -7807,7 +7931,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.success.surface",
           "color.green.950"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -7837,7 +7962,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.success.border",
           "color.green.500"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -7867,7 +7993,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.success.solid",
           "color.green.300"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -7897,7 +8024,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.success.on-solid",
           "color.neutral.950"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -7927,7 +8055,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.warning.text",
           "color.amber.300"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -7957,7 +8086,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.warning.surface",
           "color.amber.950"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -7987,7 +8117,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.warning.border",
           "color.amber.500"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -8015,7 +8146,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.warning.solid",
           "color.amber.300"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -8043,7 +8175,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.warning.on-solid",
           "color.neutral.950"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -8073,7 +8206,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.danger.text",
           "color.red.300"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -8103,7 +8237,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.danger.surface",
           "color.red.950"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -8133,7 +8268,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.danger.border",
           "color.red.500"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -8163,7 +8299,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.danger.solid",
           "color.red.300"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -8193,7 +8330,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.danger.on-solid",
           "color.neutral.950"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -8223,7 +8361,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.info.text",
           "color.cyan.300"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -8253,7 +8392,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.info.surface",
           "color.cyan.950"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -8283,7 +8423,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.info.border",
           "color.cyan.400"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -8313,7 +8454,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.info.solid",
           "color.cyan.300"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -8343,7 +8485,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "tone.info.on-solid",
           "color.neutral.950"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -8373,7 +8516,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "elevation.low",
           "shadow.low-strong"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -8403,7 +8547,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "elevation.medium",
           "shadow.medium-strong"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -8433,7 +8578,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "elevation.high",
           "shadow.high-strong"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -8463,7 +8609,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "overlay.backdrop",
           "color.scrim-deep"
-        ]
+        ],
+        "source": "theme.dark.tokens.json"
       }
     }
   },
@@ -8493,7 +8640,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "brand.harbor.strong",
           "color.harbor.300"
-        ]
+        ],
+        "source": "brands.dark.tokens.json"
       }
     }
   },
@@ -8523,7 +8671,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "brand.harbor.stronger",
           "color.harbor.200"
-        ]
+        ],
+        "source": "brands.dark.tokens.json"
       }
     }
   },
@@ -8553,7 +8702,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "brand.harbor.strongest",
           "color.harbor.100"
-        ]
+        ],
+        "source": "brands.dark.tokens.json"
       }
     }
   },
@@ -8583,7 +8733,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "brand.harbor.on-strong",
           "color.harbor.950"
-        ]
+        ],
+        "source": "brands.dark.tokens.json"
       }
     }
   },
@@ -8613,7 +8764,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "brand.harbor.text",
           "color.harbor.300"
-        ]
+        ],
+        "source": "brands.dark.tokens.json"
       }
     }
   },
@@ -8643,7 +8795,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "brand.harbor.subtle",
           "color.harbor.975"
-        ]
+        ],
+        "source": "brands.dark.tokens.json"
       }
     }
   },
@@ -8673,7 +8826,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "brand.harbor.border",
           "color.harbor.500"
-        ]
+        ],
+        "source": "brands.dark.tokens.json"
       }
     }
   },
@@ -8703,7 +8857,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "brand.meadow.strong",
           "color.meadow.300"
-        ]
+        ],
+        "source": "brands.dark.tokens.json"
       }
     }
   },
@@ -8733,7 +8888,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "brand.meadow.stronger",
           "color.meadow.200"
-        ]
+        ],
+        "source": "brands.dark.tokens.json"
       }
     }
   },
@@ -8763,7 +8919,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "brand.meadow.strongest",
           "color.meadow.100"
-        ]
+        ],
+        "source": "brands.dark.tokens.json"
       }
     }
   },
@@ -8793,7 +8950,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "brand.meadow.on-strong",
           "color.meadow.950"
-        ]
+        ],
+        "source": "brands.dark.tokens.json"
       }
     }
   },
@@ -8823,7 +8981,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "brand.meadow.text",
           "color.meadow.300"
-        ]
+        ],
+        "source": "brands.dark.tokens.json"
       }
     }
   },
@@ -8853,7 +9012,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "brand.meadow.subtle",
           "color.meadow.950"
-        ]
+        ],
+        "source": "brands.dark.tokens.json"
       }
     }
   },
@@ -8883,7 +9043,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "brand.meadow.border",
           "color.meadow.400"
-        ]
+        ],
+        "source": "brands.dark.tokens.json"
       }
     }
   },
@@ -10320,7 +10481,9 @@ export const tokenManifest: readonly TokenRecord[] = [
     "source": "component.tokens.json",
     "description": "",
     "themed": false,
-    "dependsOn": [],
+    "dependsOn": [
+      "density"
+    ],
     "values": {
       "light": {
         "authored": "{space.sm}",
@@ -10338,7 +10501,32 @@ export const tokenManifest: readonly TokenRecord[] = [
           "space.sm"
         ]
       }
-    }
+    },
+    "variants": [
+      {
+        "input": {
+          "density": "comfortable"
+        },
+        "authored": "{space.sm}",
+        "resolved": "0.75rem",
+        "chain": [
+          "button.padding-inline.small",
+          "space.sm"
+        ]
+      },
+      {
+        "input": {
+          "density": "compact"
+        },
+        "authored": "{space.xs}",
+        "resolved": "0.5rem",
+        "chain": [
+          "button.padding-inline.small",
+          "space.xs"
+        ],
+        "source": "density.compact.tokens.json"
+      }
+    ]
   },
   {
     "path": "button.padding-inline.medium",
@@ -10348,7 +10536,9 @@ export const tokenManifest: readonly TokenRecord[] = [
     "source": "component.tokens.json",
     "description": "",
     "themed": false,
-    "dependsOn": [],
+    "dependsOn": [
+      "density"
+    ],
     "values": {
       "light": {
         "authored": "{space.md}",
@@ -10366,7 +10556,32 @@ export const tokenManifest: readonly TokenRecord[] = [
           "space.md"
         ]
       }
-    }
+    },
+    "variants": [
+      {
+        "input": {
+          "density": "comfortable"
+        },
+        "authored": "{space.md}",
+        "resolved": "1rem",
+        "chain": [
+          "button.padding-inline.medium",
+          "space.md"
+        ]
+      },
+      {
+        "input": {
+          "density": "compact"
+        },
+        "authored": "{space.sm}",
+        "resolved": "0.75rem",
+        "chain": [
+          "button.padding-inline.medium",
+          "space.sm"
+        ],
+        "source": "density.compact.tokens.json"
+      }
+    ]
   },
   {
     "path": "button.padding-inline.large",
@@ -10376,7 +10591,9 @@ export const tokenManifest: readonly TokenRecord[] = [
     "source": "component.tokens.json",
     "description": "",
     "themed": false,
-    "dependsOn": [],
+    "dependsOn": [
+      "density"
+    ],
     "values": {
       "light": {
         "authored": "{space.lg}",
@@ -10394,7 +10611,32 @@ export const tokenManifest: readonly TokenRecord[] = [
           "space.lg"
         ]
       }
-    }
+    },
+    "variants": [
+      {
+        "input": {
+          "density": "comfortable"
+        },
+        "authored": "{space.lg}",
+        "resolved": "1.5rem",
+        "chain": [
+          "button.padding-inline.large",
+          "space.lg"
+        ]
+      },
+      {
+        "input": {
+          "density": "compact"
+        },
+        "authored": "{space.md}",
+        "resolved": "1rem",
+        "chain": [
+          "button.padding-inline.large",
+          "space.md"
+        ],
+        "source": "density.compact.tokens.json"
+      }
+    ]
   },
   {
     "path": "button.font-size.small",
@@ -10530,7 +10772,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "badge.radius",
           "radius.sm"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -10541,7 +10784,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "badge.radius",
           "radius.full"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       }
     ]
   },
@@ -10911,7 +11155,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "card.radius",
           "radius.md"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -10922,7 +11167,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "card.radius",
           "radius.xl"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       }
     ]
   },
@@ -11130,7 +11376,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "dialog.radius",
           "radius.md"
-        ]
+        ],
+        "source": "product.harbor.tokens.json"
       },
       {
         "input": {
@@ -11141,7 +11388,8 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "dialog.radius",
           "radius.xl"
-        ]
+        ],
+        "source": "product.meadow.tokens.json"
       }
     ]
   },
@@ -11412,6 +11660,339 @@ export const tokenManifest: readonly TokenRecord[] = [
         ]
       }
     }
+  },
+  {
+    "path": "radio-group.card-radius",
+    "cssVar": "--radio-group-card-radius",
+    "type": "dimension",
+    "tier": "component",
+    "source": "component.tokens.json",
+    "description": "Products retune it to match their shape.",
+    "themed": false,
+    "dependsOn": [
+      "product"
+    ],
+    "values": {
+      "light": {
+        "authored": "{radius.md}",
+        "resolved": "0.25rem",
+        "chain": [
+          "radio-group.card-radius",
+          "radius.md"
+        ]
+      },
+      "dark": {
+        "authored": "{radius.md}",
+        "resolved": "0.25rem",
+        "chain": [
+          "radio-group.card-radius",
+          "radius.md"
+        ]
+      }
+    },
+    "variants": [
+      {
+        "input": {
+          "product": "system-lab"
+        },
+        "authored": "{radius.md}",
+        "resolved": "0.25rem",
+        "chain": [
+          "radio-group.card-radius",
+          "radius.md"
+        ]
+      },
+      {
+        "input": {
+          "product": "harbor"
+        },
+        "authored": "{radius.sm}",
+        "resolved": "0.125rem",
+        "chain": [
+          "radio-group.card-radius",
+          "radius.sm"
+        ],
+        "source": "product.harbor.tokens.json"
+      },
+      {
+        "input": {
+          "product": "meadow"
+        },
+        "authored": "{radius.lg}",
+        "resolved": "0.375rem",
+        "chain": [
+          "radio-group.card-radius",
+          "radius.lg"
+        ],
+        "source": "product.meadow.tokens.json"
+      }
+    ]
+  },
+  {
+    "path": "radio-group.card-border",
+    "cssVar": "--radio-group-card-border",
+    "type": "color",
+    "tier": "component",
+    "source": "component.tokens.json",
+    "description": "",
+    "themed": true,
+    "dependsOn": [
+      "theme"
+    ],
+    "values": {
+      "light": {
+        "authored": "{border.default}",
+        "resolved": "#c8cdd3",
+        "chain": [
+          "radio-group.card-border",
+          "border.default",
+          "color.neutral.300"
+        ]
+      },
+      "dark": {
+        "authored": "{border.default}",
+        "resolved": "#34373d",
+        "chain": [
+          "radio-group.card-border",
+          "border.default",
+          "color.neutral.700"
+        ]
+      }
+    }
+  },
+  {
+    "path": "radio-group.card-border-checked",
+    "cssVar": "--radio-group-card-border-checked",
+    "type": "color",
+    "tier": "component",
+    "source": "component.tokens.json",
+    "description": "",
+    "themed": true,
+    "dependsOn": [
+      "theme",
+      "product"
+    ],
+    "values": {
+      "light": {
+        "authored": "{action.primary.background}",
+        "resolved": "#060708",
+        "chain": [
+          "radio-group.card-border-checked",
+          "action.primary.background",
+          "color.neutral.950"
+        ]
+      },
+      "dark": {
+        "authored": "{action.primary.background}",
+        "resolved": "#f8f9fa",
+        "chain": [
+          "radio-group.card-border-checked",
+          "action.primary.background",
+          "color.neutral.50"
+        ]
+      }
+    },
+    "variants": [
+      {
+        "input": {
+          "theme": "light",
+          "product": "system-lab"
+        },
+        "authored": "{action.primary.background}",
+        "resolved": "#060708",
+        "chain": [
+          "radio-group.card-border-checked",
+          "action.primary.background",
+          "color.neutral.950"
+        ]
+      },
+      {
+        "input": {
+          "theme": "light",
+          "product": "harbor"
+        },
+        "authored": "{action.primary.background}",
+        "resolved": "#0f766e",
+        "chain": [
+          "radio-group.card-border-checked",
+          "action.primary.background",
+          "brand.harbor.strong",
+          "color.harbor.700"
+        ]
+      },
+      {
+        "input": {
+          "theme": "light",
+          "product": "meadow"
+        },
+        "authored": "{action.primary.background}",
+        "resolved": "#7c3aed",
+        "chain": [
+          "radio-group.card-border-checked",
+          "action.primary.background",
+          "brand.meadow.strong",
+          "color.meadow.600"
+        ]
+      },
+      {
+        "input": {
+          "theme": "dark",
+          "product": "system-lab"
+        },
+        "authored": "{action.primary.background}",
+        "resolved": "#f8f9fa",
+        "chain": [
+          "radio-group.card-border-checked",
+          "action.primary.background",
+          "color.neutral.50"
+        ]
+      },
+      {
+        "input": {
+          "theme": "dark",
+          "product": "harbor"
+        },
+        "authored": "{action.primary.background}",
+        "resolved": "#5eead4",
+        "chain": [
+          "radio-group.card-border-checked",
+          "action.primary.background",
+          "brand.harbor.strong",
+          "color.harbor.300"
+        ]
+      },
+      {
+        "input": {
+          "theme": "dark",
+          "product": "meadow"
+        },
+        "authored": "{action.primary.background}",
+        "resolved": "#c4b5fd",
+        "chain": [
+          "radio-group.card-border-checked",
+          "action.primary.background",
+          "brand.meadow.strong",
+          "color.meadow.300"
+        ]
+      }
+    ]
+  },
+  {
+    "path": "radio-group.card-background-checked",
+    "cssVar": "--radio-group-card-background-checked",
+    "type": "color",
+    "tier": "component",
+    "source": "component.tokens.json",
+    "description": "",
+    "themed": true,
+    "dependsOn": [
+      "theme",
+      "product"
+    ],
+    "values": {
+      "light": {
+        "authored": "{surface.accent}",
+        "resolved": "#fdf2f2",
+        "chain": [
+          "radio-group.card-background-checked",
+          "surface.accent",
+          "color.red.50"
+        ]
+      },
+      "dark": {
+        "authored": "{surface.accent}",
+        "resolved": "#2a0607",
+        "chain": [
+          "radio-group.card-background-checked",
+          "surface.accent",
+          "color.red.950"
+        ]
+      }
+    },
+    "variants": [
+      {
+        "input": {
+          "theme": "light",
+          "product": "system-lab"
+        },
+        "authored": "{surface.accent}",
+        "resolved": "#fdf2f2",
+        "chain": [
+          "radio-group.card-background-checked",
+          "surface.accent",
+          "color.red.50"
+        ]
+      },
+      {
+        "input": {
+          "theme": "light",
+          "product": "harbor"
+        },
+        "authored": "{surface.accent}",
+        "resolved": "#f0fdfa",
+        "chain": [
+          "radio-group.card-background-checked",
+          "surface.accent",
+          "brand.harbor.subtle",
+          "color.harbor.50"
+        ]
+      },
+      {
+        "input": {
+          "theme": "light",
+          "product": "meadow"
+        },
+        "authored": "{surface.accent}",
+        "resolved": "#f5f3ff",
+        "chain": [
+          "radio-group.card-background-checked",
+          "surface.accent",
+          "brand.meadow.subtle",
+          "color.meadow.50"
+        ]
+      },
+      {
+        "input": {
+          "theme": "dark",
+          "product": "system-lab"
+        },
+        "authored": "{surface.accent}",
+        "resolved": "#2a0607",
+        "chain": [
+          "radio-group.card-background-checked",
+          "surface.accent",
+          "color.red.950"
+        ]
+      },
+      {
+        "input": {
+          "theme": "dark",
+          "product": "harbor"
+        },
+        "authored": "{surface.accent}",
+        "resolved": "#032423",
+        "chain": [
+          "radio-group.card-background-checked",
+          "surface.accent",
+          "brand.harbor.subtle",
+          "color.harbor.975"
+        ]
+      },
+      {
+        "input": {
+          "theme": "dark",
+          "product": "meadow"
+        },
+        "authored": "{surface.accent}",
+        "resolved": "#2e1065",
+        "chain": [
+          "radio-group.card-background-checked",
+          "surface.accent",
+          "brand.meadow.subtle",
+          "color.meadow.950"
+        ]
+      }
+    ]
   },
   {
     "path": "switch.track-off",

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Disclosure } from '@/design-system/composites';
 import { Stack } from '@/design-system/layout';
 import { SourceViewer } from './SourceViewer';
 import styles from './SourceList.module.css';
@@ -11,21 +11,19 @@ export interface SourceReference {
 }
 
 function SourceItem({ source }: { source: SourceReference }) {
-  const [open, setOpen] = useState(false);
   return (
-    <details className={styles.details} onToggle={(event) => setOpen(event.currentTarget.open)}>
-      <summary className={styles.summary}>
+    <Disclosure
+      lazy
+      className={styles.item}
+      summary={
         <span className={styles.summaryText}>
           <code className={styles.path}>{source.path}</code>
           <span className={styles.note}>{source.note}</span>
         </span>
-      </summary>
-      {open && (
-        <div className={styles.body}>
-          <SourceViewer path={source.path} />
-        </div>
-      )}
-    </details>
+      }
+    >
+      <SourceViewer path={source.path} />
+    </Disclosure>
   );
 }
 

@@ -104,6 +104,13 @@
       "$description": "Input boundaries must keep 3:1 contrast with adjacent surfaces (WCAG 1.4.11)."
     }
   },
+  "radio-group": {
+    "$description": "RadioGroup with appearance=\"cards\". The radio itself carries the control boundary, so the card border is decorative.",
+    "card-radius": { "$value": "{radius.md}", "$description": "Products retune it to match their shape." },
+    "card-border": { "$value": "{border.default}" },
+    "card-border-checked": { "$value": "{action.primary.background}" },
+    "card-background-checked": { "$value": "{surface.accent}" }
+  },
   "switch": {
     "track-off": { "$value": "{border.strong}", "$description": "Off track. Uses the control-boundary role so the switch stays visible." },
     "track-on": { "$value": "{action.primary.background}" },

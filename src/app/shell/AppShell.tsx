@@ -2,7 +2,7 @@ import { Suspense, useState } from 'react';
 import { Outlet, useLocation } from 'react-router';
 import { Container, Inline } from '@/design-system/layout';
 import { Button, Icon, Link, Text } from '@/design-system/primitives';
-import { entriesOfKind, entryLayers, type CatalogEntry } from '@/domain/system';
+import { entriesOfKind, entryLayers, findEntry, wikiGroups, type CatalogEntry } from '@/domain/system';
 import { appName, paths, sections } from '../paths';
 import styles from './AppShell.module.css';
 import { Lens } from './Lens';
@@ -22,6 +22,14 @@ interface SectionNav {
 const components = entriesOfKind('component');
 
 const sectionNavs: Record<string, SectionNav> = {
+  guides: {
+    label: 'Wiki',
+    href: paths.guide,
+    groups: wikiGroups.map((group) => ({
+      heading: group.heading,
+      entries: group.ids.map((id) => findEntry(id)).filter((entry): entry is CatalogEntry => entry !== undefined),
+    })),
+  },
   foundations: { label: 'Foundations', href: paths.foundation, groups: [{ entries: entriesOfKind('foundation') }] },
   components: {
     label: 'Components',

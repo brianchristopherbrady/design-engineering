@@ -1,5 +1,5 @@
 import { useState, type ComponentType, type ReactNode } from 'react';
-import { Stack } from '@/design-system/layout';
+import { ScrollRegion, Stack } from '@/design-system/layout';
 import { Switch } from '@/design-system/primitives';
 import { DocSection, Note, Prose, SourceList, type SourceReference } from '@/features/docs';
 import { ContainerInspector } from '@/features/playground';
@@ -8,7 +8,6 @@ import { ActivityDashboard } from './ActivityDashboard';
 import { FormValidation } from './FormValidation';
 import { ResourceDetail } from './ResourceDetail';
 import { ResourceDirectory } from './ResourceDirectory';
-import styles from './patterns.module.css';
 
 export interface PatternDoc {
   /** Catalog id; name and summary come from the catalog entry. */
@@ -36,7 +35,7 @@ interface StateRow {
 function StatesTable({ rows }: { rows: readonly StateRow[] }) {
   return (
     <Prose>
-      <div className={styles.tableScroller} tabIndex={0} role="region" aria-label="What each demo scenario renders">
+      <ScrollRegion aria-label="What each demo scenario renders">
         <table>
           <caption>What each demo scenario renders</caption>
           <thead>
@@ -56,7 +55,7 @@ function StatesTable({ rows }: { rows: readonly StateRow[] }) {
             ))}
           </tbody>
         </table>
-      </div>
+      </ScrollRegion>
     </Prose>
   );
 }

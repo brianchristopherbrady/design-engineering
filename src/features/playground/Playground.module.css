@@ -208,22 +208,16 @@
   .code {
     margin: 0;
     padding: var(--spacing-medium) var(--spacing-large);
-    overflow-x: auto;
     border-radius: var(--radius-lg);
     background-color: var(--surface-sunken);
     font-family: var(--typography-code-font-family);
     font-size: var(--typography-code-font-size);
     line-height: var(--typography-code-line-height);
-    scrollbar-color: var(--border-default) transparent;
   }
 
   /* The usage panel is always the dark scope; draw focus inside it where that color shows. */
   .code:focus-visible {
     outline-offset: calc(var(--focus-width) * -2);
-  }
-
-  .tableScroller {
-    overflow-x: auto;
   }
 
   .table {

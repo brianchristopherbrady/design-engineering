@@ -1,0 +1,61 @@
+@layer components {
+  .disclosure {
+    min-inline-size: 0;
+  }
+
+  .bordered {
+    --_inset: var(--spacing-medium);
+    border: var(--border-width-thin) solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    background-color: var(--surface-panel);
+  }
+
+  .flush {
+    --_inset: var(--spacing-large);
+  }
+
+  /* control.height.small keeps every row above the 24px WCAG 2.2 target minimum in both densities. */
+  .summary {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-small);
+    min-block-size: var(--control-height-small);
+    padding: var(--spacing-extra-small) var(--_inset);
+    list-style: none;
+    cursor: pointer;
+    overflow-wrap: anywhere;
+  }
+
+  .summary::-webkit-details-marker {
+    display: none;
+  }
+
+  /* Drawn inside the row, so an ancestor that clips overflow cannot hide it. */
+  .summary:focus-visible {
+    outline-offset: calc(var(--focus-width) * -1);
+  }
+
+  .marker {
+    color: var(--text-muted);
+    transition: transform var(--motion-duration-feedback) var(--motion-easing-standard);
+  }
+
+  /* Closed, the chevron points in the reading direction; open, it points down in both directions. */
+  .disclosure:not([open]) > .summary .marker:dir(rtl) {
+    transform: scaleX(-1);
+  }
+
+  .disclosure[open] > .summary .marker {
+    transform: rotate(90deg);
+  }
+
+  .label {
+    flex: 1;
+    min-inline-size: 0;
+  }
+
+  .body {
+    min-inline-size: 0;
+    padding: 0 var(--_inset) var(--_inset);
+  }
+}

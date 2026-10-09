@@ -1,12 +1,19 @@
-import type { BoxOwnProps, ContainerOwnProps, GridOwnProps, InlineOwnProps, StackOwnProps, ThemeScopeOwnProps } from '@/design-system/layout';
+import type {
+  BoxOwnProps,
+  ContainerOwnProps,
+  GridOwnProps,
+  InlineOwnProps,
+  ScrollRegionOwnProps,
+  StackOwnProps,
+  ThemeScopeOwnProps,
+} from '@/design-system/layout';
 import { propsTable, type ComponentDoc } from '@/features/docs';
-import { BoxExample, ContainerExample, GridExample, InlineExample, StackExample } from '../examples/LayoutExamples';
+import { BoxExample, ContainerExample, GridExample, InlineExample, ScrollRegionExample, StackExample } from '../examples/LayoutExamples';
 import { ThemeScopeExample } from '../examples/ThemeScopeExample';
 
 const space = '"none" | "extraSmall" | "small" | "medium" | "large" | "extraLarge" | "extraExtraLarge"';
 const layoutNative =
   'Layout primitives accept `as` (div, section, article, aside, header, footer, nav, main, ul, ol, li), `ref`, `className`, `style` and any global HTML attribute. When `as` is ul or ol the list role is set explicitly, because list-style: none removes list semantics in Safari.';
-const spacingTokens = ['spacing.extra-small', 'spacing.small', 'spacing.medium', 'spacing.large', 'spacing.extra-large', 'spacing.extra-extra-large'] as const;
 
 export const layoutDocs: ComponentDoc[] = [
   {
@@ -38,7 +45,6 @@ export const layoutDocs: ComponentDoc[] = [
       { prop: 'product="harbor"', property: '--button-primary-background', token: 'button.primary.background' },
       { prop: 'density="compact"', property: '--control-height-medium', token: 'control.height.medium' },
     ],
-    tokens: ['surface.canvas', 'text.primary', 'action.primary.background', 'button.primary.background', 'control.height.medium', 'spacing.medium'],
     composition: ['The playground preview, the theme studio previews and the foundations matrices are ThemeScopes.', 'Scopes nest; each inherits from its parent.'],
     states: ['None of its own.'],
     accessibility: [
@@ -76,7 +82,6 @@ export const layoutDocs: ComponentDoc[] = [
       { prop: 'background="accent"', property: 'background-color', token: 'surface.accent' },
       { prop: 'border="default"', property: 'border-color', token: 'border.default' },
     ],
-    tokens: [...spacingTokens, 'surface.canvas', 'surface.panel', 'surface.sunken', 'surface.accent', 'border.subtle', 'border.default', 'border.strong', 'border-width.thin', 'radius.sm', 'radius.md', 'radius.lg', 'radius.xl', 'radius.full'],
     composition: ['Often the child of a Grid or Stack item.', 'Holds text, controls or other layout primitives; it adds no gap of its own.'],
     states: ['None. Box is static.'],
     accessibility: ['No role is added. Choose `as` by meaning: section with a heading, aside for complementary content.', 'Backgrounds are surfaces, so every text tone keeps 4.5:1 on them.'],
@@ -99,7 +104,6 @@ export const layoutDocs: ComponentDoc[] = [
     nativeProps: layoutNative,
     precedence: ['gap applies only between children. Margins on children add to it, so avoid them.', 'align="stretch" is the default because most stacked content (fields, cards) should fill the column.'],
     propTokens: [{ prop: 'gap="large"', property: 'gap', token: 'spacing.large' }],
-    tokens: [...spacingTokens],
     composition: ['Nest Stacks with different gaps to express grouping: a larger gap between groups than inside them.', 'Render as ul or ol when the children are list items.'],
     states: ['None.'],
     accessibility: ['Purely visual; reading order equals source order.'],
@@ -127,7 +131,6 @@ export const layoutDocs: ComponentDoc[] = [
       'wrap={false} also lets children shrink below their content size (min-inline-size: 0), so text inside them must be able to wrap or truncate.',
     ],
     propTokens: [{ prop: 'gap="small"', property: 'gap', token: 'spacing.small' }],
-    tokens: [...spacingTokens],
     composition: ['Nest an Inline inside an Inline with justify="between" for a toolbar with a group on each side.'],
     states: ['None.'],
     accessibility: ['Visual order matches source order; justify never reorders items.'],
@@ -163,7 +166,6 @@ export const layoutDocs: ComponentDoc[] = [
       { prop: 'rowGap="extraSmall"', property: 'row-gap', token: 'spacing.extra-small' },
       { prop: 'minColumnWidth="small"', property: 'grid-template-columns', token: 'size.item.sm' },
     ],
-    tokens: [...spacingTokens, 'size.item.xs', 'size.item.sm', 'size.item.md', 'size.item.lg'],
     composition: ['Grid items get min-inline-size: 0, so wide children (tables, code) scroll inside the item instead of widening the page.', 'Render as ul with li children for collections.'],
     states: ['None.'],
     accessibility: ['Visual order equals source order in every mode; nothing is reordered.'],
@@ -189,7 +191,6 @@ export const layoutDocs: ComponentDoc[] = [
     nativeProps: layoutNative,
     precedence: ['queryName only adds container-type and container-name; it does not change size.'],
     propTokens: [{ prop: 'width="narrow"', property: 'max-inline-size', token: 'size.container.narrow' }],
-    tokens: ['size.container.narrow', 'size.container.default', 'size.container.wide', 'layout.gutter', 'layout.gutter-wide'],
     composition: ['Pages wrap their content in one Container; documentation pages name it "page" so the contents column can appear when there is room.'],
     states: ['None.'],
     accessibility: ['No role; use `as="main"` or other landmarks only where the page needs them.'],
@@ -198,5 +199,38 @@ export const layoutDocs: ComponentDoc[] = [
     tradeoffs: ['Size containment means a query container cannot size itself from its content; it always fills its parent’s inline size.'],
     sourcePaths: ['src/design-system/layout/Container.tsx', 'src/design-system/layout/Container.module.css'],
     Example: ContainerExample,
+  },
+  {
+    id: 'scroll-region',
+    purpose:
+      'ScrollRegion lets content that cannot reflow — data tables, code, wide matrices — scroll inside the page so the page itself never scrolls sideways. It is always a focusable, named region, so keyboard users can scroll it and screen-reader users know what it holds.',
+    whenToUse: ['Tables whose columns need more room than a phone gives them.', 'Code and markup panels, with as="pre".', 'Any matrix that would otherwise force horizontal page scrolling at 320px.'],
+    whenNotToUse: ['Content that can wrap or stack: let it reflow instead.', 'Rows of actions or tags: use Inline, which wraps.', 'Whole pages or columns.'],
+    props: propsTable<ScrollRegionOwnProps>({
+      axis: { type: '"inline" | "both"', defaultValue: '"inline"', description: 'inline scrolls sideways; both also scrolls tall content.' },
+      maxBlockSize: { type: 'string', description: 'Maximum block size when axis="both", such as "30rem".' },
+      as: { type: '"div" | "pre"', defaultValue: '"div"', description: 'pre keeps whitespace for code.' },
+      ref: { type: 'Ref<HTMLElement>', description: 'The scrolling element.' },
+      'aria-label': { type: 'string', description: 'Accessible name. Required unless aria-labelledby is set.' },
+      'aria-labelledby': { type: 'string', description: 'Id of a visible caption. Required unless aria-label is set.' },
+    }),
+    nativeProps: 'Other global HTML attributes, className and style go to the element. role and tabIndex are fixed; a name is required by the type, so an unnamed scroll region does not compile.',
+    precedence: ['maxBlockSize is ignored for axis="inline", where height follows content.', 'A className may set max-block-size instead, as the code panels do.'],
+    propTokens: [{ prop: 'focus-visible', property: 'outline-offset', token: 'focus.width' }],
+    composition: [
+      'ApiTable, TokenExplorer, SourceViewer, the playground usage panel and every foundation table use it.',
+      'Give the table inside a min-inline-size that keeps its columns readable; ScrollRegion handles the rest.',
+    ],
+    states: ['Resting, focus-visible, scrolled.'],
+    accessibility: [
+      'role="region" with tabIndex 0 and a required name: reachable and scrollable with the arrow keys (WCAG 2.1.1).',
+      'Keeps the page free of horizontal scrolling at 320 CSS px (WCAG 1.4.10).',
+      'The focus ring is drawn inside the box, so rounded parents that clip overflow cannot hide it.',
+    ],
+    responsive: ['Never wider than its container; content wider than that scrolls.'],
+    mistakes: ['Wrapping content that could reflow, which hides it behind a scrollbar.', 'Naming it after its type ("Table") rather than its content ("Release history").'],
+    tradeoffs: ['Every instance is a tab stop, even when nothing overflows. Measuring overflow to remove it would move the tab order while people read.'],
+    sourcePaths: ['src/design-system/layout/ScrollRegion.tsx', 'src/design-system/layout/ScrollRegion.module.css'],
+    Example: ScrollRegionExample,
   },
 ];

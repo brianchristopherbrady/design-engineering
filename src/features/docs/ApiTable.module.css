@@ -1,6 +1,5 @@
 @layer product {
   .scroller {
-    overflow-x: auto;
     border: var(--border-width-thin) solid var(--border-subtle);
     border-radius: var(--radius-md);
     background-color: var(--surface-panel);

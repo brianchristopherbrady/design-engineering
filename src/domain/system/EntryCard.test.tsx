@@ -36,7 +36,7 @@ describe('catalog data', () => {
   it('summarizes counts by kind and maturity', () => {
     const summary = summarizeCatalog(catalog);
     expect(summary.total).toBe(catalog.length);
-    expect(summary.byKind.component + summary.byKind.foundation + summary.byKind.pattern).toBe(catalog.length);
-    expect(summary.byMaturity.stable + summary.byMaturity.beta + summary.byMaturity.deprecated).toBe(catalog.length);
+    expect(Object.values(summary.byKind).reduce((total, count) => total + count, 0)).toBe(catalog.length);
+    expect(Object.values(summary.byMaturity).reduce((total, count) => total + count, 0)).toBe(catalog.length);
   });
 });

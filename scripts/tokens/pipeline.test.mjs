@@ -183,4 +183,84 @@ describe('token pipeline', () => {
       expect(() => buildTokenOutputs(plain, (ref) => files[ref], { keyGroups: [], banner: 'test' })).toThrow(/defined in both/);
     });
   });
+
+  describe('dependency policy', () => {
+    const tier = (/** @type {string} */ name) => ({ 'org.systemlab': { tier: name } });
+    /** @param {Record<string, unknown>} files @param {Record<string, unknown>} [modifiers] */
+    const build = (files, modifiers = {}) =>
+      buildTokenOutputs(
+        {
+          version: '2025.10',
+          sets: {
+            reference: { sources: [{ $ref: 'reference.json' }], $extensions: tier('reference') },
+            semantic: { sources: [{ $ref: 'semantic.json' }], $extensions: tier('semantic') },
+            component: { sources: [{ $ref: 'component.json' }], $extensions: tier('component') },
+          },
+          modifiers: {
+            theme: { contexts: { light: [], dark: [] }, default: 'light', $extensions: tier('semantic') },
+            ...modifiers,
+          },
+          resolutionOrder: [
+            { $ref: '#/sets/reference' },
+            { $ref: '#/sets/semantic' },
+            { $ref: '#/modifiers/theme' },
+            { $ref: '#/sets/component' },
+            ...Object.keys(modifiers).map((name) => ({ $ref: `#/modifiers/${name}` })),
+          ],
+        },
+        (ref) => files[ref],
+        { keyGroups: [], banner: 'test' },
+      );
+    const reference = {
+      color: { $type: 'color', blue: { $value: blue } },
+      space: { $type: 'dimension', sm: { $value: { value: 0.5, unit: 'rem' } }, md: { $value: { value: 1, unit: 'rem' } } },
+    };
+    const semantic = { action: { $type: 'color', primary: { $value: '{color.blue}' } } };
+
+    it('accepts component tokens that alias semantic roles or non-color reference scales', () => {
+      const component = { button: { background: { $value: '{action.primary}' }, padding: { $value: '{space.md}' } } };
+      expect(() => build({ 'reference.json': reference, 'semantic.json': semantic, 'component.json': component })).not.toThrow();
+    });
+
+    it('rejects a component color that aliases a palette directly (palette-isolation)', () => {
+      const component = { button: { background: { $value: '{color.blue}' } } };
+      expect(() => build({ 'reference.json': reference, 'semantic.json': semantic, 'component.json': component })).toThrow(
+        /palette-isolation.*button\.background/,
+      );
+    });
+
+    it('rejects a component token with a literal value (component-alias)', () => {
+      const component = { button: { padding: { $type: 'dimension', $value: { value: 3, unit: 'px' } } } };
+      expect(() => build({ 'reference.json': reference, 'semantic.json': semantic, 'component.json': component })).toThrow(/component-alias/);
+    });
+
+    it('rejects an alias that points up a tier (tier-direction)', () => {
+      const upward = { ...semantic, focus: { $type: 'color', ring: { $value: '{button.background}' } } };
+      const component = { button: { background: { $value: '{action.primary}' } } };
+      expect(() => build({ 'reference.json': reference, 'semantic.json': upward, 'component.json': component })).toThrow(
+        /tier-direction.*focus\.ring/,
+      );
+    });
+
+    it('rejects a modifier that overrides a reference token (invariant-reference)', () => {
+      const component = { button: { padding: { $value: '{space.md}' } } };
+      const compact = { space: { md: { $value: '{space.sm}' } } };
+      expect(() =>
+        build(
+          { 'reference.json': reference, 'semantic.json': semantic, 'component.json': component, 'compact.json': compact },
+          { density: { contexts: { comfortable: [], compact: [{ $ref: 'compact.json' }] }, default: 'comfortable', $extensions: { 'org.systemlab': { tier: 'semantic', overrides: true } } } },
+        ),
+      ).toThrow(/invariant-reference.*space\.md/);
+    });
+
+    it('lets a modifier retune a component token instead', () => {
+      const component = { button: { padding: { $value: '{space.md}' } } };
+      const compact = { button: { padding: { $value: '{space.sm}' } } };
+      const { manifest } = build(
+        { 'reference.json': reference, 'semantic.json': semantic, 'component.json': component, 'compact.json': compact },
+        { density: { contexts: { comfortable: [], compact: [{ $ref: 'compact.json' }] }, default: 'comfortable', $extensions: { 'org.systemlab': { tier: 'semantic', overrides: true } } } },
+      );
+      expect(manifest).toContain('"density": "compact"');
+    });
+  });
 });

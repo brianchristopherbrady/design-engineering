@@ -1,19 +1,24 @@
-import { useState, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import { Disclosure } from '@/design-system/composites';
 import { Inline, Stack } from '@/design-system/layout';
-import { Badge, Icon, Link, Text } from '@/design-system/primitives';
-import { tokenManifest } from '@/design-system/tokens/manifest';
+import { Badge, Icon, Link } from '@/design-system/primitives';
 import { MaturityBadge, type CatalogEntry } from '@/domain/system';
 import { ApiTable } from './ApiTable';
 import { DocSection, Prose } from './DocSection';
 import type { ComponentDoc, PropTokenTrace } from './docTypes';
 import { SourceList } from './SourceList';
-import { TokenChain, TokenSwatch } from './TokenChain';
+import { TokenChain } from './TokenChain';
+import { TokensRead } from './TokensRead';
 import styles from './ComponentReference.module.css';
 
-type TokenRecord = (typeof tokenManifest)[number];
-let index: Map<string, TokenRecord> | undefined;
-// Built on first use rather than at import, so the manifest stays out of bundles that never render a reference.
-const manifestByPath = () => (index ??= new Map(tokenManifest.map((record) => [record.path, record])));
+/** What a reader will find in a source file, from its kind. */
+export function sourceNote(path: string) {
+  if (path.endsWith('.css')) return 'Styles: the tokens each class reads';
+  if (path.endsWith('.tokens.json')) return 'Token source: the component tokens and what they alias';
+  if (/\.test\.tsx?$/.test(path)) return 'Tests: the behavior this component is checked for';
+  if (path.endsWith('.ts')) return 'Logic and types shared with the implementation';
+  return 'Implementation and public types';
+}
 
 export const componentSections = [
   { id: 'overview', label: 'Overview' },
@@ -36,16 +41,21 @@ function BulletList({ items }: { items: readonly ReactNode[] }) {
 }
 
 function TraceItem({ trace }: { trace: PropTokenTrace }) {
-  const [open, setOpen] = useState(false);
   return (
     <li>
-      <details className={styles.details} onToggle={(event) => setOpen(event.currentTarget.open)}>
-        <summary className={styles.summary}>
-          <code>{trace.prop}</code> <Icon name="arrowRight" /> <code>{trace.property}</code> <Icon name="arrowRight" />{' '}
-          <code>{trace.token}</code>
-        </summary>
-        {open && <TokenChain path={trace.token} />}
-      </details>
+      <Disclosure
+        lazy
+        className={styles.trace}
+        summary={
+          <>
+            <code>{trace.prop}</code> <Icon name="arrowRight" /> <code>{trace.property}</code> <Icon name="arrowRight" />{' '}
+            <code>{trace.token}</code>
+            {trace.readBy && <span className={styles.muted}> read by the {trace.readBy} component it renders</span>}
+          </>
+        }
+      >
+        <TokenChain path={trace.token} />
+      </Disclosure>
     </li>
   );
 }
@@ -112,7 +122,9 @@ export function ComponentReference({ entry, doc, playgroundHref }: ComponentRefe
               <h3>From prop to token</h3>
               <p>
                 Each row follows a prop value to the CSS property it sets and the first token that property reads. Open a
-                row to see the alias chain down to the reference value in both themes.
+                row to follow the alias chain for the product, theme and density this page is rendered in, and to compare
+                three readings: the value as authored in the token file, the value the token build resolved, and the value
+                this browser computes on an element in the same context.
               </p>
             </Prose>
             <ul className={styles.traces}>
@@ -124,36 +136,13 @@ export function ComponentReference({ entry, doc, playgroundHref }: ComponentRefe
         )}
         <Prose>
           <h3>Every token read</h3>
+          <p>
+            Derived from this component’s own source files, not listed by hand: <code>var()</code> reads in its stylesheet
+            and the prop vocabularies its code calls. Values are for the context this page is rendered in; change the
+            product, theme or density in the header to compare.
+          </p>
         </Prose>
-        {doc.tokens.length === 0 ? (
-          <Text>This component does not read tokens directly.</Text>
-        ) : (
-          <ul className={styles.tokens}>
-            {doc.tokens.map((path) => {
-              const record = manifestByPath().get(path);
-              return (
-                <li key={path} className={styles.token}>
-                  <code>{path}</code>
-                  {record && (
-                    <span className={styles.tokenValues}>
-                      <span className={styles.muted}>{record.tier}</span>
-                      <TokenSwatch type={record.type} value={record.values.light.resolved} />
-                      <code>{record.values.light.authored}</code>
-                      {record.themed && (
-                        <>
-                          <span className={styles.muted}>light ·</span>
-                          <TokenSwatch type={record.type} value={record.values.dark.resolved} />
-                          <code>{record.values.dark.authored}</code>
-                          <span className={styles.muted}>dark</span>
-                        </>
-                      )}
-                    </span>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-        )}
+        <TokensRead sourcePaths={doc.sourcePaths} />
       </DocSection>
 
       <DocSection id="behavior" title="Behavior and accessibility">
@@ -194,7 +183,7 @@ export function ComponentReference({ entry, doc, playgroundHref }: ComponentRefe
         <SourceList
           sources={doc.sourcePaths.map((path) => ({
             path,
-            note: path.endsWith('.css') ? 'Styles: which tokens each class reads' : 'Implementation and public types',
+            note: sourceNote(path),
           }))}
         />
       </DocSection>

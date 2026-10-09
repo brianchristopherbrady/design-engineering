@@ -8,5 +8,6 @@ export { OnThisPage, type OnThisPageItem } from './OnThisPage';
 export { SourceList, type SourceReference } from './SourceList';
 export { hasSource, loadSource, sourcePaths } from './sourceFiles';
 export { SourceViewer, type SourceViewerProps } from './SourceViewer';
-export { TokenChain, TokenSwatch } from './TokenChain';
+export { TokenChain, TokenSwatch, contextLabel } from './TokenChain';
+export { cssVarIndex, tokenReadsOf, type SourceText, type TokenIndex, type TokenRead } from './tokenReads';
 export { TokenExplorer } from './TokenExplorer';

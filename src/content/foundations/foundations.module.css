@@ -1,8 +1,4 @@
 @layer product {
-  .scroller {
-    overflow-x: auto;
-  }
-
   .table {
     inline-size: 100%;
     border-collapse: collapse;
@@ -42,6 +38,48 @@
 
   .muted {
     color: var(--text-muted);
+  }
+
+  .policyList {
+    display: grid;
+    gap: var(--spacing-medium);
+    padding: 0;
+    list-style: none;
+    counter-reset: rule;
+  }
+
+  .policyRule {
+    display: grid;
+    gap: var(--spacing-extra-small);
+    padding-block: var(--spacing-medium);
+    /* A fixed scale step, so compact density cannot squeeze the rule number into the title. */
+    padding-inline-start: var(--space-2xl);
+    border-block-start: var(--border-width-thin) solid var(--border-subtle);
+    counter-increment: rule;
+    position: relative;
+  }
+
+  .policyRule::before {
+    content: counter(rule, decimal-leading-zero) / '';
+    position: absolute;
+    inset-block-start: var(--spacing-medium);
+    inset-inline-start: 0;
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    letter-spacing: var(--typography-caption-letter-spacing);
+  }
+
+  .enforcement {
+    display: grid;
+    gap: var(--space-2xs);
+    padding: 0;
+    list-style: none;
+    font-size: var(--typography-body-small-font-size);
+    color: var(--text-muted);
+  }
+
+  .enforcement code {
+    overflow-wrap: anywhere;
   }
 
   .value {
