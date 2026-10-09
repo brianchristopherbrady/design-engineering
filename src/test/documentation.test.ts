@@ -7,11 +7,13 @@ import * as layout from '@/design-system/layout';
 import * as primitives from '@/design-system/primitives';
 import { tokenManifest } from '@/design-system/tokens/manifest';
 import { componentDocs, playgroundStories } from '@/content/components';
+import { decisionTopics } from '@/content/decisions';
 import { foundationTopics } from '@/content/foundations';
-import { guideTopics } from '@/content/guides';
+import { overviewSections } from '@/content/overview';
 import { entryHref, patternDocs } from '@/content/patterns';
 import { catalog, entriesOfKind, findEntry } from '@/domain/system';
 import { cssVarIndex, hasSource, tokenReadsOf } from '@/features/docs';
+import { legacyGuideTargets } from '@/app/legacyGuides';
 import { paths } from '@/app/paths';
 
 const siteSources = import.meta.glob<string>(['/src/**/*.{ts,tsx}', '!/src/test/documentation.test.ts', '!/src/**/generated/**'], {
@@ -25,17 +27,17 @@ const projectText = import.meta.glob<string>(['/docs/**/*.md', '/README.md', '/e
   eager: true,
 });
 
-const ids = (kind: 'guide' | 'component' | 'foundation' | 'pattern') => entriesOfKind(kind).map((entry) => entry.id).sort();
+const ids = (kind: 'decision' | 'component' | 'foundation' | 'pattern') => entriesOfKind(kind).map((entry) => entry.id).sort();
 
 describe('the catalog drives the site', () => {
   it('has a ComponentDoc for every component entry and no orphan docs', () => {
     expect(componentDocs.map((doc) => doc.id).sort()).toEqual(ids('component'));
   });
 
-  it('has a topic for every foundation, a page for every pattern and content for every guide', () => {
+  it('has a topic for every foundation, a page for every pattern and content for every design decision', () => {
     expect(foundationTopics.map((topic) => topic.id).sort()).toEqual(ids('foundation'));
     expect(patternDocs.map((doc) => doc.id).sort()).toEqual(ids('pattern'));
-    expect(guideTopics.map((topic) => topic.id).sort()).toEqual(ids('guide'));
+    expect(decisionTopics.map((topic) => topic.id).sort()).toEqual(ids('decision'));
   });
 
   it('documents every component the design system exports', () => {
@@ -62,7 +64,7 @@ describe('the catalog drives the site', () => {
 
   it('builds entry links that match the app routes', () => {
     for (const entry of catalog) {
-      const expected = { guide: paths.guide, component: paths.component, foundation: paths.foundation, pattern: paths.pattern }[entry.kind](entry.id);
+      const expected = { decision: paths.decision, component: paths.component, foundation: paths.foundation, pattern: paths.pattern }[entry.kind](entry.id);
       expect(entryHref(entry)).toBe(expected);
     }
   });
@@ -152,7 +154,7 @@ describe('maturity labels match their requirements', () => {
 
 describe('links', () => {
   const known = new Set(catalog.map((entry) => entryHref(entry)));
-  const sectionRoots = new Set<string>([paths.overview, paths.guides, paths.foundations, paths.components, paths.playground, paths.patterns]);
+  const sectionRoots = new Set<string>([paths.overview, paths.decisions, paths.foundations, paths.components, paths.playground, paths.patterns]);
   const isRoute = (href: string) => {
     const path = href.split(/[?#]/)[0] ?? '';
     return sectionRoots.has(path) || known.has(path);
@@ -160,11 +162,34 @@ describe('links', () => {
 
   it('only links to routes that exist', () => {
     const broken = Object.entries(siteSources).flatMap(([file, source]) =>
-      [...source.matchAll(/href(?:="|: ')(\/[^"']*)["']/g)]
+      [...source.matchAll(/(?:href(?:="|: ')|\]\()(\/[^"')]*)["')]/g)]
         .map((match) => match[1] ?? '')
         .filter((href) => !isRoute(href))
         .map((href) => `${file}: ${href}`),
     );
+    expect(broken).toEqual([]);
+  });
+
+  it('sends every old Guides link to a page that exists', () => {
+    for (const [id, target] of Object.entries(legacyGuideTargets)) expect(isRoute(target), `${id} -> ${target}`).toBe(true);
+  });
+
+  it('points every hash link in the site at a section that exists', () => {
+    const anchors = new Map<string, readonly string[]>([
+      [paths.overview, overviewSections.map((section) => section.id)],
+      ...foundationTopics.map((topic) => [paths.foundation(topic.id), topic.sections.map((section) => section.id)] as const),
+      ...decisionTopics.map((topic) => [paths.decision(topic.id), topic.sections.map((section) => section.id)] as const),
+    ]);
+    const links = [
+      ...Object.values(siteSources).flatMap((source) => [...source.matchAll(/(?:href(?:="|: ')|\]\()(\/[^"')]*#[^"')]+)["')]/g)].map((match) => match[1] ?? '')),
+      ...Object.values(legacyGuideTargets),
+    ];
+    const broken = links.filter((link) => {
+      if (!link.includes('#')) return false;
+      const [path = '', hash = ''] = link.split('#');
+      const ids = anchors.get(path);
+      return ids !== undefined && !ids.includes(hash);
+    });
     expect(broken).toEqual([]);
   });
 });

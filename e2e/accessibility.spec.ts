@@ -17,6 +17,8 @@ const pages = [
   { name: 'resource detail', path: '/patterns/resource-detail', ready: 'Button' },
   { name: 'activity dashboard', path: '/patterns/activity-dashboard', ready: 'System activity' },
   { name: 'form validation', path: '/patterns/form-validation', ready: 'States and transitions' },
+  { name: 'planning decision', path: '/decisions/planning', ready: 'Worked example: from principle to validation' },
+  { name: 'sharing decision', path: '/decisions/sharing', ready: 'Layer by layer' },
   { name: 'not found', path: '/does-not-exist', ready: 'Page not found' },
 ];
 
@@ -77,11 +79,11 @@ test.describe('keyboard and focus', () => {
       'Skip to main content',
       'Design System Lab',
       'Overview',
-      'Wiki',
       'Foundations',
       'Components',
       'Playground',
       'Patterns',
+      'Design decisions',
       'Product',
       'Theme',
       'Density',

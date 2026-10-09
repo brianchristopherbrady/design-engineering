@@ -2,8 +2,8 @@ import { Suspense, useState } from 'react';
 import { Outlet, useLocation } from 'react-router';
 import { Container, Inline } from '@/design-system/layout';
 import { Button, Icon, Link, Text } from '@/design-system/primitives';
-import { entriesOfKind, entryLayers, findEntry, wikiGroups, type CatalogEntry } from '@/domain/system';
-import { appName, paths, sections } from '../paths';
+import { entriesOfKind, entryLayers, type CatalogEntry } from '@/domain/system';
+import { appName, author, paths, sections } from '../paths';
 import styles from './AppShell.module.css';
 import { Lens } from './Lens';
 import { ThemeSelect } from './ThemeSelect';
@@ -22,14 +22,7 @@ interface SectionNav {
 const components = entriesOfKind('component');
 
 const sectionNavs: Record<string, SectionNav> = {
-  guides: {
-    label: 'Wiki',
-    href: paths.guide,
-    groups: wikiGroups.map((group) => ({
-      heading: group.heading,
-      entries: group.ids.map((id) => findEntry(id)).filter((entry): entry is CatalogEntry => entry !== undefined),
-    })),
-  },
+  decisions: { label: 'Design decisions', href: paths.decision, groups: [{ entries: entriesOfKind('decision') }] },
   foundations: { label: 'Foundations', href: paths.foundation, groups: [{ entries: entriesOfKind('foundation') }] },
   components: {
     label: 'Components',
@@ -166,11 +159,11 @@ export function AppShell() {
         <Container width="full">
           <Inline gap="medium" justify="between">
             <Text variant="bodySmall" tone="muted">
-              {appName}. This site is built with the components it documents.
+              {appName} is designed and built by <Link href={author.portfolio}>{author.name}</Link>, with the components it
+              documents.
             </Text>
             <Text variant="bodySmall" tone="muted">
-              <Link href={paths.foundation('tokens')}>Token architecture</Link> ·{' '}
-              <Link href={paths.playground}>Playground</Link>
+              <Link href={author.caseStudy}>Case study</Link> · <Link href={author.repository}>Source on GitHub</Link>
             </Text>
           </Inline>
         </Container>

@@ -2,8 +2,8 @@
  * The system's own inventory. The site's navigation, the Components index and the
  * resource directory demos all read this list, so the demo data is the real content.
  */
-export const entryKinds = ['guide', 'component', 'foundation', 'pattern'] as const;
-export const entryLayers = ['Guide', 'Layout', 'Primitive', 'Composite', 'Foundation', 'Pattern'] as const;
+export const entryKinds = ['decision', 'component', 'foundation', 'pattern'] as const;
+export const entryLayers = ['Decision', 'Layout', 'Primitive', 'Composite', 'Foundation', 'Pattern'] as const;
 export const maturities = ['experimental', 'beta', 'stable', 'deprecated'] as const;
 
 export type EntryKind = (typeof entryKinds)[number];
@@ -26,7 +26,7 @@ export interface CatalogEntry {
 }
 
 export const kindLabels: Record<EntryKind, string> = {
-  guide: 'Guide',
+  decision: 'Design decision',
   component: 'Component',
   foundation: 'Foundation',
   pattern: 'Pattern',
@@ -42,20 +42,11 @@ export const maturityLabels: Record<Maturity, string> = {
 const ds = 'src/design-system';
 
 export const catalog: readonly CatalogEntry[] = [
-  // Wiki articles, in reading order
-  { id: 'start', name: 'Start here', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'What a design system is, what it is made of, and where to begin, whether you are starting fresh or working with products that already exist.', tags: ['overview', 'planning'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/start.tsx' },
-  { id: 'principles', name: 'Design principles', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'A few short statements that settle recurring arguments, so teams make the same call without a meeting.', tags: ['principles', 'decisions'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/principles.ts' },
-  { id: 'design-language', name: 'Design language', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'Color, type, space, shape, icons, motion and voice: how your products look, move and speak, agreed before it is built.', tags: ['color', 'typography', 'spacing', 'voice'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/designLanguage.tsx' },
-  { id: 'design-tokens', name: 'Design tokens', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'The design language as named decisions that design tools and code both read, so one change reaches every product.', tags: ['tokens', 'theming'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/tokens.tsx' },
-  { id: 'primitives', name: 'Primitives', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'The smallest reusable parts, such as buttons, inputs and checkboxes, built once on native elements with every state.', tags: ['components', 'accessibility'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/primitives.tsx' },
-  { id: 'composites', name: 'Composite components', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'Components built from primitives, such as form fields, dialogs and tabs, that handle focus, keyboard behavior and structure.', tags: ['components', 'focus', 'keyboard'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/composites.tsx' },
-  { id: 'patterns', name: 'Patterns', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'Proven ways to solve tasks people repeat, such as forms and filtered lists, with every state and the words to go with it.', tags: ['patterns', 'states', 'content'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/patterns.tsx' },
-  { id: 'documentation', name: 'Documentation', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'Pages people can find, trust and copy from: live examples, generated reference and a map from design tool to code.', tags: ['documentation', 'design to code'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/documentation.tsx' },
-  { id: 'governance', name: 'Governance', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'Who owns the system, how changes get in, what each maturity label promises, and how releases and exceptions work.', tags: ['ownership', 'contribution', 'maturity', 'versioning'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/governance.ts' },
-  { id: 'migration', name: 'Migrating existing products', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'How to move products that already exist onto the system step by step, without a feature freeze or a big rewrite.', tags: ['migration', 'adoption'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/migration.ts' },
-  { id: 'measure', name: 'Measuring success', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'Ten measures of a system’s effect rather than its size, with how to start collecting each one and how it can mislead.', tags: ['measurement', 'adoption'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/measure.ts' },
-  { id: 'sharing', name: 'Sharing across products', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'What several products should share, layer by layer, and why brand, theme, density, screen size and input are separate settings.', tags: ['multi-product', 'architecture'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/sharing.tsx' },
-  { id: 'frameworks', name: 'Supporting several frameworks', kind: 'guide', layer: 'Guide', maturity: 'stable', summary: 'How one system serves products built with different frameworks: shared tokens and CSS, framework libraries, or Web Components with thin wrappers.', tags: ['web components', 'react', 'angular'], updatedAt: '2026-10-09', sourcePath: 'src/content/guides/articles/frameworks.ts' },
+  // Design decisions
+  { id: 'planning', name: 'Planning a system', kind: 'decision', layer: 'Decision', maturity: 'stable', summary: 'From users, workflows and inconsistencies to principles, scoped requirements, a pilot and a measurement plan, with one principle traced to its validation.', tags: ['requirements', 'principles', 'pilot'], updatedAt: '2026-10-09', sourcePath: 'src/content/decisions/articles/planning.tsx' },
+  { id: 'sharing', name: 'Sharing across products', kind: 'decision', layer: 'Decision', maturity: 'stable', summary: 'What a consumer mobile product and a professional desktop application should share, layer by layer, with a comparison that shows how constraints change the trade-offs.', tags: ['multi-product', 'architecture'], updatedAt: '2026-10-09', sourcePath: 'src/content/decisions/articles/sharing.tsx' },
+  { id: 'implementation', name: 'Choosing an implementation approach', kind: 'decision', layer: 'Decision', maturity: 'stable', summary: 'Framework components, separate implementations, shared tokens and CSS, or Web Components with adapters, and the decisions each one requires.', tags: ['web components', 'frameworks'], updatedAt: '2026-10-09', sourcePath: 'src/content/decisions/articles/implementation.ts' },
+  { id: 'operating', name: 'Operating and measuring a system', kind: 'decision', layer: 'Decision', maturity: 'stable', summary: 'Ownership, contribution, versioning, migration and a few measures, separating what this project checks from what has not been measured.', tags: ['governance', 'migration', 'measurement'], updatedAt: '2026-10-09', sourcePath: 'src/content/decisions/articles/operating.ts' },
   // Layout
   { id: 'box', name: 'Box', kind: 'component', layer: 'Layout', maturity: 'stable', summary: 'A plain surface with token-based padding, background, border and radius.', tags: ['surface', 'spacing'], updatedAt: '2026-10-06', sourcePath: `${ds}/layout/Box.tsx` },
   { id: 'stack', name: 'Stack', kind: 'component', layer: 'Layout', maturity: 'stable', summary: 'Vertical flow with one gap between children.', tags: ['spacing', 'flow'], updatedAt: '2026-10-06', sourcePath: `${ds}/layout/Stack.tsx` },

@@ -1,0 +1,375 @@
+@layer product {
+  .article {
+    container: decision / inline-size;
+  }
+
+  /* The question and short answer, before the reasoning. */
+  .answer {
+    display: grid;
+    gap: var(--space-2xs);
+    padding: var(--spacing-medium) var(--spacing-large);
+    border-inline-start: var(--border-width-thick) solid var(--tone-brand-solid);
+    border-radius: var(--radius-sm);
+    background-color: var(--surface-accent);
+  }
+
+  .answer > p + span {
+    margin-block-start: var(--spacing-small);
+  }
+
+  .question {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  /* Numbered steps on a vertical rail. */
+  .steps {
+    display: grid;
+    padding: 0;
+    list-style: none;
+  }
+
+  .step {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--spacing-medium);
+    padding-block-end: var(--spacing-medium);
+  }
+
+  .step:not(:last-child)::before {
+    position: absolute;
+    inset-block: var(--space-xl) 0;
+    inset-inline-start: calc(var(--space-xl) / 2);
+    border-inline-start: var(--border-width-thin) solid var(--border-default);
+    content: '';
+  }
+
+  .stepNumber {
+    position: relative;
+    z-index: 1;
+    display: inline-grid;
+    place-items: center;
+    inline-size: var(--space-xl);
+    block-size: var(--space-xl);
+    border: var(--border-width-thin) solid var(--tone-brand-border);
+    border-radius: var(--radius-full);
+    background-color: var(--tone-brand-surface);
+    color: var(--tone-brand-text);
+    font-size: var(--typography-body-small-font-size);
+    font-weight: var(--font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stepBody {
+    display: grid;
+    gap: var(--space-2xs);
+    padding-block-start: 0.15em;
+    max-inline-size: var(--layout-measure);
+    min-inline-size: 0;
+  }
+
+  .figure {
+    display: grid;
+    gap: var(--spacing-small);
+    justify-items: start;
+    margin: 0;
+    min-inline-size: 0;
+  }
+
+  .figure > :not(span) {
+    justify-self: stretch;
+  }
+
+  .figure figcaption {
+    color: var(--text-muted);
+    font-size: var(--typography-body-small-font-size);
+    line-height: var(--typography-body-small-line-height);
+  }
+
+  .table {
+    inline-size: 100%;
+    min-inline-size: 36rem;
+    border-collapse: collapse;
+    font-size: var(--typography-body-small-font-size);
+    line-height: var(--typography-body-small-line-height);
+  }
+
+  .table[data-wide] {
+    min-inline-size: 54rem;
+  }
+
+  .table caption {
+    padding-block-end: var(--spacing-small);
+    color: var(--text-muted);
+    text-align: start;
+  }
+
+  .table th,
+  .table td {
+    padding: var(--space-xs) var(--space-sm);
+    border-block-end: var(--border-width-thin) solid var(--border-subtle);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  .table thead th {
+    border-block-end-color: var(--border-strong);
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .table tbody th {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .records {
+    display: grid;
+    gap: var(--spacing-small);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .record {
+    display: grid;
+    gap: var(--space-xs);
+    padding: var(--spacing-medium);
+    border: var(--border-width-thin) solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    background: var(--surface-panel);
+  }
+
+  .record dl {
+    display: grid;
+    gap: var(--space-xs) var(--spacing-medium);
+    margin: 0;
+    font-size: var(--typography-body-small-font-size);
+    line-height: var(--typography-body-small-line-height);
+  }
+
+  .record dl > div {
+    display: grid;
+    gap: var(--space-2xs);
+  }
+
+  .record dt {
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .record dd {
+    margin: 0;
+  }
+
+  /* 30rem: label beside value, so each record reads as a short table. */
+  @container decision (inline-size >= 30rem) {
+    .record dl {
+      grid-template-columns: max-content minmax(0, 1fr);
+    }
+
+    .record dl > div {
+      display: contents;
+    }
+  }
+
+  .details {
+    display: grid;
+    gap: var(--space-xs);
+  }
+
+  .detailsBody {
+    display: grid;
+    gap: var(--spacing-medium);
+  }
+
+  .code {
+    margin: 0;
+    padding: var(--spacing-medium);
+    border: var(--border-width-thin) solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    background-color: var(--surface-sunken);
+    font-family: var(--typography-code-font-family);
+    font-size: var(--typography-code-font-size);
+    line-height: var(--typography-code-line-height);
+  }
+
+  /* Links to working examples on this site. */
+  .evidence {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(15rem, 100%), 1fr));
+    gap: var(--spacing-small);
+    padding: 0;
+    list-style: none;
+  }
+
+  .evidence li {
+    display: grid;
+    gap: var(--space-2xs);
+    align-content: start;
+    padding: var(--spacing-small) var(--spacing-medium);
+    border: var(--border-width-thin) solid var(--border-subtle);
+    border-radius: var(--radius-md);
+  }
+
+  .evidenceLink {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .sources {
+    display: grid;
+    gap: var(--space-xs);
+    padding-inline-start: var(--space-lg);
+    font-size: var(--typography-body-small-font-size);
+  }
+
+  /* Principle to validation: one chain, left to right when it fits. */
+  .chain {
+    display: grid;
+    gap: var(--spacing-small);
+    padding: 0;
+    list-style: none;
+  }
+
+  .chainLink {
+    position: relative;
+    display: grid;
+    gap: var(--space-2xs);
+    align-content: start;
+    padding: var(--spacing-small) var(--spacing-medium);
+    border: var(--border-width-thin) solid var(--border-subtle);
+    border-block-start: var(--border-width-thick) solid var(--tone-brand-solid);
+    border-radius: var(--radius-sm);
+    background-color: var(--surface-panel);
+  }
+
+  /* 30rem: two links per row; 60rem: all four side by side. */
+  @container decision (inline-size >= 30rem) {
+    .chain {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @container decision (inline-size >= 60rem) {
+    .chain {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  /* Sharing comparison */
+  .explorer {
+    display: grid;
+    gap: var(--spacing-large);
+    padding: var(--spacing-large);
+    border: var(--border-width-thin) solid var(--border-default);
+    border-radius: var(--radius-lg);
+    background-color: var(--surface-panel);
+  }
+
+  .constraints {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(12rem, 100%), 1fr));
+    gap: var(--spacing-medium);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    min-inline-size: 0;
+  }
+
+  .constraintsLegend {
+    margin-block-end: var(--spacing-small);
+    padding: 0;
+    font-size: var(--typography-label-font-size);
+    font-weight: var(--typography-label-font-weight);
+  }
+
+  .explorerPart {
+    display: grid;
+    gap: var(--spacing-small);
+    padding-block-start: var(--spacing-medium);
+    border-block-start: var(--border-width-thin) solid var(--border-subtle);
+  }
+
+  .layers {
+    display: grid;
+    gap: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .layer {
+    display: grid;
+    gap: var(--space-2xs) var(--spacing-medium);
+    padding-block: var(--space-xs);
+    border-block-end: var(--border-width-thin) solid var(--border-subtle);
+  }
+
+  .layerName {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  /* 40rem: layer and leaning in one column, the reason beside them. */
+  @container decision (inline-size >= 40rem) {
+    .layer {
+      grid-template-columns: minmax(12rem, 1fr) minmax(0, 2fr);
+      align-items: baseline;
+    }
+  }
+
+  .approaches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(17rem, 100%), 1fr));
+    gap: var(--spacing-medium);
+    padding: 0;
+    list-style: none;
+  }
+
+  .approach {
+    display: grid;
+    gap: var(--space-xs);
+    align-content: start;
+  }
+
+  .reasons {
+    display: grid;
+    gap: var(--space-2xs);
+    padding: 0;
+    list-style: none;
+    font-size: var(--typography-body-small-font-size);
+    line-height: var(--typography-body-small-line-height);
+  }
+
+  .reasons li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-xs);
+    align-items: baseline;
+  }
+
+  .reasons li > svg {
+    transform: translateY(0.15em);
+  }
+
+  .reasons [data-kind='fits'] > svg {
+    color: var(--tone-success-text);
+  }
+
+  .reasons [data-kind='strains'] > svg {
+    color: var(--tone-warning-text);
+  }
+
+  .pilot {
+    display: grid;
+    gap: var(--space-xs);
+    padding-inline-start: var(--space-lg);
+    font-size: var(--typography-body-small-font-size);
+    line-height: var(--typography-body-small-line-height);
+  }
+}

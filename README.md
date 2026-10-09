@@ -1,12 +1,15 @@
 # Design System Lab
 
-Design System Lab is a design system and its reference site. The site documents tokens, foundations,
+Design System Lab is a design system and its reference site, created by
+[Brian Brady](https://brianbrady.dev) to demonstrate design-system thinking and implementation
+([case study](https://brianbrady.dev/projects/system-lab.html)). The site documents tokens, foundations,
 components and patterns with live demos, and it is built entirely from the components it
 documents: the navigation, the Components index and the pattern demos all read the same catalog.
 
 Sections:
 
-- **Overview** — purpose, principles and the layered architecture.
+- **Overview** — who made it and why, a suggested review path, how the site is built from the
+  system, principles and the layered architecture.
 - **Foundations** — token tiers, color, typography, spacing, borders and radii, elevation, motion,
   themes and responsive rules, rendered from the generated token manifest. **Products and modes**
   shows one token source resolving into three products × two themes × two densities, with a mode
@@ -23,6 +26,10 @@ Sections:
 - **Patterns** — a resource directory, a resource detail page, an activity dashboard and a
   validated form, with a **Demo scenario** selector for loading, empty, success, error and
   no-results states, and an overlay of the query containers each demo responds to.
+- **Design decisions** — the reasoning behind a system: planning requirements and a pilot,
+  what a consumer mobile product and a professional desktop application should share (with a
+  comparison that responds to constraints), choosing an implementation approach, and operating
+  and measuring a system. Hypothetical, proposed and conceptual material is labelled as such.
 
 The header switches the whole site between products (Design System Lab, Harbor, Meadow), themes and
 densities; nothing in a component knows which one is active.
@@ -59,11 +66,12 @@ src/
   design-system/
     tokens/        DTCG sources and resolver (source/), generated CSS + TS + manifest (generated/), prop vocabularies
     styles/        cascade layer order, reset, base element styles
-    layout/        Box, Stack, Inline, Grid, Container, ThemeScope
+    layout/        Box, Stack, Inline, Grid, Container, ThemeScope, ScrollRegion
     primitives/    Text, Heading, Button, Badge, Icon, Link, Input, Select, Checkbox, Switch,
                    Progress, Skeleton, VisuallyHidden
-    composites/    Card, Dialog, Alert, Tabs, Field, PageHeader, EmptyState
+    composites/    Card, Dialog, Alert, Tabs, Field, PageHeader, EmptyState, Disclosure, RadioGroup
   domain/system/   the catalog and changelog, EntryCard, ActivityList, MaturityBadge
+  domain/decisions/ sources and the sharing comparison's reasoning (pure functions, tested)
   features/
     docs/          ComponentReference, LiveExample, SourceViewer, ApiTable, TokenChain, TokenExplorer
     directory/     search and filters (URL-backed or local)
@@ -75,6 +83,7 @@ src/
     foundations/   foundation topics
     components/    component docs, examples and playground stories
     patterns/      pattern demos, fixtures and their documentation
+    decisions/     the Design decisions pages and the sharing comparison
   app/             shell, routes, providers, pages
 scripts/
   tokens/          the token pipeline

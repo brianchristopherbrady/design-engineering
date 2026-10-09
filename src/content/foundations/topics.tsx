@@ -58,7 +58,9 @@ function TokensContent() {
           <p>
             Every visual value in the system is a token, and every token belongs to exactly one tier. An alias points to its
             own tier or a lower one, so a value always has one path back to its source. The{' '}
-            <Link href="#policy">dependency policy</Link> below says exactly who may read what.
+            <Link href="#policy">dependency policy</Link> below says exactly who may read what. Semantic and component
+            names describe a job, not an appearance: <code>text.muted</code> rather than <code>text.gray</code>, because the
+            dark-theme value is not gray.
           </p>
         </Prose>
         <Grid minColumnWidth="small" gap="medium">
@@ -99,7 +101,8 @@ function TokensContent() {
           <ol>
             <li>
               Tokens are authored as DTCG JSON in <code>src/design-system/tokens/source/</code>. A resolver file lists the
-              sets and a <code>theme</code> modifier with light and dark contexts.
+              sets and three modifiers: <code>theme</code> (light, dark), <code>product</code> (System Lab, Harbor, Meadow)
+              and <code>density</code> (comfortable, compact).
             </li>
             <li>
               <code>scripts/tokens/pipeline.mjs</code> flattens the files, validates every value against its type, resolves

@@ -1,5 +1,5 @@
 import { OverviewContent, overviewSections } from '@/content/overview';
-import { appName } from '../paths';
+import { appName, author } from '../paths';
 import { DocPage } from './DocPage';
 
 export function OverviewPage() {
@@ -7,10 +7,10 @@ export function OverviewPage() {
     <DocPage
       title={appName}
       eyebrow="Overview"
-      description="Tokens, components and patterns for building consistent, accessible interfaces, documented with live demos and the source that implements them."
+      description="A design system and the website that documents it, built by Brian Brady to show design-system judgment and implementation: tokens, components and patterns you can inspect down to the source."
       sections={overviewSections}
     >
-      <OverviewContent />
+      <OverviewContent author={author} />
     </DocPage>
   );
 }

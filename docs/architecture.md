@@ -10,16 +10,17 @@ to tokens, and where state lives. The Overview page shows the same material with
 | --- | --- | --- | --- |
 | `src/design-system/tokens` | ds-tokens | DTCG sources, generated CSS variables, TypeScript keys, manifest, prop vocabularies | — |
 | `src/design-system/styles` | ds-styles | Cascade layer order, reset, base element styles | ds-tokens |
-| `src/design-system/layout` | ds-layout | Box, Stack, Inline, Grid, Container, ThemeScope | ds-tokens |
+| `src/design-system/layout` | ds-layout | Box, Stack, Inline, Grid, Container, ThemeScope, ScrollRegion | ds-tokens |
 | `src/design-system/primitives` | ds-primitives | Text, Heading, Button, Badge, Icon, Link, Input, Select, Checkbox, Switch, Progress, Skeleton, VisuallyHidden | ds-tokens, ds-layout |
-| `src/design-system/composites` | ds-composites | Card, Dialog, Alert, Tabs, Field, PageHeader, EmptyState | ds-tokens, ds-layout, ds-primitives |
-| `src/domain/system` | domain | The catalog of components, foundations and patterns; the changelog; catalog-aware presentation | design system |
+| `src/design-system/composites` | ds-composites | Card, Dialog, Alert, Tabs, Field, PageHeader, EmptyState, Disclosure, RadioGroup | ds-tokens, ds-layout, ds-primitives |
+| `src/domain/system` | domain | The catalog of components, foundations, patterns and design decisions; the changelog; catalog-aware presentation | design system |
+| `src/domain/decisions` | domain | Sources cited by the design decisions, and the sharing comparison's reasoning as pure functions | design system |
 | `src/features/docs` | feature | Component reference rendering, live examples, source viewers, token chains | design system, domain |
 | `src/features/directory` | feature | Search and filter logic, URL encoding, the filter UI | design system, domain |
 | `src/features/scenarios` | feature | Demo scenarios, simulated requests, the `useRequest` state machine | design system, domain |
 | `src/features/playground` | feature | Typed control specs, prop and snippet builders, the workbench UI, the container inspector | design system, domain |
 | `src/features/theming` | feature | OKLCH, contrast (WCAG 2 and APCA), ΔEOK and color-vision math, ramp generation, role assignment, the theme studio panels and its URL-backed state | design system, domain |
-| `src/content/*` | content | Overview, foundations, component docs and stories, pattern demos and fixtures | design system, domain, features |
+| `src/content/*` | content | Overview, foundations, component docs and stories, pattern demos and fixtures, design decisions | design system, domain, features |
 | `src/app` | app | Shell, routes, providers, pages | everything |
 | `src/main.tsx` | entry | Mounts the app and global styles | app, ds-styles |
 | `src/test` | test-support | Test setup and cross-layer tests | everything |
@@ -45,8 +46,10 @@ forbids raw colors and palette (`--color-*`) variables outside the token files, 
 ## Token tiers
 
 1. **Reference** (`reference.tokens.json`): palettes and raw scales — `color.blue.600`,
-   `space.md`, `radius.lg`, `shadow.medium`, `duration.base`. Nothing outside the token files
-   reads them.
+   `space.md`, `radius.lg`, `shadow.medium`, `duration.base`. Palettes are read only through
+   semantic roles; the non-color scales may be read directly for fixed values. The dependency
+   policy (`src/design-system/tokens/policy.ts`) lists the rules and their exceptions, and the token
+   build and `scripts/tokens/policy.test.mjs` enforce them.
 2. **Semantic** (`semantic.tokens.json`, `theme.light|dark.tokens.json`): purpose-named aliases —
    `surface.panel`, `text.muted`, `border.default`, `action.primary.background`,
    `tone.danger.text`, `focus.ring`, `spacing.medium`, `elevation.low`. Themes remap the color
@@ -75,7 +78,7 @@ The pipeline resolves every permutation (3 × 2 × 2 = 12), then compares each t
 signature across them to find the modifiers it actually **depends on**. CSS is emitted
 dependency-minimal: a token that never changes is written once in `:root`; one that depends on
 product and theme is written once per product × theme combination under
-`[data-theme='…'][data-product='…']`, and so on. The output is 768 lines for 345 tokens rather than
+`[data-theme='…'][data-product='…']`, and so on. The output is 791 lines for 349 tokens rather than
 12 copies of every token. Override files that introduce a new path, or change a token's type or
 tier, fail the build with "overrides nothing".
 
@@ -155,7 +158,9 @@ No design-system component knows about fixtures, scenarios or the playground.
 ## Routing and focus
 
 Routes: `/`, `/foundations`, `/foundations/:topicId`, `/components`, `/components/:componentId`,
-`/playground`, `/patterns`, `/patterns/:patternId` and a catch-all. All but the overview are lazy
+`/playground`, `/patterns`, `/patterns/:patternId`, `/decisions`, `/decisions/:decisionId` and a
+catch-all. The retired `/guides` and `/guides/:id` URLs redirect to the page that now covers the same
+ground (`src/app/legacyGuides.ts`). All but the overview are lazy
 chunks. The 150 kB token manifest loads only with pages that inspect tokens; the overview reads the
 generated `tokenCounts` instead. `usePageTitle` sets `document.title` and moves focus to the page `h1` after client-side
 navigation, or to the target of a URL fragment; first load and query changes leave focus alone.
