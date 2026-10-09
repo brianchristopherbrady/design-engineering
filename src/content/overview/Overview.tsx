@@ -1,9 +1,10 @@
 import { Card } from '@/design-system/composites';
 import { Grid, Stack } from '@/design-system/layout';
 import { Heading, Link, Text } from '@/design-system/primitives';
-import { tokenManifest } from '@/design-system/tokens/manifest';
+import { tokenCounts } from '@/design-system/tokens';
 import { entriesOfKind, summarizeCatalog, catalog } from '@/domain/system';
 import { DocSection, Note, Prose, SourceList } from '@/features/docs';
+import { Horizon } from './Horizon';
 
 export const overviewSections = [
   { id: 'purpose', label: 'Purpose' },
@@ -22,30 +23,43 @@ const destinations = [
 
 export function OverviewContent() {
   const summary = summarizeCatalog(catalog);
-  const tiers = (tier: string) => tokenManifest.filter((record) => record.tier === tier).length;
+  const tiers = (tier: keyof typeof tokenCounts) => tokenCounts[tier];
   return (
     <Stack gap="extraExtraLarge">
-      <Grid as="ul" columns={4} minColumnWidth="small" gap="medium" aria-label="Sections">
-        {destinations.map((destination) => (
-          <Card as="li" key={destination.href} padding="medium">
-            <Stack gap="extraSmall">
-              <Heading level={2} size="small">
-                <Link href={destination.href} variant="standalone">
-                  {destination.title}
-                </Link>
-              </Heading>
-              <Text variant="bodySmall" tone="muted">
-                {destination.body}
-              </Text>
-            </Stack>
-          </Card>
-        ))}
-      </Grid>
+      <Stack gap="large">
+        <Horizon
+          readouts={[
+            { label: 'Tokens', value: tokenCounts.total },
+            { label: 'Components', value: summary.byKind.component },
+            { label: 'Foundations', value: summary.byKind.foundation },
+            { label: 'Patterns', value: summary.byKind.pattern },
+          ]}
+        />
+        <Grid as="ul" columns={2} minColumnWidth="small" gap="medium" aria-label="Sections">
+          {destinations.map((destination, index) => (
+            <Card as="li" key={destination.href} padding="medium">
+              <Stack gap="extraSmall">
+                <Text as="span" variant="caption" tone="muted" aria-hidden="true">
+                  {String(index + 1).padStart(2, '0')}
+                </Text>
+                <Heading level={2} size="small">
+                  <Link href={destination.href} variant="standalone">
+                    {destination.title}
+                  </Link>
+                </Heading>
+                <Text variant="bodySmall" tone="muted">
+                  {destination.body}
+                </Text>
+              </Stack>
+            </Card>
+          ))}
+        </Grid>
+      </Stack>
 
       <DocSection id="purpose" title="Purpose">
         <Prose>
           <p>
-            System Lab is a small, complete design system: {tokenManifest.length} tokens, {summary.byKind.component}{' '}
+            System Lab is a small, complete design system: {tokenCounts.total} tokens, {summary.byKind.component}{' '}
             components, {summary.byKind.foundation} foundations and {summary.byKind.pattern} patterns. It exists so that
             product interfaces are built from shared, named decisions instead of one-off values, and so that every decision
             can be inspected from the prop a developer writes down to the color or length the browser paints.

@@ -49,17 +49,22 @@ test.describe('container queries', () => {
     await page.goto('/foundations/responsive');
     const range = page.getByRole('slider', { name: 'Container width' });
     const card = page.getByRole('article').filter({ has: page.getByRole('heading', { name: 'Card', exact: true }) }).last();
-    const pin = card.getByRole('button', { name: /^Pin/ });
-    const title = card.getByRole('heading');
+    // Both boxes are read in one frame: smooth scrolling can move the page between two separate boundingBox calls.
+    const measure = () =>
+      card.evaluate((element) => {
+        const pin = [...element.querySelectorAll('button')].find((button) => button.textContent?.startsWith('Pin'))!;
+        const title = element.querySelector('h1, h2, h3, h4, h5, h6')!;
+        return { pinTop: pin.getBoundingClientRect().top, titleBottom: title.getBoundingClientRect().bottom };
+      });
 
     await range.fill('64');
-    const wide = { pin: await pin.boundingBox(), title: await title.boundingBox() };
+    const wide = await measure();
     await range.fill('18');
-    const narrow = { pin: await pin.boundingBox(), title: await title.boundingBox() };
+    const narrow = await measure();
 
     // Wide: the pin button sits beside the text. Narrow: below it.
-    expect(wide.pin!.y).toBeLessThan(wide.title!.y + wide.title!.height);
-    expect(narrow.pin!.y).toBeGreaterThan(narrow.title!.y + narrow.title!.height);
+    expect(wide.pinTop).toBeLessThan(wide.titleBottom);
+    expect(narrow.pinTop).toBeGreaterThan(narrow.titleBottom);
   });
 
   test('documentation pages show a contents column only when the page container is wide', async ({ page }) => {

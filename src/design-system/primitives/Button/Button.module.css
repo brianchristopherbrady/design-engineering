@@ -11,15 +11,19 @@
     border-radius: var(--_radius, var(--button-radius));
     background-color: var(--_background);
     color: var(--_foreground);
-    font-family: var(--typography-label-font-family);
+    font-family: var(--typography-control-font-family);
     font-size: var(--_font-size);
-    font-weight: var(--typography-label-font-weight);
+    font-weight: var(--typography-control-font-weight);
+    letter-spacing: var(--typography-control-letter-spacing);
     line-height: var(--font-line-height-snug);
     text-align: center;
+    text-transform: uppercase;
     cursor: pointer;
     transition:
       background-color var(--motion-duration-feedback) var(--motion-easing-standard),
-      border-color var(--motion-duration-feedback) var(--motion-easing-standard);
+      border-color var(--motion-duration-feedback) var(--motion-easing-standard),
+      color var(--motion-duration-feedback) var(--motion-easing-standard),
+      outline-offset var(--motion-duration-feedback) var(--motion-easing-standard);
   }
 
   .button:hover:not(:disabled, [aria-disabled='true']) {
@@ -61,6 +65,15 @@
     --_background-active: var(--button-danger-background-active);
     --_foreground: var(--button-danger-foreground);
     --_border: var(--button-danger-border);
+  }
+
+  /* A pressed toggle takes the primary fill, so its state shows in contrast, not hue alone. */
+  .button[aria-pressed='true'] {
+    --_background: var(--button-primary-background);
+    --_background-hover: var(--button-primary-background-hover);
+    --_background-active: var(--button-primary-background-active);
+    --_foreground: var(--button-primary-foreground);
+    --_border: var(--button-primary-border);
   }
 
   /* Disabled overrides every appearance, so it is declared after them. */
@@ -143,6 +156,12 @@
     .button:disabled {
       border-color: GrayText;
       color: GrayText;
+    }
+
+    .button[aria-pressed='true'] {
+      border-color: Highlight;
+      background-color: Highlight;
+      color: HighlightText;
     }
   }
 }

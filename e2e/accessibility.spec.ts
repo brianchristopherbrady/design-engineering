@@ -1,29 +1,21 @@
-import AxeBuilder from '@axe-core/playwright';
-import { expect, test, type Page } from '@playwright/test';
-
-const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
-
-async function expectNoAxeViolations(page: Page) {
-  const results = await new AxeBuilder({ page }).withTags(WCAG_TAGS).analyze();
-  const summary = results.violations.map((violation) => ({
-    id: violation.id,
-    impact: violation.impact,
-    targets: violation.nodes.slice(0, 5).map((node) => node.target.join(' ')),
-  }));
-  expect(summary).toEqual([]);
-}
+import { expect, test } from '@playwright/test';
+import { expectNoAxeViolations } from './axe';
 
 const pages = [
   { name: 'overview', path: '/', ready: 'System Lab design system' },
   { name: 'color foundation', path: '/foundations/color', ready: 'Verified contrast' },
   { name: 'themes foundation', path: '/foundations/themes', ready: 'Same roles, different mappings' },
   { name: 'responsive foundation', path: '/foundations/responsive', ready: 'Resize a container' },
+  { name: 'products foundation', path: '/foundations/products', ready: 'Products × themes' },
+  { name: 'theme studio', path: '/foundations/theme-studio', ready: 'Ramp and roles' },
   { name: 'components index', path: '/components', ready: 'Components' },
   { name: 'Button reference', path: '/components/button', ready: 'From prop to token' },
   { name: 'Badge reference', path: '/components/badge', ready: 'Tones and appearances' },
   { name: 'Card reference', path: '/components/card', ready: 'Elevation, surface and padding' },
   { name: 'playground', path: '/playground?component=card', ready: 'Controls' },
   { name: 'resource directory', path: '/patterns/resource-directory', ready: 'System directory' },
+  { name: 'resource detail', path: '/patterns/resource-detail', ready: 'Button' },
+  { name: 'activity dashboard', path: '/patterns/activity-dashboard', ready: 'System activity' },
   { name: 'form validation', path: '/patterns/form-validation', ready: 'States and transitions' },
   { name: 'not found', path: '/does-not-exist', ready: 'Page not found' },
 ];
@@ -72,7 +64,7 @@ test.describe('keyboard and focus', () => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/');
     const names: string[] = [];
-    for (let index = 0; index < 8; index += 1) {
+    for (let index = 0; index < 10; index += 1) {
       await page.keyboard.press('Tab');
       names.push(
         await page.evaluate(() => {
@@ -81,7 +73,18 @@ test.describe('keyboard and focus', () => {
         }),
       );
     }
-    expect(names).toEqual(['Skip to main content', 'System Lab', 'Overview', 'Foundations', 'Components', 'Playground', 'Patterns', 'Theme']);
+    expect(names).toEqual([
+      'Skip to main content',
+      'System Lab',
+      'Overview',
+      'Foundations',
+      'Components',
+      'Playground',
+      'Patterns',
+      'Product',
+      'Theme',
+      'Density',
+    ]);
   });
 
   test('the skip link moves focus to the main content', async ({ page }) => {

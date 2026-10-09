@@ -8,14 +8,24 @@ Sections:
 
 - **Overview** — purpose, principles and the layered architecture.
 - **Foundations** — token tiers, color, typography, spacing, borders and radii, elevation, motion,
-  themes and responsive rules, rendered from the generated token manifest.
+  themes and responsive rules, rendered from the generated token manifest. **Products and modes**
+  shows one token source resolving into three products × two themes × two densities, with a mode
+  composer, a computed product diff, nested scopes and density measurements; the **theme studio**
+  generates a complete product from one brand color (OKLCH ramp with its gamut limits, contrast-
+  chosen roles, shape, WCAG 2 and APCA checks, status and color-vision checks, shareable links and
+  every source file to add); the responsive foundation lists every container and media query in the
+  code.
 - **Components** — each component's props, defaults, precedence rules, prop → token traces,
   examples, accessibility notes and real source.
-- **Playground** — Storybook-style controls for real public props, presets, a scoped theme, an
-  independently resizable preview and a usage snippet that always matches the controls.
+- **Playground** — Storybook-style controls for real public props, presets, a scoped theme,
+  product and density, an independently resizable preview, a query-container overlay and a usage
+  snippet that always matches the controls.
 - **Patterns** — a resource directory, a resource detail page, an activity dashboard and a
   validated form, with a **Demo scenario** selector for loading, empty, success, error and
-  no-results states.
+  no-results states, and an overlay of the query containers each demo responds to.
+
+The header switches the whole site between products (System Lab, Harbor, Meadow), themes and
+densities; nothing in a component knows which one is active.
 
 ## Run it
 
@@ -47,9 +57,9 @@ npm run verify       # all of the above
 ```text
 src/
   design-system/
-    tokens/        DTCG sources (source/), generated CSS + TS + manifest (generated/), prop vocabularies
+    tokens/        DTCG sources and resolver (source/), generated CSS + TS + manifest (generated/), prop vocabularies
     styles/        cascade layer order, reset, base element styles
-    layout/        Box, Stack, Inline, Grid, Container
+    layout/        Box, Stack, Inline, Grid, Container, ThemeScope
     primitives/    Text, Heading, Button, Badge, Icon, Link, Input, Select, Checkbox, Switch,
                    Progress, Skeleton, VisuallyHidden
     composites/    Card, Dialog, Alert, Tabs, Field, PageHeader, EmptyState
@@ -58,7 +68,8 @@ src/
     docs/          ComponentReference, LiveExample, SourceViewer, ApiTable, TokenChain, TokenExplorer
     directory/     search and filters (URL-backed or local)
     scenarios/     Demo scenario selector, simulated requests, useRequest
-    playground/    typed control specs, prop and snippet builders, the Playground workbench
+    playground/    typed control specs, prop and snippet builders, the Playground workbench, ContainerInspector
+    theming/       OKLCH, contrast (WCAG 2, APCA) and color-vision math, ramps, roles, the theme studio
   content/
     overview/      the Overview page
     foundations/   foundation topics
@@ -77,7 +88,7 @@ enforced by `npm run lint`; see [docs/architecture.md](docs/architecture.md).
 
 ## Further reading
 
-- [docs/architecture.md](docs/architecture.md) — layers, token tiers, prop vocabularies, state ownership
+- [docs/architecture.md](docs/architecture.md) — layers, token tiers and modifiers, prop vocabularies, state ownership
 - [docs/contributing.md](docs/contributing.md) — adding tokens, components, stories and patterns
 - [docs/maintenance.md](docs/maintenance.md) — scripts, versions, persisted data, limitations
 - [docs/accessibility.md](docs/accessibility.md) — what was verified and what was not

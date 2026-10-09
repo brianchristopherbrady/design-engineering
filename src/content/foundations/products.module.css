@@ -1,0 +1,396 @@
+@layer product {
+  .scroller {
+    overflow-x: auto;
+  }
+
+  .table {
+    inline-size: 100%;
+    border-collapse: collapse;
+    font-size: var(--typography-body-small-font-size);
+  }
+
+  .table th,
+  .table td {
+    padding: var(--spacing-small);
+    border-block-end: var(--border-width-thin) solid var(--border-subtle);
+    text-align: start;
+    vertical-align: middle;
+  }
+
+  .table code {
+    overflow-wrap: anywhere;
+  }
+
+  /* 44rem: below this the four registry columns crush the reasons to a few words a line, so the table scrolls instead. */
+  .registry {
+    min-inline-size: 44rem;
+  }
+
+  .registry th,
+  .registry td {
+    vertical-align: top;
+  }
+
+  .value {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-extra-small);
+  }
+
+  .cell {
+    padding: var(--spacing-medium);
+    border: var(--border-width-thin) solid var(--border-default);
+    border-radius: var(--radius-lg);
+    min-inline-size: 0;
+  }
+
+  .caption,
+  .tableCaption {
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--typography-caption-font-weight);
+    letter-spacing: var(--typography-caption-letter-spacing);
+    text-transform: uppercase;
+  }
+
+  .tableCaption {
+    padding-block-end: var(--spacing-small);
+    text-align: start;
+  }
+
+  .tableBlock {
+    display: grid;
+    gap: var(--spacing-small);
+    min-inline-size: 0;
+  }
+
+  .tableBlock > .tableCaption {
+    margin: 0;
+    padding: 0;
+  }
+
+  .table thead th {
+    border-block-end-color: var(--border-strong);
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--typography-caption-font-weight);
+    letter-spacing: var(--typography-caption-letter-spacing);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .table tbody th {
+    font-weight: var(--font-weight-regular);
+  }
+
+  .muted {
+    color: var(--text-muted);
+  }
+
+  .number {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .scroller:focus-visible,
+  .code:focus-visible {
+    outline-offset: calc(var(--focus-width) * -1);
+  }
+
+  .code {
+    margin: 0;
+    padding: var(--spacing-medium) var(--spacing-large);
+    overflow-x: auto;
+    border-radius: var(--radius-lg);
+    background-color: var(--surface-sunken);
+    color: var(--text-primary);
+    font-family: var(--typography-code-font-family);
+    font-size: var(--typography-code-font-size);
+    line-height: var(--typography-code-line-height);
+  }
+
+  /* Product cards: each card is its own product scope, so the band and actions show that product. */
+  .productCard {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    overflow: clip;
+    border: var(--border-width-thin) solid var(--card-border);
+    border-radius: var(--card-radius);
+    background-color: var(--card-background);
+    box-shadow: var(--card-elevation);
+    min-inline-size: 0;
+    transition: border-radius var(--motion-duration-emphasis) var(--motion-easing-enter);
+  }
+
+  .productBand {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr;
+    block-size: var(--space-sm);
+  }
+
+  .productBand > :nth-child(1) {
+    background-color: var(--action-primary-background);
+  }
+
+  .productBand > :nth-child(2) {
+    background-color: var(--action-primary-hover);
+  }
+
+  .productBand > :nth-child(3) {
+    background-color: var(--focus-ring);
+  }
+
+  .productBand > :nth-child(4) {
+    background-color: var(--surface-accent);
+  }
+
+  .productBody {
+    padding: var(--spacing-large);
+  }
+
+  .productId {
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+  }
+
+  /* Composer */
+  .composer {
+    display: grid;
+    gap: var(--spacing-large);
+    padding: var(--spacing-large);
+    border: var(--border-width-thin) solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background-color: var(--surface-panel);
+    box-shadow: var(--elevation-low);
+    min-inline-size: 0;
+    container: composer / inline-size;
+  }
+
+  .composerControls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--spacing-large);
+    padding-block-end: var(--spacing-large);
+    border-block-end: var(--border-width-thin) solid var(--border-subtle);
+  }
+
+  .permutation {
+    display: grid;
+    gap: var(--space-2xs);
+    margin-inline-start: auto;
+    text-align: end;
+  }
+
+  .permutationValue {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-light);
+    line-height: var(--font-line-height-tight);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .permutationValue .muted {
+    font-size: var(--typography-body-small-font-size);
+  }
+
+  .composerBody {
+    display: grid;
+    gap: var(--spacing-large);
+    min-inline-size: 0;
+  }
+
+  /* 44rem: the preview keeps at least 20rem beside the markup; the table always spans both. */
+  @container composer (min-inline-size: 44rem) {
+    .composerBody {
+      grid-template-columns: minmax(20rem, 1fr) minmax(0, 1fr);
+      align-items: start;
+    }
+
+    .composerTable {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .composerTable table {
+    min-inline-size: 34rem;
+  }
+
+  .composerTable th code,
+  .composerTable .value code {
+    overflow-wrap: normal;
+    white-space: nowrap;
+  }
+
+  /* Breaks only between attribute selectors, where the markup offers a <wbr>. */
+  .composerTable .selector {
+    overflow-wrap: normal;
+  }
+
+  .composerStage {
+    padding: var(--spacing-large);
+    border: var(--border-width-thin) dashed var(--border-strong);
+    border-radius: var(--radius-lg);
+    background-color: var(--surface-canvas);
+    color: var(--text-primary);
+    min-inline-size: 0;
+    transition:
+      background-color var(--motion-duration-transition) var(--motion-easing-standard),
+      color var(--motion-duration-transition) var(--motion-easing-standard);
+  }
+
+  .selector {
+    color: var(--text-muted);
+  }
+
+  .snippet {
+    display: grid;
+    gap: var(--spacing-small);
+    min-inline-size: 0;
+  }
+
+  .snippetHeader {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-small);
+  }
+
+  /* Product diff */
+  .diff {
+    min-inline-size: 40rem;
+  }
+
+  .radiusSample {
+    flex: none;
+    inline-size: var(--space-lg);
+    block-size: var(--space-lg);
+    border-block-start: var(--border-width-thick) solid var(--text-primary);
+    border-inline-end: var(--border-width-thick) solid var(--text-primary);
+  }
+
+  /* Nested scopes */
+  .nesting {
+    display: grid;
+    gap: var(--spacing-medium);
+    min-inline-size: 0;
+  }
+
+  .nest {
+    display: grid;
+    gap: var(--spacing-medium);
+    padding: var(--spacing-large);
+    border: var(--border-width-thin) solid var(--border-default);
+    border-radius: var(--card-radius);
+    background-color: var(--surface-canvas);
+    color: var(--text-primary);
+    min-inline-size: 0;
+  }
+
+  .nest .nest {
+    background-color: var(--surface-panel);
+  }
+
+  .scopeTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .scopeTag {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2xs) var(--space-xs);
+    padding: var(--space-2xs) var(--space-sm);
+    border: var(--border-width-thin) dashed var(--border-default);
+    border-radius: var(--badge-radius);
+    font-family: var(--typography-code-font-family);
+    font-size: var(--typography-caption-font-size);
+  }
+
+  .scopeTag[data-set] {
+    border-style: solid;
+    border-color: var(--tone-brand-border);
+    background-color: var(--tone-brand-surface);
+  }
+
+  .scopeSource {
+    color: var(--text-muted);
+    font-family: var(--typography-body-font-family);
+    letter-spacing: var(--typography-caption-letter-spacing);
+    text-transform: uppercase;
+  }
+
+  .scopeTag[data-set] .scopeSource {
+    color: var(--tone-brand-text);
+  }
+
+  /* Density */
+  .densityTable {
+    min-inline-size: 34rem;
+  }
+
+  .change {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .meter {
+    display: grid;
+    gap: var(--space-2xs);
+    inline-size: 6rem;
+  }
+
+  .meter > span {
+    block-size: var(--space-2xs);
+    border-radius: var(--radius-full);
+    background-color: var(--border-strong);
+  }
+
+  .meter > span + span {
+    background-color: var(--action-primary-background);
+  }
+
+  /* Adding a product */
+  .steps {
+    display: grid;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+    max-inline-size: calc(var(--layout-measure) + var(--space-3xl));
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: var(--space-3xl) minmax(0, 1fr);
+    align-items: baseline;
+    row-gap: var(--space-2xs);
+    padding-block: var(--space-md);
+    border-block-end: var(--border-width-thin) solid var(--border-subtle);
+    counter-increment: step;
+  }
+
+  .step::before {
+    content: counter(step, decimal-leading-zero);
+    grid-row: 1;
+    color: var(--text-muted);
+    font-family: var(--typography-code-font-family);
+    font-size: var(--typography-body-small-font-size);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .step > * {
+    grid-column: 2;
+  }
+
+  .stepTitle {
+    font-weight: var(--font-weight-medium);
+  }
+}

@@ -81,7 +81,7 @@ if (isCli) {
       console.log('Token outputs are up to date.');
     } else {
       const { written, tokenCount, contexts } = writeTokenFiles();
-      console.log(`Resolved ${tokenCount} tokens for themes: ${contexts.join(', ')}.`);
+      console.log(`Resolved ${tokenCount} tokens across modifiers (${contexts.join('; ')}).`);
       console.log(written.length ? `Wrote:\n  ${written.join('\n  ')}` : 'Outputs already up to date.');
     }
   } catch (error) {

@@ -105,4 +105,82 @@ describe('token pipeline', () => {
     expect(darkBlock).toContain('--card-background: var(--surface-canvas);');
     expect(css).toContain('@media (prefers-color-scheme: dark)');
   });
+
+  describe('several modifiers', () => {
+    /** @type {Record<string, unknown>} */
+    const files = {
+      'base.json': {
+        color: { $type: 'color', blue: { $value: blue }, white: { $value: white }, teal: { $value: { colorSpace: 'srgb', components: [0, 0.5, 0.5] } } },
+        size: { $type: 'dimension', sm: { $value: { value: 2, unit: 'rem' } }, md: { $value: { value: 3, unit: 'rem' } } },
+      },
+      'light.json': { action: { $type: 'color', primary: { $value: '{color.blue}' } }, surface: { $type: 'color', canvas: { $value: '{color.white}' } } },
+      'dark.json': { action: { $type: 'color', primary: { $value: '{color.white}' } }, surface: { $type: 'color', canvas: { $value: '{color.blue}' } } },
+      'component.json': { button: { background: { $value: '{action.primary}' }, height: { $value: '{size.md}' } } },
+      'harbor.json': { action: { primary: { $value: '{color.teal}' } } },
+      'compact.json': { button: { height: { $value: '{size.sm}' } } },
+    };
+    const resolver = {
+      version: '2025.10',
+      sets: { base: { sources: [{ $ref: 'base.json' }] }, component: { sources: [{ $ref: 'component.json' }] } },
+      modifiers: {
+        theme: { contexts: { light: [{ $ref: 'light.json' }], dark: [{ $ref: 'dark.json' }] }, default: 'light' },
+        product: {
+          contexts: { core: [], harbor: [{ $ref: 'harbor.json' }] },
+          default: 'core',
+          $extensions: { 'org.systemlab': { overrides: true } },
+        },
+        density: {
+          contexts: { comfortable: [], compact: [{ $ref: 'compact.json' }] },
+          default: 'comfortable',
+          $extensions: { 'org.systemlab': { overrides: true } },
+        },
+      },
+      resolutionOrder: [
+        { $ref: '#/sets/base' },
+        { $ref: '#/modifiers/theme' },
+        { $ref: '#/sets/component' },
+        { $ref: '#/modifiers/product' },
+        { $ref: '#/modifiers/density' },
+      ],
+    };
+    const build = (overrides = {}) =>
+      buildTokenOutputs({ ...resolver, ...overrides }, (ref) => files[ref], { keyGroups: [], banner: 'test' });
+    /** The token block for a selector; a color-scheme block with the same selector comes first. */
+    /** @param {string} css @param {string} selector */
+    const blockOf = (css, selector) => {
+      const start = css.lastIndexOf(`${selector} {`);
+      return start === -1 ? '' : css.slice(start, css.indexOf('}', start));
+    };
+
+    it('declares each token under exactly the modifiers it depends on', () => {
+      const { css } = build();
+      expect(blockOf(css, "[data-theme='dark'][data-product='harbor']")).toContain('--action-primary: var(--color-teal);');
+      expect(blockOf(css, "[data-theme='dark'][data-product='core']")).toContain('--action-primary: var(--color-white);');
+      expect(blockOf(css, "[data-theme='dark'][data-product='core']")).toContain('--button-background: var(--action-primary);');
+      expect(blockOf(css, "[data-density='compact']")).toContain('--button-height: var(--size-sm);');
+      expect(blockOf(css, "[data-theme='dark']")).toContain('--surface-canvas: var(--color-blue);');
+      expect(blockOf(css, "[data-theme='dark']")).not.toContain('--button-height');
+      expect(css).toContain(":root,\n  [data-theme='light'][data-product='core'] {");
+    });
+
+    it('records dependencies and every variant in the manifest', () => {
+      const { manifest, permutationCount } = build();
+      expect(permutationCount).toBe(8);
+      expect(manifest).toContain('"dependsOn": [\n      "theme",\n      "product"\n    ]');
+      expect(manifest).toContain('"product": "harbor"');
+    });
+
+    it('rejects an override modifier that introduces a new token', () => {
+      /** @type {Record<string, unknown>} */
+      const broken = { ...files, 'harbor.json': { brand: { $type: 'color', new: { $value: '{color.teal}' } } } };
+      expect(() => buildTokenOutputs(resolver, (ref) => broken[ref], { keyGroups: [], banner: 'test' })).toThrow(/overrides nothing/);
+    });
+
+    it('rejects a second definition from a modifier that is not an override', () => {
+      /** @type {any} */
+      const plain = structuredClone(resolver);
+      delete plain.modifiers.density.$extensions;
+      expect(() => buildTokenOutputs(plain, (ref) => files[ref], { keyGroups: [], banner: 'test' })).toThrow(/defined in both/);
+    });
+  });
 });

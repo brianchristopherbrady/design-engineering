@@ -1,9 +1,10 @@
 @layer product {
   .example {
     display: grid;
-    border: var(--border-width-thin) solid var(--border-default);
+    border: var(--border-width-thin) solid var(--border-subtle);
     border-radius: var(--radius-lg);
     background-color: var(--surface-panel);
+    box-shadow: var(--elevation-low);
     min-inline-size: 0;
     overflow: clip;
   }
@@ -18,9 +19,9 @@
   }
 
   .stage {
-    padding: var(--space-lg);
+    padding: var(--space-xl) var(--space-lg);
     border-block: var(--border-width-thin) solid var(--border-subtle);
-    background-color: var(--surface-sunken);
+    background-color: var(--surface-canvas);
     min-inline-size: 0;
   }
 
@@ -43,26 +44,36 @@
   .summary {
     padding: var(--space-sm) var(--space-lg);
     cursor: pointer;
-    font-size: var(--typography-label-font-size);
-    font-weight: var(--typography-label-font-weight);
-    color: var(--text-link);
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--typography-caption-font-weight);
+    letter-spacing: var(--typography-caption-letter-spacing);
+    text-transform: uppercase;
+    transition: color var(--motion-duration-feedback) var(--motion-easing-standard);
   }
 
-  .summary:hover {
-    text-decoration: underline;
+  .summary:hover,
+  .details[open] > .summary {
+    color: var(--text-primary);
   }
 
   .summary:focus-visible {
     outline-offset: calc(var(--focus-width) * -1);
   }
 
+  /* Always the dark scope (data-theme in LiveExample): a display panel, like the source viewer. */
   .html {
     max-block-size: 24rem;
     overflow: auto;
-    padding: var(--space-md);
-    border-radius: var(--radius-md);
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--radius-lg);
     background-color: var(--surface-sunken);
     font-size: var(--typography-code-font-size);
     line-height: var(--typography-code-line-height);
+    scrollbar-color: var(--border-default) transparent;
+  }
+
+  .html:focus-visible {
+    outline-offset: calc(var(--focus-width) * -2);
   }
 }

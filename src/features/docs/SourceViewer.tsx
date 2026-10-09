@@ -36,7 +36,7 @@ export function SourceViewer({ path, description }: SourceViewerProps) {
         {description && <span className={styles.description}>{description}</span>}
       </figcaption>
       {state.status === 'ready' && (
-        <pre className={styles.code} tabIndex={0} role="region" aria-labelledby={captionId}>
+        <pre className={styles.code} data-theme="dark" tabIndex={0} role="region" aria-labelledby={captionId}>
           <code>{state.text}</code>
         </pre>
       )}

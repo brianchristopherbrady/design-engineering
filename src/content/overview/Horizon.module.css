@@ -1,0 +1,162 @@
+@layer product {
+  /* Rendered inside data-theme="dark": surface and text roles come from the dark theme. */
+  .horizon {
+    display: grid;
+    border: var(--border-width-thin) solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background-color: var(--horizon-space);
+    overflow: clip;
+    container: horizon / inline-size;
+  }
+
+  .scene {
+    display: block;
+    inline-size: 100%;
+    aspect-ratio: 3 / 1;
+    min-block-size: 11rem;
+  }
+
+  .stars {
+    fill: var(--horizon-star);
+  }
+
+  .sunStop {
+    stop-color: var(--horizon-sun);
+  }
+
+  .coronaHot {
+    stop-color: var(--horizon-corona);
+    stop-opacity: 0.95;
+  }
+
+  .coronaWarm {
+    stop-color: var(--horizon-corona);
+    stop-opacity: 0.32;
+  }
+
+  .coronaFaint {
+    stop-color: var(--horizon-corona);
+    stop-opacity: 0.07;
+  }
+
+  .coronaNone {
+    stop-color: var(--horizon-corona);
+    stop-opacity: 0;
+  }
+
+  .limbNone {
+    stop-color: var(--horizon-limb);
+    stop-opacity: 0;
+  }
+
+  .limbFull {
+    stop-color: var(--horizon-limb);
+  }
+
+  .flareNone {
+    stop-color: var(--horizon-sun);
+    stop-opacity: 0;
+  }
+
+  .flareFull {
+    stop-color: var(--horizon-sun);
+  }
+
+  .planet {
+    fill: var(--horizon-planet);
+    stroke-width: 1.5;
+  }
+
+  .atmosphere {
+    fill: none;
+    stroke-width: 22;
+    opacity: 0.35;
+  }
+
+  .core {
+    fill: var(--horizon-sun);
+  }
+
+  .sun,
+  .flare {
+    transform-box: view-box;
+    transform-origin: 600px 290px;
+  }
+
+  /* One slow sunrise when the page opens; never repeats, so there is nothing to pause. */
+  @media (prefers-reduced-motion: no-preference) {
+    .sun {
+      animation: rise var(--motion-duration-ambient) var(--motion-easing-enter) both;
+    }
+
+    .flare {
+      animation: flare var(--motion-duration-ambient) var(--motion-easing-enter) var(--motion-duration-emphasis) both;
+    }
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(36px) scale(0.9);
+    }
+  }
+
+  @keyframes flare {
+    from {
+      opacity: 0;
+      transform: scaleX(0.05);
+    }
+  }
+
+  /* The planet's surface continues behind the readouts. */
+  .readouts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 0;
+    background-color: var(--horizon-planet);
+  }
+
+  .readout {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: var(--space-2xs);
+    padding: var(--space-md) var(--space-lg) var(--space-lg);
+    border-block-start: var(--border-width-thin) solid var(--border-subtle);
+  }
+
+  .readout:nth-child(even) {
+    border-inline-start: var(--border-width-thin) solid var(--border-subtle);
+  }
+
+  .label {
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--typography-caption-font-weight);
+    letter-spacing: var(--typography-caption-letter-spacing);
+    text-transform: uppercase;
+  }
+
+  .value {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-light);
+    line-height: var(--font-line-height-tight);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* 40rem: four readouts on one line, each still wider than its label. */
+  @container horizon (min-inline-size: 40rem) {
+    .readouts {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .readout {
+      border-block-start: 0;
+    }
+
+    .readout + .readout {
+      border-inline-start: var(--border-width-thin) solid var(--border-subtle);
+    }
+  }
+}

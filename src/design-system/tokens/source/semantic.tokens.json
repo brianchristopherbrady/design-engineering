@@ -40,12 +40,39 @@
     "duration": {
       "feedback": { "$value": "{duration.fast}", "$description": "Hover, press and focus feedback." },
       "transition": { "$value": "{duration.base}", "$description": "Small state transitions such as a switch thumb." },
-      "emphasis": { "$value": "{duration.slow}", "$description": "Larger entrances such as a dialog appearing." }
+      "emphasis": { "$value": "{duration.slow}", "$description": "Larger entrances such as a dialog appearing or a page arriving." },
+      "ambient": { "$value": "{duration.slower}", "$description": "One-time scene animations, such as the sunrise on the Overview." }
     },
     "easing": {
       "standard": { "$value": "{easing.standard}" },
-      "enter": { "$value": "{easing.decelerate}", "$description": "Elements arriving on screen." }
+      "enter": { "$value": "{easing.decelerate}", "$description": "Elements arriving on screen: a long, frictionless glide to rest." }
     }
+  },
+  "overlay": {
+    "blur": {
+      "$type": "dimension",
+      "$value": { "value": 0.375, "unit": "rem" },
+      "$description": "Frost behind modal dialogs, so the page recedes without disappearing."
+    }
+  },
+  "lens": {
+    "$type": "color",
+    "$description": "The red eye drawn by the logo and the not-found page. The same in both themes.",
+    "housing": { "$value": "{color.neutral.300}", "$description": "Brushed-metal ring." },
+    "glass": { "$value": "{color.neutral.950}" },
+    "iris": { "$value": "{color.red.600}" },
+    "flare": { "$value": "{color.red.400}" },
+    "core": { "$value": "{color.amber.100}", "$description": "The pinpoint at the center of the lens." }
+  },
+  "horizon": {
+    "$type": "color",
+    "$description": "The sunrise over a planet's limb on the Overview. The same in both themes: it is always night in orbit.",
+    "space": { "$value": "{color.neutral.950}" },
+    "star": { "$value": "{color.neutral.300}" },
+    "sun": { "$value": "{color.neutral.0}" },
+    "corona": { "$value": "{color.amber.100}" },
+    "limb": { "$value": "{color.neutral.400}", "$description": "Sunlight catching the curved edge of the planet." },
+    "planet": { "$value": "{color.neutral.900}" }
   },
   "typography": {
     "$type": "typography",
@@ -57,28 +84,33 @@
       "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.sm}", "fontWeight": "{font.weight.regular}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.normal}" }
     },
     "lead": {
-      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.lg}", "fontWeight": "{font.weight.regular}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.normal}" }
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.lg}", "fontWeight": "{font.weight.light}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.normal}" }
     },
     "label": {
-      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.sm}", "fontWeight": "{font.weight.semibold}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.snug}" }
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.sm}", "fontWeight": "{font.weight.medium}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.snug}" }
     },
     "caption": {
-      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.xs}", "fontWeight": "{font.weight.medium}", "letterSpacing": "{font.letter-spacing.wide}", "lineHeight": "{font.line-height.snug}" }
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.xs}", "fontWeight": "{font.weight.medium}", "letterSpacing": "{font.letter-spacing.wider}", "lineHeight": "{font.line-height.snug}" },
+      "$description": "Uppercase readouts: eyebrows, group headings, table captions."
+    },
+    "control": {
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.sm}", "fontWeight": "{font.weight.medium}", "letterSpacing": "{font.letter-spacing.wide}", "lineHeight": "{font.line-height.snug}" },
+      "$description": "Buttons, navigation, tabs and badges, set in uppercase like panel labels."
     },
     "code": {
       "$value": { "fontFamily": "{font.family.mono}", "fontSize": "{font.size.sm}", "fontWeight": "{font.weight.regular}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.normal}" }
     },
     "heading-1": {
-      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.3xl}", "fontWeight": "{font.weight.bold}", "letterSpacing": "{font.letter-spacing.tight}", "lineHeight": "{font.line-height.tight}" }
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.3xl}", "fontWeight": "{font.weight.light}", "letterSpacing": "{font.letter-spacing.tight}", "lineHeight": "{font.line-height.tight}" }
     },
     "heading-2": {
-      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.2xl}", "fontWeight": "{font.weight.semibold}", "letterSpacing": "{font.letter-spacing.tight}", "lineHeight": "{font.line-height.tight}" }
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.2xl}", "fontWeight": "{font.weight.regular}", "letterSpacing": "{font.letter-spacing.tight}", "lineHeight": "{font.line-height.tight}" }
     },
     "heading-3": {
-      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.xl}", "fontWeight": "{font.weight.semibold}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.snug}" }
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.xl}", "fontWeight": "{font.weight.regular}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.snug}" }
     },
     "heading-4": {
-      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.lg}", "fontWeight": "{font.weight.semibold}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.snug}" }
+      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.lg}", "fontWeight": "{font.weight.medium}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.snug}" }
     }
   }
 }

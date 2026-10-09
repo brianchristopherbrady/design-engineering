@@ -1,9 +1,11 @@
 @layer components {
   .link {
     color: var(--text-link);
-    text-underline-offset: 0.2em;
+    text-underline-offset: 0.24em;
     text-decoration-thickness: from-font;
+    text-decoration-color: var(--border-strong);
     border-radius: var(--radius-sm);
+    transition: text-decoration-color var(--motion-duration-feedback) var(--motion-easing-standard);
   }
 
   .inline {
@@ -11,16 +13,17 @@
   }
 
   .inline:hover {
-    text-decoration-thickness: var(--border-width-thick);
+    text-decoration-color: currentColor;
   }
 
   .standalone {
     text-decoration-line: none;
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
   }
 
   .standalone:hover {
     text-decoration-line: underline;
+    text-decoration-color: currentColor;
   }
 
   .link[aria-current='page'] {

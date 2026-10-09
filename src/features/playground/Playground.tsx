@@ -1,13 +1,18 @@
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { Field } from '@/design-system/composites';
+import { ThemeScope } from '@/design-system/layout';
 import { Button, Heading, iconNames, Input, Select, Switch, Text } from '@/design-system/primitives';
+import { densityNames, productNames, themeNames, type DensityName, type ProductName, type ThemeName } from '@/design-system/tokens';
+import { densityLabels, productProfiles } from '@/domain/system';
 import { acceptedValues, buildProps, buildSnippet, initialValues, presetValues } from './engine';
+import { ContainerInspector } from './ContainerOverlay';
 import type { AnyControl, AnyStory, ControlValue, ControlValues } from './types';
 import styles from './Playground.module.css';
 
-const themes = ['inherit', 'light', 'dark'] as const;
-type PreviewTheme = (typeof themes)[number];
-const themeLabels: Record<PreviewTheme, string> = { inherit: 'Same as site', light: 'Light', dark: 'Dark' };
+const inherit = 'inherit';
+type Choice<T extends string> = T | typeof inherit;
+
+const themeLabels: Record<ThemeName, string> = { light: 'Light', dark: 'Dark' };
 
 const widthPresets = [
   { label: 'Narrow', px: 320 },
@@ -58,7 +63,10 @@ export function Playground({ stories, storyId, onStoryChange, renderLinks }: Pla
 
 function Workbench({ story }: { story: AnyStory }) {
   const [values, setValues] = useState<ControlValues>(() => initialValues(story));
-  const [theme, setTheme] = useState<PreviewTheme>('inherit');
+  const [theme, setTheme] = useState<Choice<ThemeName>>(inherit);
+  const [product, setProduct] = useState<Choice<ProductName>>(inherit);
+  const [density, setDensity] = useState<Choice<DensityName>>(inherit);
+  const [inspect, setInspect] = useState(false);
   const [width, setWidth] = useState<number | null>(null);
   const [measured, setMeasured] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
@@ -99,19 +107,30 @@ function Workbench({ story }: { story: AnyStory }) {
               Reset controls
             </Button>
           </div>
-          <div className={styles.toolGroup}>
-            <Field label="Preview theme">
-              {(control) => (
-                <Select {...control} value={theme} onChange={(event) => setTheme(event.target.value as PreviewTheme)}>
-                  {themes.map((option) => (
-                    <option key={option} value={option}>
-                      {themeLabels[option]}
-                    </option>
-                  ))}
-                </Select>
-              )}
-            </Field>
-            <Field label="Preview width" description={measured === null ? undefined : `${measured}px`}>
+          <div className={styles.scopeGroup}>
+            <ScopeSelect
+              label="Preview product"
+              value={product}
+              options={productNames.map((name) => [name, productProfiles[name].name] as const)}
+              onChange={setProduct}
+            />
+            <ScopeSelect
+              label="Preview theme"
+              value={theme}
+              options={themeNames.map((name) => [name, themeLabels[name]] as const)}
+              onChange={setTheme}
+            />
+            <ScopeSelect
+              label="Preview density"
+              value={density}
+              options={densityNames.map((name) => [name, densityLabels[name]] as const)}
+              onChange={setDensity}
+            />
+            <Field
+              label="Preview width"
+              description={measured === null ? undefined : `${measured}px`}
+              className={styles.widthField}
+            >
               {(control) => (
                 <input
                   {...control}
@@ -127,7 +146,7 @@ function Workbench({ story }: { story: AnyStory }) {
               )}
             </Field>
           </div>
-          <div className={styles.toolGroup} role="group" aria-label="Preview width presets">
+          <div className={styles.segmented} role="group" aria-label="Preview width presets">
             {widthPresets.map((preset) => (
               <Button key={preset.label} size="small" aria-pressed={width === preset.px} onClick={() => setWidth(preset.px)}>
                 {preset.label} ({preset.px}px)
@@ -137,17 +156,27 @@ function Workbench({ story }: { story: AnyStory }) {
               Fill
             </Button>
           </div>
+          <Switch
+            label="Show query containers"
+            description="Outline every container the preview's components query, with its live width."
+            checked={inspect}
+            onChange={(event) => setInspect(event.target.checked)}
+          />
         </div>
         <div className={styles.stage}>
-          <div
-            ref={frameRef}
-            className={styles.frame}
-            data-theme={theme === 'inherit' ? undefined : theme}
-            data-testid="playground-preview"
-            style={{ inlineSize: width === null ? '100%' : `${width}px` }}
-          >
-            {story.render(props)}
-          </div>
+          <ContainerInspector enabled={inspect}>
+            <ThemeScope
+              ref={frameRef}
+              className={styles.frame}
+              theme={theme === inherit ? undefined : theme}
+              product={product === inherit ? undefined : product}
+              density={density === inherit ? undefined : density}
+              data-testid="playground-preview"
+              style={{ inlineSize: width === null ? '100%' : `${width}px` }}
+            >
+              {story.render(props)}
+            </ThemeScope>
+          </ContainerInspector>
         </div>
         {story.previewNote && (
           <Text variant="bodySmall" tone="muted">
@@ -189,7 +218,7 @@ function Workbench({ story }: { story: AnyStory }) {
             {copied ? 'Copied' : ''}
           </span>
         </div>
-        <pre className={styles.code} tabIndex={0} role="region" aria-labelledby={ids.usage}>
+        <pre className={styles.code} data-theme="dark" tabIndex={0} role="region" aria-labelledby={ids.usage}>
           <code data-testid="playground-snippet">{snippet}</code>
         </pre>
       </section>
@@ -228,6 +257,33 @@ function Workbench({ story }: { story: AnyStory }) {
         </div>
       </section>
     </div>
+  );
+}
+
+function ScopeSelect<T extends string>({
+  label,
+  value,
+  options,
+  onChange,
+}: {
+  label: string;
+  value: Choice<T>;
+  options: readonly (readonly [T, string])[];
+  onChange: (value: Choice<T>) => void;
+}) {
+  return (
+    <Field label={label}>
+      {(control) => (
+        <Select {...control} value={value} onChange={(event) => onChange(event.target.value as Choice<T>)}>
+          <option value={inherit}>Same as site</option>
+          {options.map(([option, text]) => (
+            <option key={option} value={option}>
+              {text}
+            </option>
+          ))}
+        </Select>
+      )}
+    </Field>
   );
 }
 

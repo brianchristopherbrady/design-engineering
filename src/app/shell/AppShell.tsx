@@ -5,16 +5,8 @@ import { Button, Icon, Link, Text } from '@/design-system/primitives';
 import { entriesOfKind, entryLayers, type CatalogEntry } from '@/domain/system';
 import { paths, sections } from '../paths';
 import styles from './AppShell.module.css';
+import { Lens } from './Lens';
 import { ThemeSelect } from './ThemeSelect';
-
-function Logo() {
-  return (
-    <svg className={styles.logo} viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-      <rect width="32" height="32" rx="7" className={styles.logoMark} />
-      <path d="M9 10h14M9 16h14M9 22h8" className={styles.logoLines} strokeWidth="2.5" strokeLinecap="round" />
-    </svg>
-  );
-}
 
 interface NavGroup {
   heading?: string;
@@ -56,12 +48,14 @@ export function AppShell() {
   const sectionKey = pathname.split('/')[1] ?? '';
   const nav = sectionNavs[sectionKey];
   const [navOpen, setNavOpen] = useState(false);
+  const [landed, setLanded] = useState(true);
 
-  // Close the small-screen section list after navigating (adjusting state during render, not in an effect).
+  // After a new path: close the small-screen section list and let pages glide in (adjusting state during render, not in an effect).
   const [navPath, setNavPath] = useState(pathname);
   if (navPath !== pathname) {
     setNavPath(pathname);
     setNavOpen(false);
+    setLanded(false);
   }
 
   return (
@@ -74,8 +68,8 @@ export function AppShell() {
         <Container width="full">
           <div className={styles.headerRow}>
             <Link href={paths.overview} variant="standalone" className={styles.brand}>
-              <Logo />
-              System Lab
+              <Lens className={styles.logo} />
+              <span className={styles.brandName}>System Lab</span>
             </Link>
             <nav aria-label="Sections" className={styles.primaryNav}>
               <Inline as="ul" gap="extraSmall">
@@ -96,7 +90,9 @@ export function AppShell() {
                 })}
               </Inline>
             </nav>
-            <ThemeSelect />
+            <div className={styles.settings}>
+              <ThemeSelect />
+            </div>
           </div>
         </Container>
       </header>
@@ -150,7 +146,10 @@ export function AppShell() {
               </Container>
             }
           >
-            <Outlet />
+            {/* Keyed by path so each new page glides in; the first page and query-only changes render in place. */}
+            <div key={pathname} className={landed ? undefined : styles.arrive}>
+              <Outlet />
+            </div>
           </Suspense>
         </main>
       </div>

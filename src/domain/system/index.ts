@@ -27,3 +27,4 @@ export {
 } from './catalog';
 export { EntryCard, type EntryCardProps } from './EntryCard';
 export { MaturityBadge } from './MaturityBadge';
+export { densityLabels, productProfiles, type ProductProfile } from './products';

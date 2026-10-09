@@ -10,7 +10,10 @@ import { SourceList } from './SourceList';
 import { TokenChain, TokenSwatch } from './TokenChain';
 import styles from './ComponentReference.module.css';
 
-const manifestByPath = new Map(tokenManifest.map((record) => [record.path, record]));
+type TokenRecord = (typeof tokenManifest)[number];
+let index: Map<string, TokenRecord> | undefined;
+// Built on first use rather than at import, so the manifest stays out of bundles that never render a reference.
+const manifestByPath = () => (index ??= new Map(tokenManifest.map((record) => [record.path, record])));
 
 export const componentSections = [
   { id: 'overview', label: 'Overview' },
@@ -127,7 +130,7 @@ export function ComponentReference({ entry, doc, playgroundHref }: ComponentRefe
         ) : (
           <ul className={styles.tokens}>
             {doc.tokens.map((path) => {
-              const record = manifestByPath.get(path);
+              const record = manifestByPath().get(path);
               return (
                 <li key={path} className={styles.token}>
                   <code>{path}</code>

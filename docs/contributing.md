@@ -23,6 +23,18 @@
 4. Add new color pairs to `src/design-system/tokens/contrast.test.ts`.
 5. Commit the sources and `src/design-system/tokens/generated/` together.
 
+## Adding a product
+
+1. Open Foundations → Theme studio, enter the brand color, product id and shape, and confirm every
+   pair passes in both themes. Review the status and color-vision table; a brand close to danger
+   or success needs a deliberate decision. Copy the link to share the exact theme for review.
+2. From the Token files tabs, create `product.<id>.tokens.json` and merge the ramp into
+   `reference.modes.tokens.json` and the brand roles into `brands.light.tokens.json` and
+   `brands.dark.tokens.json`. Product files may only override existing tokens.
+3. Merge the resolver entry into `system-lab.resolver.json` and the profile into
+   `src/domain/system/products.ts`, then run `npm run tokens` and `npm test`. The contrast suite
+   picks up the new product automatically.
+
 ## Adding or changing a component
 
 1. Create `src/design-system/<layer>/<Name>/<Name>.tsx`, `<Name>.module.css` (wrapped in its

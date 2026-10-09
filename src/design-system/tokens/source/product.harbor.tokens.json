@@ -1,0 +1,42 @@
+{
+  "$description": "Harbor: a financial operations tool. Teal brand, tight corners. Overrides only brand roles and shape; everything else is inherited.",
+  "action": {
+    "primary": {
+      "background": { "$value": "{brand.harbor.strong}" },
+      "hover": { "$value": "{brand.harbor.stronger}" },
+      "active": { "$value": "{brand.harbor.strongest}" },
+      "foreground": { "$value": "{brand.harbor.on-strong}" },
+      "border": { "$value": "{brand.harbor.strong}" }
+    }
+  },
+  "text": {
+    "link": { "$value": "{brand.harbor.text}" }
+  },
+  "focus": {
+    "ring": { "$value": "{brand.harbor.border}" }
+  },
+  "surface": {
+    "accent": { "$value": "{brand.harbor.subtle}" }
+  },
+  "tone": {
+    "brand": {
+      "text": { "$value": "{brand.harbor.text}" },
+      "surface": { "$value": "{brand.harbor.subtle}" },
+      "border": { "$value": "{brand.harbor.border}" },
+      "solid": { "$value": "{brand.harbor.strong}" },
+      "on-solid": { "$value": "{brand.harbor.on-strong}" }
+    }
+  },
+  "control": {
+    "radius": { "$value": "{radius.sm}" }
+  },
+  "badge": {
+    "radius": { "$value": "{radius.sm}" }
+  },
+  "card": {
+    "radius": { "$value": "{radius.md}" }
+  },
+  "dialog": {
+    "radius": { "$value": "{radius.md}" }
+  }
+}

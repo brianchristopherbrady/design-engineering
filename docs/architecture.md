@@ -10,14 +10,15 @@ to tokens, and where state lives. The Overview page shows the same material with
 | --- | --- | --- | --- |
 | `src/design-system/tokens` | ds-tokens | DTCG sources, generated CSS variables, TypeScript keys, manifest, prop vocabularies | — |
 | `src/design-system/styles` | ds-styles | Cascade layer order, reset, base element styles | ds-tokens |
-| `src/design-system/layout` | ds-layout | Box, Stack, Inline, Grid, Container | ds-tokens |
+| `src/design-system/layout` | ds-layout | Box, Stack, Inline, Grid, Container, ThemeScope | ds-tokens |
 | `src/design-system/primitives` | ds-primitives | Text, Heading, Button, Badge, Icon, Link, Input, Select, Checkbox, Switch, Progress, Skeleton, VisuallyHidden | ds-tokens, ds-layout |
 | `src/design-system/composites` | ds-composites | Card, Dialog, Alert, Tabs, Field, PageHeader, EmptyState | ds-tokens, ds-layout, ds-primitives |
 | `src/domain/system` | domain | The catalog of components, foundations and patterns; the changelog; catalog-aware presentation | design system |
 | `src/features/docs` | feature | Component reference rendering, live examples, source viewers, token chains | design system, domain |
 | `src/features/directory` | feature | Search and filter logic, URL encoding, the filter UI | design system, domain |
 | `src/features/scenarios` | feature | Demo scenarios, simulated requests, the `useRequest` state machine | design system, domain |
-| `src/features/playground` | feature | Typed control specs, prop and snippet builders, the workbench UI | design system, domain |
+| `src/features/playground` | feature | Typed control specs, prop and snippet builders, the workbench UI, the container inspector | design system, domain |
+| `src/features/theming` | feature | OKLCH, contrast (WCAG 2 and APCA), ΔEOK and color-vision math, ramp generation, role assignment, the theme studio panels and its URL-backed state | design system, domain |
 | `src/content/*` | content | Overview, foundations, component docs and stories, pattern demos and fixtures | design system, domain, features |
 | `src/app` | app | Shell, routes, providers, pages | everything |
 | `src/main.tsx` | entry | Mounts the app and global styles | app, ds-styles |
@@ -55,9 +56,39 @@ forbids raw colors and palette (`--color-*`) variables outside the token files, 
    `dialog.width.medium`, `switch.track-on`, `skeleton.size.large`. Added only where a component
    exposes a knob a product may retune.
 
-The pipeline keeps aliases as `var()` in CSS, so changing `data-theme` on any element cascades
-through all three tiers. Contrast for every foreground/background pair is unit-tested in both
-themes (`contrast.test.ts`, 170 checks).
+The pipeline keeps aliases as `var()` in CSS, so changing a modifier attribute on any element
+cascades through all three tiers. Contrast for every foreground/background pair is unit-tested in
+every product and theme (`contrast.test.ts`, 510 checks).
+
+## Modifiers: theme, product and density
+
+`system-lab.resolver.json` follows the DTCG resolver module (2025.10). Sets (reference, semantic,
+component) always apply; three **modifiers** add or replace tokens by context:
+
+| Modifier | Contexts | Sources | Rule |
+| --- | --- | --- | --- |
+| `theme` | light, dark | `theme.*.tokens.json`, `brands.*.tokens.json` | `complete`: every context defines the same tokens |
+| `product` | system-lab (default, empty), harbor, meadow | `product.*.tokens.json` | `overrides`: may only replace existing tokens |
+| `density` | comfortable (default, empty), compact | `density.compact.tokens.json` | `overrides` |
+
+The pipeline resolves every permutation (3 × 2 × 2 = 12), then compares each token's resolved
+signature across them to find the modifiers it actually **depends on**. CSS is emitted
+dependency-minimal: a token that never changes is written once in `:root`; one that depends on
+product and theme is written once per product × theme combination under
+`[data-theme='…'][data-product='…']`, and so on. The output is 768 lines for 345 tokens rather than
+12 copies of every token. Override files that introduce a new path, or change a token's type or
+tier, fail the build with "overrides nothing".
+
+`ThemeScope` (layout) re-themes a region by writing all three attributes, inheriting any it is not
+given from the nearest scope. Because every block's selector names all of its token's modifiers, a
+scoped region must carry all three attributes; `ThemeScope` guarantees that. `ThemeProvider` does
+the same on `<html>`. The products foundation composes any permutation, computes each product's
+overrides and every density change from the manifest (`src/content/foundations/modes.ts`), and
+renders nested scopes and every product × theme combination. The theme studio generates a new
+product's ramp in OKLCH (reporting where sRGB limits chroma), picks each role by WCAG 2 contrast
+against the system's real surfaces, reports APCA Lc alongside, compares the brand with the status
+fills under simulated color-vision deficiencies, applies a shape, and exports all six pieces a
+product needs. Its choices live in the URL so a theme can be shared for review.
 
 ## From prop to style
 
@@ -79,7 +110,7 @@ property with the component token as fallback, for example
 `background-color: var(--_background, var(--card-background))`. That is the documented precedence:
 an explicit prop wins, an unset prop uses the component token. Example trace:
 `appearance="primary"` → `--button-primary-background` → `--action-primary-background` →
-`--color-blue-600` (light) / `--color-blue-300` (dark).
+`--color-neutral-950` (System Lab, light) / `--brand-harbor-strong` (Harbor, either theme).
 
 Option arrays (`buttonAppearances`, `badgeSizes`, `gridColumnCounts` …) and default objects are
 exported next to each component. The component, its docs and its playground story all import the
@@ -101,7 +132,11 @@ of specificity or load order, so product code can adjust a component with a plai
 - Intrinsic layout first: Inline wraps, Grid auto-fits.
 - Container queries for components and compositions (EntryCard 28rem, ActivityList 36rem,
   DirectoryFilters 40rem, the playground workbench 52rem, documentation pages 56rem).
-- One viewport media query, in the app shell, for the section sidebar at 64rem.
+- Viewport media queries only in the app shell (the section sidebar and the header's row layout).
+- Every threshold has a comment explaining its value. The responsive foundation lists every
+  `@container` and `@media` rule by parsing the stylesheets at runtime, and flags any viewport size
+  query outside the shell. Pattern demos and the playground can outline their live query
+  containers ("Show query containers").
 
 ## State ownership
 
@@ -109,10 +144,10 @@ of specificity or load order, so product code can adjust a component with a plai
 | --- | --- |
 | Local UI (disclosures, selected tab, pins in demos) | The component (`useState`) or the native element |
 | Components index filters | URL search parameters (`useUrlDirectoryFilters`) |
-| Playground component | URL `?component=`; control values, preview theme and width in `Playground` state |
+| Playground component | URL `?component=`; control values, preview theme/product/density, width and the container overlay in `Playground` state |
 | Demo scenario and resets | `ScenarioDemo`, which remounts the demo with a `key` |
 | Simulated requests | `useRequest` (discriminated union, abort on reload, stale-response guard) |
-| Theme preference | `ThemeProvider` (app layer), stored in localStorage |
+| Theme preference, product and density | `ThemeProvider` (app layer), stored in localStorage; `ThemeScope` for regions |
 | Counts, filtered lists, snippets | Derived during render |
 
 No design-system component knows about fixtures, scenarios or the playground.
@@ -121,6 +156,7 @@ No design-system component knows about fixtures, scenarios or the playground.
 
 Routes: `/`, `/foundations`, `/foundations/:topicId`, `/components`, `/components/:componentId`,
 `/playground`, `/patterns`, `/patterns/:patternId` and a catch-all. All but the overview are lazy
-chunks. `usePageTitle` sets `document.title` and moves focus to the page `h1` after client-side
+chunks. The 150 kB token manifest loads only with pages that inspect tokens; the overview reads the
+generated `tokenCounts` instead. `usePageTitle` sets `document.title` and moves focus to the page `h1` after client-side
 navigation, or to the target of a URL fragment; first load and query changes leave focus alone.
 `Link` renders a real anchor; the app passes React Router's `navigate` through `LinkProvider`.

@@ -312,12 +312,12 @@ export function InputExample() {
 export function SelectExample() {
   return (
     <LiveExample title="With Field" kind="recommended" sourcePath={source}>
-      <Field label="Maturity" description="Beta components may change.">
+      <Field label="Time zone" description="Used for due dates and reminders.">
         {(control) => (
-          <Select {...control} defaultValue="stable">
-            <option value="stable">Stable</option>
-            <option value="beta">Beta</option>
-            <option value="deprecated">Deprecated</option>
+          <Select {...control} defaultValue="utc">
+            <option value="utc">Coordinated Universal Time</option>
+            <option value="london">London</option>
+            <option value="new-york">New York</option>
           </Select>
         )}
       </Field>
@@ -331,13 +331,13 @@ export function CheckboxExample() {
       <fieldset>
         <legend>
           <Text as="span" variant="label">
-            Show in the directory
+            Notify me about
           </Text>
         </legend>
         <Stack gap="small">
-          <Checkbox label="Stable components" defaultChecked />
-          <Checkbox label="Beta components" description="APIs may change between releases." />
-          <Checkbox label="Deprecated components" disabled />
+          <Checkbox label="Comments" defaultChecked />
+          <Checkbox label="Mentions" description="When someone adds you to a conversation." />
+          <Checkbox label="Weekly digest" description="Not available on this plan." disabled />
         </Stack>
       </fieldset>
     </LiveExample>

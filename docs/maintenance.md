@@ -38,6 +38,8 @@ Router, Vitest and jsdom require Node 22: upgrade Node first, then those package
 | Key | Shape | Owner |
 | --- | --- | --- |
 | `system-lab:theme` | `"light"` or `"dark"` (absent means system) | `src/app/providers/ThemeProvider.tsx` |
+| `system-lab:product` | `"system-lab"`, `"harbor"` or `"meadow"` (absent means system-lab) | `src/app/providers/ThemeProvider.tsx` |
+| `system-lab:density` | `"comfortable"` or `"compact"` (absent means comfortable) | `src/app/providers/ThemeProvider.tsx` |
 
 Nothing else is stored. Demo pins, archives and form submissions live in component state and reset
 with the demo.
@@ -52,6 +54,19 @@ leave the browser; their outcomes come from `outcomeFor(scenario, attempt)`.
 
 - The token generator implements the DTCG features this project uses and rejects the rest
   (`$extends`, JSON Pointer `$ref`, `$root`, non-sRGB colors) with a clear error.
+- Every modifier combination is resolved at build time, so permutations multiply: a fourth
+  modifier with three contexts would mean 36. The CSS stays small because emission is
+  dependency-minimal, but the manifest's `variants` grow with each product-dependent token.
+- The theme studio's APCA figures use the published 0.0.98G-4g constants and are informational;
+  roles are chosen by WCAG 2 ratios, which remain the conformance target.
+- Its color-vision simulation uses the Machado et al. (2009) matrices at full severity, and its
+  status warning threshold (0.1 ΔEOK) is a review heuristic. Neither is a substitute for testing
+  with people who have color-vision deficiencies.
+- The studio previews by re-pointing Harbor's brand roles and radii inline; a product only becomes
+  real CSS through the token files and the pipeline.
+- The query registry parses CSS with a regular expression that understands this codebase's
+  conventions (one rule per `@container`/`@media`, explanatory comment directly above), not
+  arbitrary CSS.
 - Code blocks are plain text without syntax highlighting.
 - The playground's snippets for layout stories write `{items}` for the sample children.
 - Dialog styling relies on `::backdrop` inheriting custom properties (all current browsers).

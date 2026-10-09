@@ -24,7 +24,7 @@ export function PageHeader({ title, eyebrow, description, meta, actions, titleSi
     <header className={styles.header}>
       <Stack gap="small">
         {eyebrow && (
-          <Text as="p" variant="label" tone="muted">
+          <Text as="p" variant="caption" tone="muted">
             {eyebrow}
           </Text>
         )}

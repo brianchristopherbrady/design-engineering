@@ -1,53 +1,53 @@
 {
-  "$description": "Dark theme: the same semantic roles as the light theme, mapped to different reference tokens.",
+  "$description": "Dark theme, 'Deep space': near-black surfaces, the monolith inverted to white, a brighter signal.",
   "surface": {
     "$type": "color",
     "canvas": { "$value": "{color.neutral.900}", "$description": "Page background." },
     "panel": { "$value": "{color.neutral.850}", "$description": "Cards, dialogs, inputs and other raised content." },
-    "sunken": { "$value": "{color.neutral.950}", "$description": "Code blocks, previews and inset areas." },
-    "accent": { "$value": "{color.blue.950}", "$description": "Selected or current items." }
+    "sunken": { "$value": "{color.neutral.950}", "$description": "Previews, wells and inset areas." },
+    "accent": { "$value": "{color.red.950}", "$description": "Selected or current items, lit faintly by the signal." }
   },
   "text": {
     "$type": "color",
-    "primary": { "$value": "{color.neutral.50}" },
-    "muted": { "$value": "{color.neutral.300}", "$description": "Secondary text. Meets 4.5:1 on every surface." },
-    "link": { "$value": "{color.blue.300}" }
+    "primary": { "$value": "{color.neutral.100}" },
+    "muted": { "$value": "{color.neutral.400}", "$description": "Secondary text. Meets 4.5:1 on every surface." },
+    "link": { "$value": "{color.neutral.100}", "$description": "Ink, like body text: links are identified by their underline, not by hue." }
   },
   "border": {
     "$type": "color",
-    "subtle": { "$value": "{color.neutral.800}", "$description": "Decorative separation; not enough contrast to identify a control." },
+    "subtle": { "$value": "{color.neutral.800}", "$description": "Hairline seams; not enough contrast to identify a control." },
     "default": { "$value": "{color.neutral.700}" },
-    "strong": { "$value": "{color.neutral.400}", "$description": "Control boundaries. Meets 3:1 against surfaces." }
+    "strong": { "$value": "{color.neutral.500}", "$description": "Control boundaries. Meets 3:1 against surfaces." }
   },
   "action": {
     "$type": "color",
     "primary": {
-      "background": { "$value": "{color.blue.300}" },
-      "hover": { "$value": "{color.blue.200}" },
-      "active": { "$value": "{color.blue.100}" },
+      "background": { "$value": "{color.neutral.50}", "$description": "The monolith inverted: one solid white action per region." },
+      "hover": { "$value": "{color.neutral.200}" },
+      "active": { "$value": "{color.neutral.300}" },
       "foreground": { "$value": "{color.neutral.950}" },
-      "border": { "$value": "{color.blue.200}" }
+      "border": { "$value": "{color.neutral.50}" }
     },
     "secondary": {
       "background": { "$value": "{color.neutral.850}" },
       "hover": { "$value": "{color.neutral.800}" },
       "active": { "$value": "{color.neutral.700}" },
-      "foreground": { "$value": "{color.neutral.50}" },
-      "border": { "$value": "{color.neutral.400}" }
+      "foreground": { "$value": "{color.neutral.100}" },
+      "border": { "$value": "{color.neutral.500}" }
     },
     "ghost": {
       "background": { "$value": "{color.transparent}" },
-      "hover": { "$value": "{color.blue.950}" },
-      "active": { "$value": "{color.blue.900}" },
-      "foreground": { "$value": "{color.blue.200}" },
+      "hover": { "$value": "{color.neutral.800}" },
+      "active": { "$value": "{color.neutral.700}" },
+      "foreground": { "$value": "{color.neutral.100}" },
       "border": { "$value": "{color.transparent}" }
     },
     "danger": {
-      "background": { "$value": "{color.red.300}" },
-      "hover": { "$value": "{color.red.200}" },
-      "active": { "$value": "{color.red.100}" },
+      "background": { "$value": "{color.red.400}" },
+      "hover": { "$value": "{color.red.300}" },
+      "active": { "$value": "{color.red.200}" },
       "foreground": { "$value": "{color.neutral.950}" },
-      "border": { "$value": "{color.red.200}" }
+      "border": { "$value": "{color.red.300}" }
     },
     "disabled": {
       "background": { "$value": "{color.neutral.800}" },
@@ -56,23 +56,30 @@
     }
   },
   "focus": {
-    "ring": { "$type": "color", "$value": "{color.blue.300}", "$description": "Keyboard focus outline. Meets 3:1 against every surface." }
+    "ring": { "$type": "color", "$value": "{color.neutral.50}", "$description": "Keyboard focus outline in ink, so it never reads as an error. Meets 3:1 against every surface." }
+  },
+  "signal": {
+    "$type": "color",
+    "$description": "The red eye: marks where you are (current page, selected tab). Never used for text or large fills.",
+    "current": { "$value": "{color.red.400}", "$description": "Current-location indicator. Meets 3:1 against every surface." },
+    "glow": { "$value": "{color.glow}", "$description": "Translucent halo around the indicator." }
   },
   "tone": {
     "$type": "color",
     "$description": "Status and emphasis families. text and surface pair for subtle treatments; on-solid and solid pair for filled ones.",
     "neutral": {
-      "text": { "$value": "{color.neutral.200}" },
+      "text": { "$value": "{color.neutral.300}" },
       "surface": { "$value": "{color.neutral.800}" },
-      "border": { "$value": "{color.neutral.400}" },
-      "solid": { "$value": "{color.neutral.200}" },
+      "border": { "$value": "{color.neutral.500}" },
+      "solid": { "$value": "{color.neutral.300}" },
       "on-solid": { "$value": "{color.neutral.950}" }
     },
     "brand": {
-      "text": { "$value": "{color.blue.200}" },
-      "surface": { "$value": "{color.blue.950}" },
-      "border": { "$value": "{color.blue.400}" },
-      "solid": { "$value": "{color.blue.300}" },
+      "$description": "Ink: the monolith's emphasis. The signal red is not a tone.",
+      "text": { "$value": "{color.neutral.50}" },
+      "surface": { "$value": "{color.neutral.700}" },
+      "border": { "$value": "{color.neutral.100}" },
+      "solid": { "$value": "{color.neutral.50}" },
       "on-solid": { "$value": "{color.neutral.950}" }
     },
     "success": {
@@ -92,7 +99,7 @@
     "danger": {
       "text": { "$value": "{color.red.300}" },
       "surface": { "$value": "{color.red.950}" },
-      "border": { "$value": "{color.red.400}" },
+      "border": { "$value": "{color.red.500}" },
       "solid": { "$value": "{color.red.300}" },
       "on-solid": { "$value": "{color.neutral.950}" }
     },

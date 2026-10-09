@@ -10,6 +10,9 @@
     color: var(--text-primary);
     font-size: var(--typography-body-font-size);
     line-height: var(--typography-body-line-height);
+    transition:
+      border-color var(--motion-duration-feedback) var(--motion-easing-standard),
+      box-shadow var(--motion-duration-feedback) var(--motion-easing-standard);
   }
 
   .input::placeholder {

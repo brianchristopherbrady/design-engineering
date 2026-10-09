@@ -16,13 +16,17 @@
 
   .caption {
     padding: var(--space-sm) var(--space-md);
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--typography-caption-font-weight);
+    letter-spacing: var(--typography-caption-letter-spacing);
     text-align: start;
-    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
   }
 
   .table th,
   .table td {
-    padding: var(--space-xs) var(--space-md);
+    padding: var(--space-sm) var(--space-md);
     border-block-start: var(--border-width-thin) solid var(--border-subtle);
     text-align: start;
     vertical-align: top;
@@ -32,7 +36,11 @@
     position: sticky;
     inset-block-start: 0;
     background-color: var(--surface-sunken);
-    font-weight: var(--font-weight-semibold);
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--typography-caption-font-weight);
+    letter-spacing: var(--typography-caption-letter-spacing);
+    text-transform: uppercase;
   }
 
   .table tbody th {

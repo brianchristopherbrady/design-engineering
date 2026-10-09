@@ -1,0 +1,6 @@
+@layer product {
+  /* Uppercase, tracked headers cannot shrink below their word widths; scroll instead of overflowing the page at 320px. */
+  .tableScroller {
+    overflow-x: auto;
+  }
+}

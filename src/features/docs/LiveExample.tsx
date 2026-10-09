@@ -51,7 +51,7 @@ function RenderedHtml({ target }: { target: RefObject<HTMLDivElement | null> }) 
       <span id={labelId} hidden>
         Rendered HTML
       </span>
-      <pre className={styles.html} tabIndex={0} role="region" aria-labelledby={labelId}>
+      <pre className={styles.html} data-theme="dark" tabIndex={0} role="region" aria-labelledby={labelId}>
         <code>{html}</code>
       </pre>
     </>

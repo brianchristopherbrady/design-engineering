@@ -3,13 +3,13 @@
     display: grid;
     gap: var(--spacing-large);
     min-inline-size: 0;
+    container: playground / inline-size;
   }
 
   .picker {
     display: grid;
     gap: var(--spacing-medium);
     align-items: end;
-    container: picker / inline-size;
   }
 
   .pickerText {
@@ -17,7 +17,8 @@
     gap: var(--spacing-extra-small);
   }
 
-  @container picker (min-inline-size: 40rem) {
+  /* A container cannot query itself, so the picker responds to the playground around it. */
+  @container playground (min-inline-size: 40rem) {
     .picker {
       grid-template-columns: 16rem minmax(0, 1fr);
     }
@@ -32,11 +33,10 @@
       'usage'
       'props';
     gap: var(--spacing-large);
-    container: workbench / inline-size;
   }
 
   /* 52rem: a preview column of at least 32rem beside an 18rem controls column. */
-  @container workbench (min-inline-size: 52rem) {
+  @container playground (min-inline-size: 52rem) {
     .workbench {
       grid-template-columns: minmax(0, 1fr) 18rem;
       grid-template-areas:
@@ -85,11 +85,18 @@
 
   .toolbar {
     display: grid;
-    gap: var(--spacing-small);
-    padding: var(--spacing-small);
+    gap: var(--spacing-medium);
+    padding: var(--spacing-medium);
     border: var(--border-width-thin) solid var(--border-default);
     border-radius: var(--radius-lg);
     background-color: var(--surface-sunken);
+    container: toolbar / inline-size;
+  }
+
+  /* Rows are divided by hairlines; the width presets stay with the width control above them. */
+  .toolbar > * + :not(.segmented) {
+    padding-block-start: var(--spacing-medium);
+    border-block-start: var(--border-width-thin) solid var(--border-subtle);
   }
 
   .toolGroup {
@@ -99,10 +106,65 @@
     gap: var(--spacing-small);
   }
 
+  .scopeGroup {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+    align-items: end;
+    gap: var(--spacing-medium);
+  }
+
+  /* The live width reads as an instrument value on the label's line. */
+  .widthField {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    column-gap: var(--spacing-small);
+  }
+
+  .widthField > p {
+    color: var(--text-primary);
+    font-family: var(--typography-code-font-family);
+    font-size: var(--typography-label-font-size);
+    font-variant-numeric: tabular-nums;
+    line-height: var(--typography-label-line-height);
+  }
+
   .range {
-    inline-size: min(100%, 16rem);
+    grid-column: 1 / -1;
+    inline-size: 100%;
     min-block-size: var(--control-height-medium);
-    accent-color: var(--action-primary-background);
+  }
+
+  /* One joined control where it fits on a line; separate buttons where it would wrap. */
+  .segmented {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2xs);
+  }
+
+  @container toolbar (min-inline-size: 36rem) {
+    .segmented {
+      display: flex;
+      gap: 0;
+      justify-content: flex-end;
+    }
+
+    .segmented > * {
+      border-radius: 0;
+    }
+
+    .segmented > * + * {
+      margin-inline-start: calc(var(--border-width-thin) * -1);
+    }
+
+    .segmented > :first-child {
+      border-start-start-radius: var(--button-radius);
+      border-end-start-radius: var(--button-radius);
+    }
+
+    .segmented > :last-child {
+      border-start-end-radius: var(--button-radius);
+      border-end-end-radius: var(--button-radius);
+    }
   }
 
   /* The stage scrolls when a fixed preview width is wider than the column. */
@@ -145,13 +207,19 @@
 
   .code {
     margin: 0;
-    padding: var(--spacing-medium);
+    padding: var(--spacing-medium) var(--spacing-large);
     overflow-x: auto;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     background-color: var(--surface-sunken);
     font-family: var(--typography-code-font-family);
     font-size: var(--typography-code-font-size);
     line-height: var(--typography-code-line-height);
+    scrollbar-color: var(--border-default) transparent;
+  }
+
+  /* The usage panel is always the dark scope; draw focus inside it where that color shows. */
+  .code:focus-visible {
+    outline-offset: calc(var(--focus-width) * -2);
   }
 
   .tableScroller {
@@ -170,6 +238,15 @@
     border-block-end: var(--border-width-thin) solid var(--border-subtle);
     text-align: start;
     vertical-align: top;
+  }
+
+  .table thead th {
+    border-block-end-color: var(--border-strong);
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--typography-caption-font-weight);
+    letter-spacing: var(--typography-caption-letter-spacing);
+    text-transform: uppercase;
   }
 
   .table code {

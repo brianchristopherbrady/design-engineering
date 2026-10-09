@@ -1,32 +1,32 @@
 {
-  "$description": "Light theme: maps semantic color and elevation roles to reference tokens.",
+  "$description": "Light theme, 'Station': luminous white surfaces, hairline seams, monolith-black actions.",
   "surface": {
     "$type": "color",
     "canvas": { "$value": "{color.neutral.50}", "$description": "Page background." },
     "panel": { "$value": "{color.neutral.0}", "$description": "Cards, dialogs, inputs and other raised content." },
-    "sunken": { "$value": "{color.neutral.100}", "$description": "Code blocks, previews and inset areas." },
-    "accent": { "$value": "{color.blue.50}", "$description": "Selected or current items." }
+    "sunken": { "$value": "{color.neutral.100}", "$description": "Previews, wells and inset areas." },
+    "accent": { "$value": "{color.red.50}", "$description": "Selected or current items, lit faintly by the signal." }
   },
   "text": {
     "$type": "color",
     "primary": { "$value": "{color.neutral.900}" },
     "muted": { "$value": "{color.neutral.600}", "$description": "Secondary text. Meets 4.5:1 on every surface." },
-    "link": { "$value": "{color.blue.700}" }
+    "link": { "$value": "{color.neutral.900}", "$description": "Ink, like body text: links are identified by their underline, not by hue." }
   },
   "border": {
     "$type": "color",
-    "subtle": { "$value": "{color.neutral.200}", "$description": "Decorative separation; not enough contrast to identify a control." },
+    "subtle": { "$value": "{color.neutral.200}", "$description": "Hairline seams; not enough contrast to identify a control." },
     "default": { "$value": "{color.neutral.300}" },
     "strong": { "$value": "{color.neutral.500}", "$description": "Control boundaries. Meets 3:1 against surfaces." }
   },
   "action": {
     "$type": "color",
     "primary": {
-      "background": { "$value": "{color.blue.600}" },
-      "hover": { "$value": "{color.blue.700}" },
-      "active": { "$value": "{color.blue.800}" },
+      "background": { "$value": "{color.neutral.950}", "$description": "The monolith: one solid black action per region." },
+      "hover": { "$value": "{color.neutral.800}" },
+      "active": { "$value": "{color.neutral.700}" },
       "foreground": { "$value": "{color.neutral.0}" },
-      "border": { "$value": "{color.blue.700}" }
+      "border": { "$value": "{color.neutral.950}" }
     },
     "secondary": {
       "background": { "$value": "{color.neutral.0}" },
@@ -37,9 +37,9 @@
     },
     "ghost": {
       "background": { "$value": "{color.transparent}" },
-      "hover": { "$value": "{color.blue.50}" },
-      "active": { "$value": "{color.blue.100}" },
-      "foreground": { "$value": "{color.blue.700}" },
+      "hover": { "$value": "{color.neutral.100}" },
+      "active": { "$value": "{color.neutral.200}" },
+      "foreground": { "$value": "{color.neutral.900}" },
       "border": { "$value": "{color.transparent}" }
     },
     "danger": {
@@ -56,23 +56,30 @@
     }
   },
   "focus": {
-    "ring": { "$type": "color", "$value": "{color.blue.600}", "$description": "Keyboard focus outline. Meets 3:1 against every surface." }
+    "ring": { "$type": "color", "$value": "{color.neutral.950}", "$description": "Keyboard focus outline in ink, so it never reads as an error. Meets 3:1 against every surface." }
+  },
+  "signal": {
+    "$type": "color",
+    "$description": "The red eye: marks where you are (current page, selected tab). Never used for text or large fills.",
+    "current": { "$value": "{color.red.600}", "$description": "Current-location indicator. Meets 3:1 against every surface." },
+    "glow": { "$value": "{color.glow-soft}", "$description": "Translucent halo around the indicator." }
   },
   "tone": {
     "$type": "color",
     "$description": "Status and emphasis families. text and surface pair for subtle treatments; on-solid and solid pair for filled ones.",
     "neutral": {
-      "text": { "$value": "{color.neutral.700}" },
+      "text": { "$value": "{color.neutral.600}" },
       "surface": { "$value": "{color.neutral.100}" },
       "border": { "$value": "{color.neutral.500}" },
-      "solid": { "$value": "{color.neutral.700}" },
+      "solid": { "$value": "{color.neutral.600}" },
       "on-solid": { "$value": "{color.neutral.0}" }
     },
     "brand": {
-      "text": { "$value": "{color.blue.700}" },
-      "surface": { "$value": "{color.blue.50}" },
-      "border": { "$value": "{color.blue.500}" },
-      "solid": { "$value": "{color.blue.600}" },
+      "$description": "Ink: the monolith's emphasis. The signal red is not a tone.",
+      "text": { "$value": "{color.neutral.900}" },
+      "surface": { "$value": "{color.neutral.200}" },
+      "border": { "$value": "{color.neutral.900}" },
+      "solid": { "$value": "{color.neutral.950}" },
       "on-solid": { "$value": "{color.neutral.0}" }
     },
     "success": {

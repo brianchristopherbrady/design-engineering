@@ -1,11 +1,14 @@
-import type { ComponentType, ReactNode } from 'react';
+import { useState, type ComponentType, type ReactNode } from 'react';
 import { Stack } from '@/design-system/layout';
+import { Switch } from '@/design-system/primitives';
 import { DocSection, Note, Prose, SourceList, type SourceReference } from '@/features/docs';
+import { ContainerInspector } from '@/features/playground';
 import { ScenarioDemo, scenarioLabels, type DemoScenario } from '@/features/scenarios';
 import { ActivityDashboard } from './ActivityDashboard';
 import { FormValidation } from './FormValidation';
 import { ResourceDetail } from './ResourceDetail';
 import { ResourceDirectory } from './ResourceDirectory';
+import styles from './patterns.module.css';
 
 export interface PatternDoc {
   /** Catalog id; name and summary come from the catalog entry. */
@@ -33,25 +36,27 @@ interface StateRow {
 function StatesTable({ rows }: { rows: readonly StateRow[] }) {
   return (
     <Prose>
-      <table>
-        <caption>What each demo scenario renders</caption>
-        <thead>
-          <tr>
-            <th scope="col">Scenario</th>
-            <th scope="col">Renders</th>
-            <th scope="col">Transitions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row) => (
-            <tr key={row.scenario}>
-              <th scope="row">{scenarioLabels[row.scenario]}</th>
-              <td>{row.renders}</td>
-              <td>{row.next}</td>
+      <div className={styles.tableScroller} tabIndex={0} role="region" aria-label="What each demo scenario renders">
+        <table>
+          <caption>What each demo scenario renders</caption>
+          <thead>
+            <tr>
+              <th scope="col">Scenario</th>
+              <th scope="col">Renders</th>
+              <th scope="col">Transitions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr key={row.scenario}>
+                <th scope="row">{scenarioLabels[row.scenario]}</th>
+                <td>{row.renders}</td>
+                <td>{row.next}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </Prose>
   );
 }
@@ -66,11 +71,26 @@ interface PatternPageProps {
   sources: readonly SourceReference[];
 }
 
+function InspectableDemo({ children }: { children: ReactNode }) {
+  const [inspect, setInspect] = useState(false);
+  return (
+    <Stack gap="small">
+      <Switch
+        label="Show query containers"
+        description="Outline each container this pattern's components query, with its live width. Resize the window to watch them respond."
+        checked={inspect}
+        onChange={(event) => setInspect(event.target.checked)}
+      />
+      <ContainerInspector enabled={inspect}>{children}</ContainerInspector>
+    </Stack>
+  );
+}
+
 function PatternPage({ demo, states, architecture, accessibility, responsive, tradeoffs, sources }: PatternPageProps) {
   return (
     <Stack gap="extraExtraLarge">
       <DocSection id="demo" title="Demo">
-        {demo}
+        <InspectableDemo>{demo}</InspectableDemo>
       </DocSection>
       <DocSection id="states" title="States and transitions">
         {states}

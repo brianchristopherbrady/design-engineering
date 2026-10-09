@@ -1,3 +1,4 @@
+export { ContainerInspector } from './ContainerOverlay';
 export { acceptedValues, buildProps, buildSnippet, initialValues, presetValues } from './engine';
 export { Playground, type PlaygroundProps } from './Playground';
 export {

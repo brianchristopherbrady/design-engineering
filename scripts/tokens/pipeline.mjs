@@ -491,8 +491,59 @@ export function cssDeclarations(token, definitions) {
 }
 
 /**
- * Applies the resolver: validates structure, then returns one merged definition map per context
- * of the (single) modifier, in resolutionOrder.
+ * @typedef {{ name: string, contexts: string[], defaultContext: string, complete: boolean, overrides: boolean }} ModifierInfo
+ * @typedef {Record<string, string>} ModifierInput
+ */
+
+/** Every combination of modifier contexts, in modifier and context order. */
+/** @param {ModifierInfo[]} modifiers @returns {ModifierInput[]} */
+export function permutationsOf(modifiers) {
+  /** @type {ModifierInput[]} */
+  let inputs = [{}];
+  for (const modifier of modifiers) {
+    inputs = inputs.flatMap((input) => modifier.contexts.map((context) => ({ ...input, [modifier.name]: context })));
+  }
+  return inputs;
+}
+
+/** @param {ModifierInput} input */
+export const inputKey = (input) =>
+  Object.entries(input)
+    .map(([name, context]) => `${name}=${context}`)
+    .join(',');
+
+/**
+ * Adds a token list to a merged map. Ordinary sets and modifiers may only introduce new paths;
+ * modifiers flagged `overrides` may only replace existing ones, keeping the original type and tier.
+ * @param {Map<string, TokenDefinition>} merged @param {TokenDefinition[]} list @param {boolean} override
+ */
+function addTokens(merged, list, override) {
+  for (const token of list) {
+    const existing = merged.get(token.path);
+    if (override) {
+      if (!existing) {
+        throw new TokenError(`"${token.path}" in ${token.source} overrides nothing. Override modifiers may only replace existing tokens.`);
+      }
+      merged.set(token.path, {
+        ...existing,
+        value: token.value,
+        type: token.type ?? existing.type,
+        description: token.description ?? existing.description,
+        source: token.source,
+      });
+    } else if (existing) {
+      throw new TokenError(`Token "${token.path}" is defined in both ${existing.source} and ${token.source}. Define each path once.`);
+    } else {
+      merged.set(token.path, token);
+    }
+  }
+}
+
+/**
+ * Applies the resolver: validates structure, then returns one merged definition map per
+ * permutation of modifier contexts (DTCG resolver § 4.1.5.4), in resolutionOrder.
+ * A modifier's `$extensions["org.systemlab"]` may set `complete: true` (every context defines
+ * the same paths, as themes must) and `overrides: true` (contexts only replace existing tokens).
  * @param {ResolverDocument} resolver
  * @param {(ref: string) => unknown} loadSource returns parsed JSON for a relative $ref
  */
@@ -502,41 +553,80 @@ export function applyResolver(resolver, loadSource) {
     throw new TokenError('Resolver needs a non-empty resolutionOrder.');
   }
 
+  /** @param {{ $extensions?: Record<string, unknown> } | undefined} item */
+  const extensionOf = (item) => {
+    const extension = item?.$extensions?.[EXTENSION_KEY];
+    return isObject(extension) ? extension : {};
+  };
   /** @param {{ $extensions?: Record<string, unknown> } | undefined} item @param {string} fallback */
   const tierOf = (item, fallback) => {
-    const extension = item?.$extensions?.[EXTENSION_KEY];
-    return isObject(extension) && typeof extension.tier === 'string' ? extension.tier : fallback;
+    const tier = extensionOf(item).tier;
+    return typeof tier === 'string' ? tier : fallback;
   };
 
+  /** @type {Map<string, TokenDefinition[]>} */
+  const loaded = new Map();
   /** @param {Array<{ $ref: string }>} sources @param {string} tier */
   const loadSources = (sources, tier) =>
     sources.map((source) => {
       if (!source || typeof source.$ref !== 'string' || source.$ref.startsWith('#')) {
         throw new TokenError('Set and context sources must reference token files with { "$ref": "file.tokens.json" }.');
       }
-      return flattenTokens(loadSource(source.$ref), source.$ref, tier);
+      const key = `${tier}:${source.$ref}`;
+      if (!loaded.has(key)) loaded.set(key, flattenTokens(loadSource(source.$ref), source.$ref, tier));
+      return /** @type {TokenDefinition[]} */ (loaded.get(key));
     });
 
-  const modifierRefs = resolver.resolutionOrder.filter((item) => item.$ref?.startsWith('#/modifiers/'));
-  if (modifierRefs.length !== 1) throw new TokenError('This pipeline expects exactly one modifier (the theme).');
-  const modifierName = modifierRefs[0].$ref.slice('#/modifiers/'.length);
-  const modifier = resolver.modifiers?.[modifierName];
-  if (!modifier) throw new TokenError(`resolutionOrder references unknown modifier "${modifierName}".`);
-  const contexts = Object.keys(modifier.contexts ?? {});
-  if (contexts.length < 2) throw new TokenError(`Modifier "${modifierName}" needs at least two contexts.`);
-  const defaultContext = modifier.default ?? contexts[0];
-  if (!contexts.includes(defaultContext)) {
-    throw new TokenError(`Modifier "${modifierName}" default "${defaultContext}" is not one of its contexts.`);
+  const modifierNames = resolver.resolutionOrder
+    .map((item) => item?.$ref)
+    .filter((ref) => typeof ref === 'string' && ref.startsWith('#/modifiers/'))
+    .map((ref) => ref.slice('#/modifiers/'.length));
+  if (!modifierNames.includes('theme')) throw new TokenError('This pipeline expects a "theme" modifier in resolutionOrder.');
+  if (new Set(modifierNames).size !== modifierNames.length) throw new TokenError('A modifier appears twice in resolutionOrder.');
+
+  /** @type {ModifierInfo[]} */
+  const modifiers = modifierNames.map((name) => {
+    const modifier = resolver.modifiers?.[name];
+    if (!modifier) throw new TokenError(`resolutionOrder references unknown modifier "${name}".`);
+    if (!/^[a-z][a-z0-9-]*$/.test(name)) throw new TokenError(`Modifier name "${name}" must be lowercase kebab-case; it becomes a data attribute.`);
+    const contexts = Object.keys(modifier.contexts ?? {});
+    if (contexts.length < 2) throw new TokenError(`Modifier "${name}" needs at least two contexts.`);
+    for (const context of contexts) {
+      if (!/^[a-z][a-z0-9-]*$/.test(context)) throw new TokenError(`Context "${name}: ${context}" must be lowercase kebab-case.`);
+    }
+    const defaultContext = modifier.default ?? contexts[0];
+    if (!contexts.includes(defaultContext)) {
+      throw new TokenError(`Modifier "${name}" default "${defaultContext}" is not one of its contexts.`);
+    }
+    const extension = extensionOf(modifier);
+    return { name, contexts, defaultContext, complete: extension.complete === true || name === 'theme', overrides: extension.overrides === true };
+  });
+  const byName = new Map(modifiers.map((modifier) => [modifier.name, modifier]));
+
+  for (const modifier of modifiers.filter((candidate) => candidate.complete)) {
+    const source = /** @type {ResolverModifier} */ (resolver.modifiers?.[modifier.name]);
+    const pathSets = modifier.contexts.map((context) =>
+      loadSources(source.contexts[context] ?? [], tierOf(source, modifier.name)).flatMap((list) => list.map((token) => token.path)),
+    );
+    const [first = [], ...others] = pathSets;
+    others.forEach((paths, index) => {
+      const missing = first.filter((path) => !paths.includes(path));
+      const extra = paths.filter((path) => !first.includes(path));
+      if (missing.length || extra.length) {
+        const label = modifier.name === 'theme' ? 'Theme' : `"${modifier.name}"`;
+        throw new TokenError(
+          `${label} contexts must define the same tokens. "${modifier.contexts[index + 1]}" is missing [${missing.join(', ')}] and adds [${extra.join(', ')}].`,
+        );
+      }
+    });
   }
 
+  const permutations = permutationsOf(modifiers);
   /** @type {Map<string, Map<string, TokenDefinition>>} */
-  const byContext = new Map();
-  /** @type {Set<string>} */
-  const modifierPaths = new Set();
-
-  for (const context of contexts) {
-    /** @type {TokenDefinition[][]} */
-    const lists = [];
+  const byInput = new Map();
+  for (const input of permutations) {
+    /** @type {Map<string, TokenDefinition>} */
+    const merged = new Map();
     for (const item of resolver.resolutionOrder) {
       const ref = item?.$ref;
       if (typeof ref !== 'string') throw new TokenError('Inline resolutionOrder items are not supported; use $ref.');
@@ -544,51 +634,55 @@ export function applyResolver(resolver, loadSource) {
         const name = ref.slice('#/sets/'.length);
         const set = resolver.sets?.[name];
         if (!set) throw new TokenError(`resolutionOrder references unknown set "${name}".`);
-        lists.push(...loadSources(set.sources, tierOf(set, name)));
-      } else if (ref === `#/modifiers/${modifierName}`) {
-        const contextLists = loadSources(modifier.contexts[context], tierOf(modifier, modifierName));
-        for (const list of contextLists) for (const token of list) modifierPaths.add(`${context}:${token.path}`);
-        lists.push(...contextLists);
+        for (const list of loadSources(set.sources, tierOf(set, name))) addTokens(merged, list, false);
+      } else if (ref.startsWith('#/modifiers/')) {
+        const info = /** @type {ModifierInfo} */ (byName.get(ref.slice('#/modifiers/'.length)));
+        const source = /** @type {ResolverModifier} */ (resolver.modifiers?.[info.name]);
+        const context = /** @type {string} */ (input[info.name]);
+        for (const list of loadSources(source.contexts[context] ?? [], tierOf(source, info.name))) addTokens(merged, list, info.overrides);
       } else {
         throw new TokenError(`Unsupported resolutionOrder reference "${ref}".`);
       }
     }
-    byContext.set(context, mergeTokens(lists));
+    byInput.set(inputKey(input), merged);
   }
 
-  const pathSets = contexts.map((context) =>
-    [...modifierPaths].filter((key) => key.startsWith(`${context}:`)).map((key) => key.slice(context.length + 1)),
-  );
-  const [first, ...others] = pathSets;
-  others.forEach((paths, index) => {
-    const missing = first.filter((path) => !paths.includes(path));
-    const extra = paths.filter((path) => !first.includes(path));
-    if (missing.length || extra.length) {
-      throw new TokenError(
-        `Theme contexts must define the same tokens. "${contexts[index + 1]}" is missing [${missing.join(', ')}] and adds [${extra.join(', ')}].`,
-      );
-    }
-  });
-
-  return { modifierName, contexts, defaultContext, byContext, modifierTokenPaths: new Set(first) };
+  const defaultInput = Object.fromEntries(modifiers.map((modifier) => [modifier.name, modifier.defaultContext]));
+  return { modifiers, permutations, byInput, defaultInput };
 }
+
+/** @param {string} name */
+const camel = (name) => name.replace(/-([a-z0-9])/g, (_, letter) => letter.toUpperCase());
+/** @param {string} name */
+const pascal = (name) => camel(name).replace(/^./, (letter) => letter.toUpperCase());
 
 /**
  * Runs the whole pipeline and returns file contents.
+ *
+ * CSS emission is dependency-minimal: each token is declared under a selector made of exactly
+ * the modifiers its resolved value depends on (directly or through aliases). Tokens that vary
+ * only by theme live in `[data-theme]` blocks, tokens that vary by theme and product in
+ * `[data-theme][data-product]` blocks, and so on. Every declaration is repeated where its
+ * dependencies change, because a custom property's var() is substituted where it is declared.
  * @param {ResolverDocument} resolver
  * @param {(ref: string) => unknown} loadSource
  * @param {{ keyGroups: KeyGroup[], banner: string }} options
  */
 export function buildTokenOutputs(resolver, loadSource, options) {
-  const { modifierName, contexts, defaultContext, byContext, modifierTokenPaths } = applyResolver(resolver, loadSource);
+  const { modifiers, permutations, byInput, defaultInput } = applyResolver(resolver, loadSource);
 
   /** @type {Map<string, Map<string, ResolvedToken>>} */
-  const resolvedByContext = new Map();
-  for (const [context, definitions] of byContext) resolvedByContext.set(context, resolveTokens(definitions));
+  const resolvedByInput = new Map();
+  for (const [key, definitions] of byInput) resolvedByInput.set(key, resolveTokens(definitions));
 
-  const defaultDefinitions = /** @type {Map<string, TokenDefinition>} */ (byContext.get(defaultContext));
-  const defaultResolved = /** @type {Map<string, ResolvedToken>} */ (resolvedByContext.get(defaultContext));
+  const defaultKey = inputKey(defaultInput);
+  const defaultResolved = /** @type {Map<string, ResolvedToken>} */ (resolvedByInput.get(defaultKey));
   const paths = [...defaultResolved.keys()];
+  for (const [key, resolved] of resolvedByInput) {
+    if (resolved.size !== paths.length || paths.some((path) => !resolved.has(path))) {
+      throw new TokenError(`Permutation ${key} resolves a different set of tokens than the default permutation.`);
+    }
+  }
 
   const seenNames = new Map();
   for (const path of paths) {
@@ -597,55 +691,105 @@ export function buildTokenOutputs(resolver, loadSource, options) {
     seenNames.set(name, path);
   }
 
-  /** @type {Map<string, boolean>} */
-  const themed = new Map();
-  /** @param {string} path @returns {boolean} */
-  const isThemed = (path) => {
-    const known = themed.get(path);
-    if (known !== undefined) return known;
-    const result = contexts.some((context) => {
-      if (modifierTokenPaths.has(path)) return true;
-      const token = resolvedByContext.get(context)?.get(path);
-      return token ? token.references.some(isThemed) : false;
-    });
-    themed.set(path, result);
-    return result;
+  /** @param {ModifierInput} input @param {string} path */
+  const declarationsAt = (input, path) => {
+    const key = inputKey({ ...defaultInput, ...input });
+    const resolved = /** @type {Map<string, ResolvedToken>} */ (resolvedByInput.get(key));
+    return cssDeclarations(/** @type {ResolvedToken} */ (resolved.get(path)), /** @type {Map<string, TokenDefinition>} */ (byInput.get(key)));
+  };
+  /** @param {ModifierInput} input @param {string} path */
+  const signature = (input, path) => {
+    const key = inputKey(input);
+    const token = /** @type {ResolvedToken} */ (resolvedByInput.get(key)?.get(path));
+    return JSON.stringify([declarationsAt(input, path), token.resolved]);
   };
 
-  /** @param {Map<string, TokenDefinition>} definitions @param {Map<string, ResolvedToken>} resolved @param {(path: string) => boolean} include */
-  const block = (definitions, resolved, include) =>
-    paths
-      .filter(include)
-      .flatMap((path) => cssDeclarations(/** @type {ResolvedToken} */ (resolved.get(path)), definitions))
-      .map(([property, value]) => `    ${property}: ${value};`)
-      .join('\n');
+  /** Modifiers whose context changes this token's declarations or resolved value. */
+  /** @type {Map<string, ModifierInfo[]>} */
+  const dependencies = new Map();
+  for (const path of paths) {
+    const signatures = new Map(permutations.map((input) => [inputKey(input), signature(input, path)]));
+    dependencies.set(
+      path,
+      modifiers.filter((modifier) =>
+        permutations.some((input) =>
+          modifier.contexts.some(
+            (context) => signatures.get(inputKey({ ...input, [modifier.name]: context })) !== signatures.get(inputKey(input)),
+          ),
+        ),
+      ),
+    );
+  }
 
-  const attribute = `data-${modifierName}`;
-  const themeBlocks = contexts.map((context) => {
-    const definitions = /** @type {Map<string, TokenDefinition>} */ (byContext.get(context));
-    const resolved = /** @type {Map<string, ResolvedToken>} */ (resolvedByContext.get(context));
-    const selector = context === defaultContext ? `:root,\n  [${attribute}='${context}']` : `[${attribute}='${context}']`;
-    return { context, body: `    color-scheme: ${context === 'dark' ? 'dark' : 'light'};\n${block(definitions, resolved, isThemed)}`, selector };
-  });
+  /** @param {ModifierInfo[]} dependsOn */
+  const combinationsOver = (dependsOn) => permutationsOf(dependsOn);
+  /** @param {ModifierInput} combination */
+  const selectorFor = (combination) =>
+    Object.entries(combination)
+      .map(([name, context]) => `[data-${name}='${context}']`)
+      .join('');
 
-  const darkBlock = themeBlocks.find((entry) => entry.context === 'dark');
+  /** @type {Map<string, { selector: string, lines: string[], rank: number }>} */
+  const blocks = new Map();
+  /** @type {string[]} */
+  const rootLines = [];
+  for (const path of paths) {
+    const dependsOn = /** @type {ModifierInfo[]} */ (dependencies.get(path));
+    if (dependsOn.length === 0) {
+      rootLines.push(...declarationsAt(defaultInput, path).map(([property, value]) => `    ${property}: ${value};`));
+      continue;
+    }
+    for (const combination of combinationsOver(dependsOn)) {
+      const isDefault = dependsOn.every((modifier) => combination[modifier.name] === modifier.defaultContext);
+      const selector = isDefault ? `:root,\n  ${selectorFor(combination)}` : selectorFor(combination);
+      const rank =
+        dependsOn.length * 1000 +
+        dependsOn.reduce((sum, modifier) => sum * 10 + modifiers.indexOf(modifier) + 1, 0) * 10 +
+        dependsOn.reduce((sum, modifier) => sum * 10 + modifier.contexts.indexOf(combination[modifier.name] ?? ''), 0);
+      const block = blocks.get(selector) ?? { selector, lines: [], rank };
+      block.lines.push(...declarationsAt(combination, path).map(([property, value]) => `    ${property}: ${value};`));
+      blocks.set(selector, block);
+    }
+  }
+
+  const theme = /** @type {ModifierInfo} */ (modifiers.find((modifier) => modifier.name === 'theme'));
+  const schemeOf = (/** @type {string} */ context) => (context === 'dark' || context === 'light' ? context : undefined);
+  const schemeBlocks = theme.contexts
+    .filter((context) => schemeOf(context))
+    .map((context) => {
+      const selector = context === theme.defaultContext ? `:root,\n  [data-theme='${context}']` : `[data-theme='${context}']`;
+      return `  ${selector} {\n    color-scheme: ${context};\n  }\n`;
+    });
+
+  const themeDependent = paths.filter((path) => dependencies.get(path)?.includes(theme));
+  const darkFallback = theme.contexts.includes('dark')
+    ? [
+        '  /* Without JavaScript, follow the system color scheme for the default product and density. */',
+        '  @media (prefers-color-scheme: dark) {',
+        "    :root:not([data-theme]) {",
+        '      color-scheme: dark;',
+        ...themeDependent.flatMap((path) =>
+          declarationsAt({ theme: 'dark' }, path).map(([property, value]) => `      ${property}: ${value};`),
+        ),
+        '    }',
+        '  }',
+      ]
+    : [];
+
   const css = [
     `/* ${options.banner} */`,
+    `/* Modifiers: ${modifiers.map((modifier) => `data-${modifier.name} (${modifier.contexts.join(' | ')})`).join(', ')}. */`,
+    '/* Scoped regions must set every modifier attribute; ThemeScope does this. */',
     '@layer tokens {',
     '  :root {',
-    block(defaultDefinitions, defaultResolved, (path) => !isThemed(path)),
+    ...rootLines,
     '  }',
     '',
-    ...themeBlocks.map((entry) => `  ${entry.selector} {\n${entry.body}\n  }\n`),
-    ...(darkBlock
-      ? [
-          '  @media (prefers-color-scheme: dark) {',
-          `    :root:not([${attribute}]) {`,
-          darkBlock.body.replace(/^ {4}/gm, '      '),
-          '    }',
-          '  }',
-        ]
-      : []),
+    ...schemeBlocks,
+    ...[...blocks.values()]
+      .sort((a, b) => a.rank - b.rank)
+      .map((block) => `  ${block.selector} {\n${block.lines.join('\n')}\n  }\n`),
+    ...darkFallback,
     '}',
     '',
   ].join('\n');
@@ -667,8 +811,33 @@ export function buildTokenOutputs(resolver, loadSource, options) {
   const ts = [
     `// ${options.banner}`,
     '',
-    `export const themeNames = ${JSON.stringify(contexts)} as const;`,
-    'export type ThemeName = (typeof themeNames)[number];',
+    `export const modifierNames = ${JSON.stringify(modifiers.map((modifier) => modifier.name))} as const;`,
+    'export type ModifierName = (typeof modifierNames)[number];',
+    '',
+    ...modifiers.flatMap((modifier) => [
+      `export const ${camel(modifier.name)}Names = ${JSON.stringify(modifier.contexts)} as const;`,
+      `export type ${pascal(modifier.name)}Name = (typeof ${camel(modifier.name)}Names)[number];`,
+    ]),
+    '',
+    '/** One context per modifier: the inputs of a resolver permutation. */',
+    'export interface ModifierInput {',
+    ...modifiers.map((modifier) => `  ${camel(modifier.name)}: ${pascal(modifier.name)}Name;`),
+    '}',
+    '',
+    `export const modifierDefaults: ModifierInput = ${JSON.stringify(
+      Object.fromEntries(modifiers.map((modifier) => [camel(modifier.name), modifier.defaultContext])),
+    )};`,
+    '',
+    '/** Token counts per tier, so summaries need not load the full manifest. */',
+    `export const tokenCounts = ${JSON.stringify(
+      paths.reduce(
+        (counts, path) => {
+          const tier = /** @type {ResolvedToken} */ (defaultResolved.get(path)).tier;
+          return { ...counts, [tier]: (counts[tier] ?? 0) + 1 };
+        },
+        /** @type {Record<string, number>} */ ({ total: paths.length }),
+      ),
+    )} as const;`,
     '',
     ...keyBlocks.flatMap((block) => [block, '']),
     'export type TokenPath =',
@@ -682,35 +851,51 @@ export function buildTokenOutputs(resolver, loadSource, options) {
     '',
   ].join('\n');
 
+  /** @param {ModifierInput} input @param {string} path */
+  const valueAt = (input, path) => {
+    const key = inputKey({ ...defaultInput, ...input });
+    const token = /** @type {ResolvedToken} */ (resolvedByInput.get(key)?.get(path));
+    const authored = byInput.get(key)?.get(path)?.value;
+    return {
+      authored: referenceTarget(authored) ? String(authored) : toCssValue(token.type, token.resolved),
+      resolved: toCssValue(token.type, token.resolved),
+      chain: token.chain,
+    };
+  };
+
   const manifest = paths.map((path) => {
     const token = /** @type {ResolvedToken} */ (defaultResolved.get(path));
+    const dependsOn = /** @type {ModifierInfo[]} */ (dependencies.get(path));
     /** @type {Record<string, { authored: string, resolved: string, chain: string[] }>} */
     const values = {};
-    for (const context of contexts) {
-      const contextToken = /** @type {ResolvedToken} */ (resolvedByContext.get(context)?.get(path));
-      const definition = /** @type {TokenDefinition} */ (byContext.get(context)?.get(path));
-      const authored = definition.value;
-      values[context] = {
-        authored: referenceTarget(authored) ? String(authored) : toCssValue(contextToken.type, contextToken.resolved),
-        resolved: toCssValue(contextToken.type, contextToken.resolved),
-        chain: contextToken.chain,
-      };
-    }
-    return {
+    for (const context of theme.contexts) values[context] = valueAt({ theme: context }, path);
+    const record = {
       path,
       cssVar: cssVarName(path),
       type: token.type,
       tier: token.tier,
       source: token.source,
       description: token.description ?? '',
-      themed: isThemed(path),
+      themed: dependsOn.includes(theme),
+      dependsOn: dependsOn.map((modifier) => modifier.name),
       values,
+    };
+    if (!dependsOn.some((modifier) => modifier !== theme)) return record;
+    return {
+      ...record,
+      variants: combinationsOver(dependsOn).map((input) => ({ input, ...valueAt(input, path) })),
     };
   });
 
   const manifestTs = [
     `// ${options.banner}`,
     "import type { ThemeName } from './tokens';",
+    '',
+    'export interface TokenValue {',
+    '  authored: string;',
+    '  resolved: string;',
+    '  chain: string[];',
+    '}',
     '',
     'export interface TokenRecord {',
     '  path: string;',
@@ -721,12 +906,24 @@ export function buildTokenOutputs(resolver, loadSource, options) {
     '  description: string;',
     '  /** True when the value changes per theme (directly or through an alias). */',
     '  themed: boolean;',
-    '  values: Record<ThemeName, { authored: string; resolved: string; chain: string[] }>;',
+    '  /** Modifiers whose context changes this token; its CSS selector uses exactly these. */',
+    '  dependsOn: string[];',
+    '  /** Values per theme, with every other modifier at its default. */',
+    '  values: Record<ThemeName, TokenValue>;',
+    '  /** Every combination of the modifiers in dependsOn, present when a modifier other than theme applies. */',
+    '  variants?: Array<TokenValue & { input: Record<string, string> }>;',
     '}',
     '',
     `export const tokenManifest: readonly TokenRecord[] = ${JSON.stringify(manifest, null, 2)};`,
     '',
   ].join('\n');
 
-  return { css, ts, manifest: manifestTs, tokenCount: paths.length, contexts };
+  return {
+    css,
+    ts,
+    manifest: manifestTs,
+    tokenCount: paths.length,
+    contexts: modifiers.map((modifier) => `${modifier.name}: ${modifier.contexts.join(', ')}`),
+    permutationCount: permutations.length,
+  };
 }

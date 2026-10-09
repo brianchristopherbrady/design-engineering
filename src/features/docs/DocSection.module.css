@@ -48,23 +48,43 @@
     vertical-align: top;
   }
 
+  .prose :where(caption) {
+    padding-block-end: var(--space-sm);
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--typography-caption-font-weight);
+    letter-spacing: var(--typography-caption-letter-spacing);
+    text-align: start;
+    text-transform: uppercase;
+  }
+
   .prose :where(thead th) {
     border-block-end-color: var(--border-strong);
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--typography-caption-font-weight);
+    letter-spacing: var(--typography-caption-letter-spacing);
+    text-transform: uppercase;
+  }
+
+  .prose :where(tbody th) {
+    font-weight: var(--font-weight-medium);
   }
 
   .note {
     display: grid;
     gap: var(--space-xs);
     padding: var(--space-md) var(--space-lg);
-    border-inline-start: var(--border-width-thick) solid var(--tone-info-border);
-    border-radius: var(--radius-sm);
-    background-color: var(--surface-accent);
+    border-inline-start: var(--border-width-thick) solid var(--tone-brand-solid);
+    background-color: var(--surface-sunken);
     max-inline-size: calc(var(--layout-measure) + var(--space-2xl));
   }
 
   .noteTitle {
-    font-size: var(--typography-label-font-size);
-    font-weight: var(--typography-label-font-weight);
-    color: var(--tone-info-text);
+    color: var(--text-primary);
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--typography-caption-font-weight);
+    letter-spacing: var(--typography-caption-letter-spacing);
+    text-transform: uppercase;
   }
 }

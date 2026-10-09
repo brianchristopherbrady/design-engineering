@@ -1,4 +1,4 @@
-/** Deployment base path without the trailing slash: "" locally, "/design-engineering" on GitHub Pages. */
+/** Deployment base path without the trailing slash: "" locally, "/design-system-lab" on GitHub Pages. */
 export const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 /** Route paths. The route table in routes.tsx and every link built by the app use these. */

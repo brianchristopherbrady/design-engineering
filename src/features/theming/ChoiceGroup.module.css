@@ -1,0 +1,96 @@
+@layer product {
+  .group {
+    display: grid;
+    gap: var(--space-xs);
+    inline-size: fit-content;
+    max-inline-size: 100%;
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .legend {
+    padding: 0;
+    margin-block-end: var(--space-xs);
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--typography-caption-font-weight);
+    letter-spacing: var(--typography-caption-letter-spacing);
+    text-transform: uppercase;
+  }
+
+  .segments {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .segment {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    flex: 1 1 auto;
+    min-block-size: var(--control-height-small);
+    padding-inline: var(--space-sm);
+    border: var(--border-width-thin) solid var(--border-default);
+    background-color: var(--action-secondary-background);
+    color: var(--action-secondary-foreground);
+    cursor: pointer;
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--font-letter-spacing-wide);
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition:
+      background-color var(--motion-duration-transition) var(--motion-easing-standard),
+      border-color var(--motion-duration-transition) var(--motion-easing-standard),
+      color var(--motion-duration-transition) var(--motion-easing-standard);
+  }
+
+  .segment + .segment {
+    margin-inline-start: calc(var(--border-width-thin) * -1);
+  }
+
+  .segment:first-child {
+    border-start-start-radius: var(--button-radius);
+    border-end-start-radius: var(--button-radius);
+  }
+
+  .segment:last-child {
+    border-start-end-radius: var(--button-radius);
+    border-end-end-radius: var(--button-radius);
+  }
+
+  .segment:hover {
+    background-color: var(--action-secondary-hover);
+  }
+
+  .segment:has(:checked) {
+    z-index: 1;
+    border-color: var(--action-primary-border);
+    background-color: var(--action-primary-background);
+    color: var(--action-primary-foreground);
+  }
+
+  .segment:has(:focus-visible) {
+    z-index: 2;
+    outline: var(--focus-width) solid var(--focus-ring);
+    outline-offset: var(--focus-offset);
+  }
+
+  /* The real radio covers its segment, so a click anywhere selects it and forced-colors mode can still show it. */
+  .radio {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  @media (forced-colors: active) {
+    .segment:has(:checked) {
+      outline: var(--border-width-thick) solid Highlight;
+      outline-offset: calc(var(--border-width-thick) * -1);
+    }
+  }
+}

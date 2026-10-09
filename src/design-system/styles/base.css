@@ -6,10 +6,21 @@
     line-height: var(--typography-body-line-height);
     /* Keeps the user's default font size: every rem in the system scales with it. */
     font-size: 100%;
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scrollbar-color: var(--border-default) transparent;
+    scrollbar-width: thin;
   }
 
   body {
     font-size: var(--typography-body-font-size);
+  }
+
+  ::selection {
+    background-color: var(--tone-brand-solid);
+    color: var(--tone-brand-on-solid);
   }
 
   /* A nested theme scope repaints its own surface and text with that theme's roles. */
@@ -27,9 +38,17 @@
     scroll-margin-block-start: var(--space-xl);
   }
 
+  /* Links are ink, identified by a hairline underline that darkens on hover. */
   a {
     color: var(--text-link);
-    text-underline-offset: 0.2em;
+    text-decoration-color: var(--border-strong);
+    text-decoration-thickness: from-font;
+    text-underline-offset: 0.24em;
+    transition: text-decoration-color var(--motion-duration-feedback) var(--motion-easing-standard);
+  }
+
+  a:hover {
+    text-decoration-color: currentColor;
   }
 
   code,
@@ -48,9 +67,84 @@
   }
 
   input[type='checkbox'],
-  input[type='radio'],
-  input[type='range'] {
+  input[type='radio'] {
     accent-color: var(--action-primary-background);
+  }
+
+  /* Range: a hairline track and a ring thumb that lifts on hover, drawn from the control roles. */
+  input[type='range'] {
+    --_thumb: var(--space-md);
+    --_track: var(--border-width-thick);
+    appearance: none;
+    min-block-size: var(--control-height-small);
+    background: transparent;
+    cursor: pointer;
+  }
+
+  input[type='range']::-webkit-slider-runnable-track {
+    block-size: var(--_track);
+    border-radius: var(--radius-full);
+    background-color: var(--border-strong);
+  }
+
+  input[type='range']::-moz-range-track {
+    block-size: var(--_track);
+    border-radius: var(--radius-full);
+    background-color: var(--border-strong);
+  }
+
+  input[type='range']::-moz-range-progress {
+    block-size: var(--_track);
+    border-radius: var(--radius-full);
+    background-color: var(--action-primary-background);
+  }
+
+  input[type='range']::-webkit-slider-thumb {
+    appearance: none;
+    box-sizing: border-box;
+    inline-size: var(--_thumb);
+    block-size: var(--_thumb);
+    margin-block-start: calc((var(--_track) - var(--_thumb)) / 2);
+    border: var(--border-width-thick) solid var(--action-primary-background);
+    border-radius: var(--radius-full);
+    background-color: var(--surface-panel);
+    transition:
+      transform var(--motion-duration-feedback) var(--motion-easing-standard),
+      background-color var(--motion-duration-feedback) var(--motion-easing-standard);
+  }
+
+  input[type='range']::-moz-range-thumb {
+    box-sizing: border-box;
+    inline-size: var(--_thumb);
+    block-size: var(--_thumb);
+    border: var(--border-width-thick) solid var(--action-primary-background);
+    border-radius: var(--radius-full);
+    background-color: var(--surface-panel);
+    transition:
+      transform var(--motion-duration-feedback) var(--motion-easing-standard),
+      background-color var(--motion-duration-feedback) var(--motion-easing-standard);
+  }
+
+  input[type='range']:hover::-webkit-slider-thumb {
+    transform: scale(1.2);
+  }
+
+  input[type='range']:hover::-moz-range-thumb {
+    transform: scale(1.2);
+  }
+
+  input[type='range']:active::-webkit-slider-thumb {
+    background-color: var(--action-primary-background);
+  }
+
+  input[type='range']:active::-moz-range-thumb {
+    background-color: var(--action-primary-background);
+  }
+
+  @media (forced-colors: active) {
+    input[type='range'] {
+      appearance: auto;
+    }
   }
 
   @media (prefers-reduced-motion: no-preference) {

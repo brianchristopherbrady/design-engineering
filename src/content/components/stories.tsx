@@ -21,10 +21,12 @@ import {
   inlineJustifications,
   Stack,
   stackAlignments,
+  ThemeScope,
   type BoxProps,
   type GridProps,
   type InlineProps,
   type StackProps,
+  type ThemeScopeProps,
 } from '@/design-system/layout';
 import {
   Badge,
@@ -71,10 +73,13 @@ import {
 import {
   borderScale,
   columnWidthScale,
+  densityNames,
   elevationScale,
+  productNames,
   radiusScale,
   spaceScale,
   surfaceScale,
+  themeNames,
   toneScale,
 } from '@/design-system/tokens';
 import { defineStory, type AnyStory } from '@/features/playground';
@@ -110,6 +115,38 @@ function DialogPreview(props: Omit<DialogProps, 'open' | 'onClose'>) {
 }
 
 export const playgroundStories: readonly AnyStory[] = [
+  defineStory<ThemeScopeProps>({
+    id: 'theme-scope',
+    component: 'ThemeScope',
+    summary: 'Re-theme a region. Unset modifiers inherit from the site, so try changing the site settings too.',
+    imports: [layout('ThemeScope')],
+    snippetChildren: '{children}',
+    controls: [
+      { kind: 'select', prop: 'product', options: productNames, defaultValue: 'harbor', unsetLabel: 'inherited', description: 'Brand roles and shape.' },
+      { kind: 'select', prop: 'theme', options: themeNames, defaultValue: undefined, unsetLabel: 'inherited', description: 'Color theme.' },
+      { kind: 'select', prop: 'density', options: densityNames, defaultValue: undefined, unsetLabel: 'inherited', description: 'Control size and spacing.' },
+    ],
+    presets: [
+      { name: 'Meadow, dark', values: { product: 'meadow', theme: 'dark' } },
+      { name: 'Compact Harbor', values: { product: 'harbor', density: 'compact' } },
+    ],
+    render: (props) => (
+      <ThemeScope {...props}>
+        <Card padding="medium" header={<Heading level={3} size="small">Pending approvals</Heading>}>
+          <Stack gap="small">
+            <Inline gap="small">
+              <Badge tone="brand">Brand</Badge>
+              <Badge tone="success">Paid</Badge>
+            </Inline>
+            <Inline gap="small">
+              <Button appearance="primary">Approve</Button>
+              <Button>Later</Button>
+            </Inline>
+          </Stack>
+        </Card>
+      </ThemeScope>
+    ),
+  }),
   defineStory<ButtonProps>({
     id: 'button',
     component: 'Button',
@@ -393,11 +430,11 @@ export const playgroundStories: readonly AnyStory[] = [
     summary: 'A native checkbox with its label; toggle it in the preview.',
     imports: [primitives('Checkbox')],
     controls: [
-      { kind: 'text', prop: 'label', defaultValue: 'Include beta components', description: 'Visible label.' },
+      { kind: 'text', prop: 'label', defaultValue: 'Email me a weekly summary', description: 'Visible label.' },
       { kind: 'text', prop: 'description', defaultValue: '', description: 'Announced hint.' },
       { kind: 'switch', prop: 'disabled', defaultValue: false, description: 'Native disabled.' },
     ],
-    presets: [{ name: 'With hint', values: { description: 'Beta APIs may change between releases.' } }],
+    presets: [{ name: 'With hint', values: { description: 'Sent every Monday morning.' } }],
     render: (props) => <Checkbox {...props} />,
   }),
   defineStory<InputProps>({

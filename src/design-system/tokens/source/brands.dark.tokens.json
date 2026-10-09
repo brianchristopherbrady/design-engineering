@@ -1,0 +1,24 @@
+{
+  "$description": "Dark-theme brand roles for each additional product: lighter steps carry the brand, the deepest step becomes the tinted surface.",
+  "brand": {
+    "$type": "color",
+    "harbor": {
+      "strong": { "$value": "{color.harbor.300}" },
+      "stronger": { "$value": "{color.harbor.200}" },
+      "strongest": { "$value": "{color.harbor.100}" },
+      "on-strong": { "$value": "{color.harbor.950}" },
+      "text": { "$value": "{color.harbor.300}" },
+      "subtle": { "$value": "{color.harbor.975}" },
+      "border": { "$value": "{color.harbor.500}" }
+    },
+    "meadow": {
+      "strong": { "$value": "{color.meadow.300}" },
+      "stronger": { "$value": "{color.meadow.200}" },
+      "strongest": { "$value": "{color.meadow.100}" },
+      "on-strong": { "$value": "{color.meadow.950}" },
+      "text": { "$value": "{color.meadow.300}" },
+      "subtle": { "$value": "{color.meadow.950}" },
+      "border": { "$value": "{color.meadow.400}" }
+    }
+  }
+}

@@ -23,6 +23,13 @@ export interface ActivityEvent {
 
 /** The system's changelog, newest first. Fixed data, so every demo renders the same output. */
 export const activity: readonly ActivityEvent[] = [
+  { id: 'a23', entryId: 'activity-dashboard', kind: 'changed', summary: 'Activity dashboard is stable, with axe scans in both themes alongside its state tests.', date: '2026-10-08' },
+  { id: 'a22', entryId: 'resource-detail', kind: 'changed', summary: 'Resource detail is stable, with axe scans in both themes alongside its archive-failure tests.', date: '2026-10-08' },
+  { id: 'a21', entryId: 'theme-studio', kind: 'changed', summary: 'Theme studio is stable: shapes, presets, shareable links, gamut chart, color-vision checks and a complete six-part export.', date: '2026-10-08' },
+  { id: 'a20', entryId: 'products', kind: 'changed', summary: 'Products and modes is stable: a mode composer, a computed product diff, nested scopes, density measurements and an add-a-product guide.', date: '2026-10-08' },
+  { id: 'a19', entryId: 'theme-studio', kind: 'added', summary: 'Added the theme studio: OKLCH ramps, contrast-driven brand roles, WCAG 2 and APCA checks, DTCG export.', date: '2026-10-08' },
+  { id: 'a18', entryId: 'theme-scope', kind: 'added', summary: 'Added ThemeScope, which re-themes a region by theme, product and density.', date: '2026-10-08' },
+  { id: 'a17', entryId: 'products', kind: 'added', summary: 'Added product and density modifiers; the pipeline now emits dependency-minimal CSS for 12 permutations.', date: '2026-10-08' },
   { id: 'a16', entryId: 'button', kind: 'changed', summary: 'Renamed variant to appearance and added border, radius, fullWidth, loading and icon props.', date: '2026-10-07' },
   { id: 'a15', entryId: 'badge', kind: 'changed', summary: 'Added filled, subtle and outlined appearances, three sizes and a radius prop across six tones.', date: '2026-10-07' },
   { id: 'a14', entryId: 'dialog', kind: 'added', summary: 'Added a modal Dialog with token-backed size, surface, padding, radius, border and elevation.', date: '2026-10-07' },

@@ -58,7 +58,7 @@
     }
   },
   "badge": {
-    "radius": { "$value": "{radius.full}", "$description": "Used when the radius prop is not set." },
+    "radius": { "$value": "{radius.sm}", "$description": "Used when the radius prop is not set: a squared plate, like a panel label." },
     "height": {
       "small": { "$value": "{size.badge.sm}" },
       "medium": { "$value": "{size.badge.md}" },

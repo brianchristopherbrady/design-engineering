@@ -19,6 +19,10 @@ import { tokenManifest } from '@/design-system/tokens/manifest';
 import { catalog, EntryCard } from '@/domain/system';
 import { DocSection, LiveExample, Note, Prose, SourceList, TokenChain, TokenExplorer, TokenSwatch } from '@/features/docs';
 import { contrastRatio } from './contrast';
+import { productsTopic } from './products';
+import { studioTopic } from './studio';
+import { QueryRegistry } from './QueryRegistry';
+import { apcaContrast } from '@/features/theming';
 import { tokenRecord, TokenTable } from './TokenTable';
 import styles from './foundations.module.css';
 
@@ -238,9 +242,10 @@ function ColorContent() {
       <DocSection id="contrast" title="Verified contrast">
         <Prose>
           <p>
-            Ratios below are computed live from the generated manifest. The full set of 170 pairs (every tone on every
-            surface, every button state) runs in <code>contrast.test.ts</code>, so a token change that breaks contrast
-            fails the build.
+            Ratios below are computed live from the generated manifest. The full set of 510 pairs (every tone on every
+            surface and every button state, in all three products and both themes) runs in <code>contrast.test.ts</code>,
+            so a token change that breaks contrast fails the build. Each cell also shows the APCA lightness contrast (Lc),
+            the draft WCAG 3 method, for comparison; it is informative and does not decide pass or fail.
           </p>
         </Prose>
         <ContrastTable />
@@ -284,6 +289,7 @@ function ContrastTable() {
                           {ratio >= minimum ? 'Pass' : 'Fail'}
                         </Badge>
                       )}
+                      {ratio !== null && <span className={styles.muted}>Lc {apcaContrast(fg, bg).toFixed(0)}</span>}
                     </span>
                   </td>
                 );
@@ -669,8 +675,9 @@ function ResponsiveContent() {
               DirectoryFilters, the playground and documentation pages all use named containers.
             </li>
             <li>
-              <strong>Viewport queries only for the app shell.</strong> Whether the section navigation is a sidebar
-              depends on the window, so the shell uses one media query at 64rem.
+              <strong>Viewport queries only for the app shell.</strong> Whether the section navigation is a sidebar, and
+              whether the header fits on one row, depends on the window, so those rules (and only those) use media
+              queries.
             </li>
             <li>Breakpoints are in rem, so they move with text zoom, and each one is documented next to the rule.</li>
           </ul>
@@ -706,6 +713,17 @@ function ResponsiveContent() {
             </Grid>
           </div>
         </LiveExample>
+      </DocSection>
+      <DocSection id="registry" title="Every query in the system">
+        <Prose>
+          <p>
+            Read from the stylesheets themselves, so it cannot go stale. Each threshold sits next to a comment explaining
+            why it is that value; the table shows that comment. The audit to watch is where viewport size queries live:
+            only the app shell depends on the viewport, so any outside it is a component that should be querying its
+            container instead.
+          </p>
+        </Prose>
+        <QueryRegistry />
       </DocSection>
       <DocSection id="reflow" title="Reflow and overflow">
         <Prose>
@@ -800,10 +818,13 @@ export const foundationTopics: readonly FoundationTopic[] = [
     sections: [
       { id: 'rules', label: 'Which query' },
       { id: 'demo', label: 'Resize a container' },
+      { id: 'registry', label: 'Every query' },
       { id: 'reflow', label: 'Reflow' },
     ],
     Content: ResponsiveContent,
   },
+  productsTopic,
+  studioTopic,
 ];
 
 export function findFoundationTopic(id: string): FoundationTopic | undefined {

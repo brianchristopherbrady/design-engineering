@@ -11,6 +11,8 @@
  */
 @layer reset, tokens, base, layout, components, product;
 
+/* Jost, self-hosted: font-display swap with unicode-range subsets, so only Latin downloads for this site. */
+@import '@fontsource-variable/jost';
 @import './reset.css';
 @import '../tokens/generated/tokens.css';
 @import './base.css';

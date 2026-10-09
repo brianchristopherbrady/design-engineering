@@ -24,3 +24,10 @@ export {
 } from './Inline';
 export { withCustomProperties, type LayoutElement } from './layoutProps';
 export { Stack, stackAlignments, stackDefaults, type StackAlignment, type StackOwnProps, type StackProps } from './Stack';
+export {
+  ThemeScope,
+  ThemeScopeProvider,
+  useThemeScope,
+  type ThemeScopeOwnProps,
+  type ThemeScopeProps,
+} from './ThemeScope';

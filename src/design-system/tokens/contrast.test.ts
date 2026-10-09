@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { tokenManifest } from './generated/manifest';
-import { themeNames, type ThemeName, type TokenPath } from './generated/tokens';
+import { productNames, themeNames, type ProductName, type ThemeName, type TokenPath } from './generated/tokens';
 
 function luminance(hex: string) {
   const [r, g, b] = [1, 3, 5].map((index) => {
@@ -16,10 +16,14 @@ function contrastRatio(a: string, b: string) {
   return (lighter + 0.05) / (darker + 0.05);
 }
 
-function color(path: TokenPath, theme: ThemeName) {
+function color(path: TokenPath, theme: ThemeName, product: ProductName) {
   const record = tokenManifest.find((token) => token.path === path);
   if (!record || record.type !== 'color') throw new Error(`${path} is not a color token`);
-  const value = record.values[theme].resolved;
+  const wanted: Record<string, string> = { theme, product, density: 'comfortable' };
+  const variant = record.variants?.find((candidate) =>
+    Object.entries(candidate.input).every(([modifier, context]) => wanted[modifier] === context),
+  );
+  const value = (variant ?? record.values[theme]).resolved;
   if (!/^#[0-9a-f]{6}$/.test(value)) throw new Error(`${path} must resolve to an opaque hex color, got ${value}`);
   return value;
 }
@@ -64,11 +68,13 @@ const requirements: [TokenPath, TokenPath, number, string][] = [
 ];
 
 describe('token contrast', () => {
-  for (const theme of themeNames) {
-    describe(`${theme} theme`, () => {
-      it.each(requirements)('%s on %s meets %s:1 (%s)', (foreground, background, minimum) => {
-        expect(contrastRatio(color(foreground, theme), color(background, theme))).toBeGreaterThanOrEqual(minimum);
+  for (const product of productNames) {
+    for (const theme of themeNames) {
+      describe(`${product}, ${theme} theme`, () => {
+        it.each(requirements)('%s on %s meets %s:1 (%s)', (foreground, background, minimum) => {
+          expect(contrastRatio(color(foreground, theme, product), color(background, theme, product))).toBeGreaterThanOrEqual(minimum);
+        });
       });
-    });
+    }
   }
 });

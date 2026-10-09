@@ -82,7 +82,7 @@ test.describe('activity dashboard', () => {
     await page.getByRole('combobox', { name: 'Demo scenario' }).selectOption('noResults');
     await expect(page.getByRole('heading', { name: 'No changes match “tooltip”' })).toBeVisible();
     await page.getByRole('button', { name: 'Clear search' }).click();
-    await expect(page.getByRole('status').filter({ hasText: /^Showing 16 of 16 changes$/ })).toBeVisible();
+    await expect(page.getByRole('status').filter({ hasText: /^Showing 23 of 23 changes$/ })).toBeVisible();
   });
 });
 

@@ -35,7 +35,7 @@ describe('the catalog drives the site', () => {
   it('documents every component the design system exports', () => {
     const exported = [layout, primitives, composites]
       .flatMap((module) => Object.entries(module))
-      .filter(([name, value]) => typeof value === 'function' && /^[A-Z]/.test(name) && name !== 'LinkProvider')
+      .filter(([name, value]) => typeof value === 'function' && /^[A-Z]/.test(name) && !name.endsWith('Provider'))
       .map(([name]) => name)
       .sort();
     const documented = entriesOfKind('component').map((entry) => entry.name);

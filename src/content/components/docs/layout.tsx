@@ -1,6 +1,7 @@
-import type { BoxOwnProps, ContainerOwnProps, GridOwnProps, InlineOwnProps, StackOwnProps } from '@/design-system/layout';
+import type { BoxOwnProps, ContainerOwnProps, GridOwnProps, InlineOwnProps, StackOwnProps, ThemeScopeOwnProps } from '@/design-system/layout';
 import { propsTable, type ComponentDoc } from '@/features/docs';
 import { BoxExample, ContainerExample, GridExample, InlineExample, StackExample } from '../examples/LayoutExamples';
+import { ThemeScopeExample } from '../examples/ThemeScopeExample';
 
 const space = '"none" | "extraSmall" | "small" | "medium" | "large" | "extraLarge" | "extraExtraLarge"';
 const layoutNative =
@@ -8,6 +9,48 @@ const layoutNative =
 const spacingTokens = ['spacing.extra-small', 'spacing.small', 'spacing.medium', 'spacing.large', 'spacing.extra-large', 'spacing.extra-extra-large'] as const;
 
 export const layoutDocs: ComponentDoc[] = [
+  {
+    id: 'theme-scope',
+    purpose:
+      'ThemeScope re-themes a region of the page: a different theme, product or density for everything inside it. It renders one element carrying all three data attributes and publishes the values to nested scopes, so anything it does not set is inherited from the nearest parent scope rather than reset.',
+    whenToUse: [
+      'Previews and comparisons, such as the playground frame and the products × themes matrix.',
+      'A product area embedded in another product, such as a Harbor widget inside a System Lab page.',
+      'A permanently dark region, such as a code panel or media viewer.',
+    ],
+    whenNotToUse: [
+      'The whole page: the app\'s ThemeProvider sets the attributes on <html> and publishes them with ThemeScopeProvider.',
+      'Changing one color: theme the roles in tokens instead of scoping.',
+    ],
+    props: propsTable<ThemeScopeOwnProps>({
+      theme: { type: '"light" | "dark"', defaultValue: 'inherited', description: 'Color theme.' },
+      product: { type: '"system-lab" | "harbor" | "meadow"', defaultValue: 'inherited', description: 'Brand roles and shape.' },
+      density: { type: '"comfortable" | "compact"', defaultValue: 'inherited', description: 'Control size and spacing.' },
+    }),
+    nativeProps: `${layoutNative} The accepted values are generated from the resolver, so adding a product context adds it to the type.`,
+    precedence: [
+      'An explicit prop wins; an omitted prop takes the nearest parent scope\'s value, and at the root the app\'s ThemeProvider values.',
+      'All three attributes are always written. The generated CSS declares each token under the exact combination of modifiers it depends on (for example [data-theme][data-product]), so a scope that set only data-theme would miss the product-dependent tokens.',
+      'useThemeScope() returns the context in effect, for components that need to know it (the playground reports it; most components never do).',
+    ],
+    propTokens: [
+      { prop: 'theme="dark"', property: 'background-color (via base.css)', token: 'surface.canvas' },
+      { prop: 'product="harbor"', property: '--button-primary-background', token: 'button.primary.background' },
+      { prop: 'density="compact"', property: '--control-height-medium', token: 'control.height.medium' },
+    ],
+    tokens: ['surface.canvas', 'text.primary', 'action.primary.background', 'button.primary.background', 'control.height.medium', 'spacing.medium'],
+    composition: ['The playground preview, the theme studio previews and the foundations matrices are ThemeScopes.', 'Scopes nest; each inherits from its parent.'],
+    states: ['None of its own.'],
+    accessibility: [
+      'Contrast is verified for every product and theme combination (contrast.test.ts), so any scope a page creates is already checked.',
+      'A scope is not a landmark. Use as="section" with a label if the region needs a name.',
+    ],
+    responsive: ['No layout of its own. Density changes control heights and spacing tokens inside the scope.'],
+    mistakes: ['Writing data-theme by hand on a region: it misses product- and density-dependent tokens.', 'Scoping to fix contrast on one element instead of fixing the token.'],
+    tradeoffs: ['Every scope re-declares the tokens that depend on its modifiers; that is a few hundred custom properties, cheap for regions but not something to put on every list item.'],
+    sourcePaths: ['src/design-system/layout/ThemeScope.tsx', 'src/app/providers/ThemeProvider.tsx', 'scripts/tokens/pipeline.mjs'],
+    Example: ThemeScopeExample,
+  },
   {
     id: 'box',
     purpose:

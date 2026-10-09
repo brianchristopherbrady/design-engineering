@@ -26,7 +26,6 @@
   }
 
   .header {
-    padding-block: var(--spacing-small);
     border-block-end: var(--border-width-thin) solid var(--border-subtle);
     background-color: var(--surface-panel);
   }
@@ -35,76 +34,220 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--spacing-small) var(--spacing-large);
+    gap: 0 var(--spacing-extra-large);
+    min-block-size: var(--space-3xl);
   }
 
+  /* A fixed space, not a density-scaled one: the mark and name are one logo. */
   .brand {
     display: inline-flex;
     align-items: center;
-    gap: var(--spacing-small);
+    gap: var(--space-xs);
+    min-block-size: var(--space-3xl);
     color: var(--text-primary);
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-bold);
+    text-decoration-line: none;
+  }
+
+  .brand:hover {
+    text-decoration-line: none;
+  }
+
+  .brandName {
+    font-size: var(--typography-control-font-size);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--font-letter-spacing-wider);
+    text-transform: uppercase;
   }
 
   .logo {
-    inline-size: var(--size-icon-lg);
-    block-size: var(--size-icon-lg);
-    flex: none;
-  }
-
-  .logoMark {
-    fill: var(--action-primary-background);
-  }
-
-  .logoLines {
-    fill: none;
-    stroke: var(--action-primary-foreground);
+    inline-size: var(--size-badge-lg);
+    block-size: var(--size-badge-lg);
   }
 
   .primaryNav {
     flex: 1 1 auto;
     min-inline-size: 0;
+    align-self: stretch;
+  }
+
+  .primaryNav > ul {
+    block-size: 100%;
+    align-items: stretch;
   }
 
   .navLink {
+    position: relative;
     display: inline-flex;
     align-items: center;
+    block-size: 100%;
     min-block-size: var(--control-height-medium);
     padding-inline: var(--spacing-small);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: var(--typography-control-font-weight);
+    letter-spacing: var(--font-letter-spacing-wider);
+    text-transform: uppercase;
+    transition: color var(--motion-duration-feedback) var(--motion-easing-standard);
+  }
+
+  .navLink:hover {
     color: var(--text-primary);
-    font-weight: var(--font-weight-medium);
+    text-decoration-line: none;
   }
 
-  .navLink:hover,
-  .sectionLink:hover {
-    background-color: var(--action-ghost-hover);
+  /* The signal: a lit bar on the header's lower edge, under the current section. */
+  .navLink::after {
+    content: '';
+    position: absolute;
+    inset-inline: var(--spacing-small);
+    inset-block-end: calc(var(--border-width-thin) * -1);
+    block-size: var(--border-width-thick);
+    background-color: var(--signal-current);
+    box-shadow: 0 0 var(--space-xs) var(--signal-glow);
+    transform: scaleX(0);
+    transition: transform var(--motion-duration-emphasis) var(--motion-easing-enter);
   }
 
-  /* Current location: an underline as well as color, so it survives forced colors and color blindness. */
-  .navLink[aria-current],
-  .sectionLink[aria-current='page'] {
-    background-color: var(--surface-accent);
-    color: var(--text-link);
-    text-decoration-line: underline;
-    text-decoration-thickness: var(--border-width-thick);
-    text-underline-offset: 0.3em;
+  .navLink[aria-current] {
+    color: var(--text-primary);
+  }
+
+  .navLink[aria-current]::after {
+    transform: scaleX(1);
+  }
+
+  /* Display settings: one cluster at the end of the row, or a rail of its own when the row is full. */
+  .settings {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    margin-inline-start: auto;
+  }
+
+  .settingsPanel {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0 var(--spacing-large);
+  }
+
+  .settingsToggle {
+    display: none;
   }
 
   .themeSelect {
     display: flex;
     align-items: center;
     gap: var(--spacing-small);
+    padding-block: var(--spacing-small);
   }
 
   .themeLabel {
-    font-size: var(--typography-label-font-size);
-    font-weight: var(--typography-label-font-weight);
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--typography-caption-font-weight);
+    letter-spacing: var(--typography-caption-letter-spacing);
+    text-transform: uppercase;
   }
 
   .themeControl {
     inline-size: auto;
+    min-block-size: var(--control-height-small);
+    padding-block: 0;
+    font-size: var(--typography-body-small-font-size);
+  }
+
+  /*
+   * 90rem: the width at which the name, five sections and the settings cluster share one row.
+   * Below it the settings move to a rail under the sections, after them in reading order too.
+   */
+  @media (width < 90rem) {
+    .settings {
+      flex-basis: 100%;
+      border-block-start: var(--border-width-thin) solid var(--border-subtle);
+    }
+  }
+
+  /* 64rem: below it the sections wrap under the name; tighter tracking keeps them to as few rows as possible. */
+  @media (width < 64rem) {
+    .headerRow {
+      padding-block-end: 0;
+    }
+
+    .brand {
+      min-block-size: var(--control-height-medium);
+    }
+
+    .navLink {
+      min-block-size: var(--control-height-small);
+      letter-spacing: var(--font-letter-spacing-wide);
+    }
+
+    .primaryNav {
+      margin-inline-start: calc(var(--spacing-small) * -1);
+    }
+
+    /* The three settings fold into one summary line that opens them in place, labels aligned. */
+    .settings {
+      display: block;
+    }
+
+    .settingsToggle {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-small);
+      inline-size: 100%;
+      min-block-size: var(--control-height-medium);
+      padding: 0;
+      border: 0;
+      background: none;
+      color: var(--text-primary);
+      font: inherit;
+      text-align: start;
+      cursor: pointer;
+    }
+
+    .settingsSummary {
+      flex: 1;
+      min-inline-size: 0;
+      overflow: hidden;
+      color: var(--text-muted);
+      font-size: var(--typography-body-small-font-size);
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      transition: color var(--motion-duration-feedback) var(--motion-easing-standard);
+    }
+
+    .settingsToggle:hover .settingsSummary {
+      color: var(--text-primary);
+    }
+
+    .settingsIcon {
+      color: var(--text-muted);
+    }
+
+    .settingsPanel {
+      display: none;
+    }
+
+    .settingsPanel.open {
+      display: grid;
+      grid-template-columns: max-content minmax(0, 18rem);
+      align-items: center;
+      gap: var(--spacing-small) var(--spacing-large);
+      padding-block: var(--space-2xs) var(--spacing-medium);
+    }
+
+    .settingsPanel .themeSelect {
+      display: contents;
+    }
+
+    .settingsPanel .themeControl {
+      inline-size: 100%;
+    }
   }
 
   .body {
@@ -140,7 +283,7 @@
   }
 
   .groupHeading {
-    padding-inline: var(--spacing-small);
+    padding-inline: var(--spacing-medium);
     color: var(--text-muted);
     font-size: var(--typography-caption-font-size);
     font-weight: var(--typography-caption-font-weight);
@@ -150,19 +293,70 @@
 
   .links {
     display: grid;
-    gap: var(--space-2xs);
     padding: 0;
     list-style: none;
   }
 
   .sectionLink {
+    position: relative;
     display: flex;
     align-items: center;
     min-block-size: var(--control-height-small);
-    padding: var(--space-2xs) var(--spacing-small);
-    border-radius: var(--radius-md);
-    color: var(--text-primary);
+    padding: var(--space-2xs) var(--spacing-small) var(--space-2xs) var(--spacing-medium);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    font-size: var(--typography-body-small-font-size);
+    font-weight: var(--font-weight-regular);
     line-height: var(--font-line-height-snug);
+    transition:
+      color var(--motion-duration-feedback) var(--motion-easing-standard),
+      background-color var(--motion-duration-feedback) var(--motion-easing-standard);
+  }
+
+  .sectionLink:hover {
+    background-color: var(--action-ghost-hover);
+    color: var(--text-primary);
+    text-decoration-line: none;
+  }
+
+  /* An indicator lamp beside the current page: shape and weight as well as color. */
+  .sectionLink::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    inline-size: var(--space-2xs);
+    block-size: var(--space-2xs);
+    border-radius: var(--radius-full);
+    background-color: var(--signal-current);
+    box-shadow: 0 0 var(--space-xs) var(--signal-glow);
+    opacity: 0;
+    transform: scale(0);
+    transition:
+      opacity var(--motion-duration-transition) var(--motion-easing-standard),
+      transform var(--motion-duration-emphasis) var(--motion-easing-enter);
+  }
+
+  .sectionLink[aria-current='page'] {
+    color: var(--text-primary);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .sectionLink[aria-current='page']::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  @media (forced-colors: active) {
+    .navLink[aria-current],
+    .sectionLink[aria-current='page'] {
+      text-decoration-line: underline;
+      text-decoration-thickness: var(--border-width-thick);
+    }
+
+    .navLink::after,
+    .sectionLink::before {
+      display: none;
+    }
   }
 
   /*
@@ -171,7 +365,7 @@
    */
   @media (width >= 64rem) {
     .withSidebar {
-      grid-template-columns: 15rem minmax(0, 1fr);
+      grid-template-columns: 16rem minmax(0, 1fr);
     }
 
     .sidebar {
@@ -180,7 +374,7 @@
       align-self: start;
       max-block-size: 100dvh;
       overflow-y: auto;
-      padding: var(--spacing-large) var(--spacing-medium);
+      padding: var(--spacing-extra-large) var(--spacing-medium) var(--spacing-extra-large) var(--spacing-large);
       border-block-end: 0;
       border-inline-end: var(--border-width-thin) solid var(--border-subtle);
     }
@@ -197,15 +391,34 @@
 
   .main {
     min-inline-size: 0;
-    padding-block: var(--spacing-large) var(--space-3xl);
+    padding-block: var(--spacing-extra-large) var(--space-3xl);
   }
 
   .main:focus {
     outline: none;
   }
 
+  @media (prefers-reduced-motion: no-preference) {
+    .arrive,
+    .settingsPanel.open,
+    .sectionList.open {
+      animation: arrive var(--motion-duration-emphasis) var(--motion-easing-enter);
+    }
+  }
+
+  @keyframes arrive {
+    from {
+      opacity: 0;
+      transform: translateY(var(--space-sm));
+    }
+  }
+
   .loading {
     padding-block: var(--spacing-extra-large);
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    letter-spacing: var(--typography-caption-letter-spacing);
+    text-transform: uppercase;
   }
 
   .footer {

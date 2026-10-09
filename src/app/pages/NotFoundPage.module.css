@@ -1,0 +1,36 @@
+@layer product {
+  .layout {
+    display: grid;
+    gap: var(--spacing-extra-large);
+    align-items: center;
+  }
+
+  .eye {
+    display: grid;
+    justify-items: center;
+    gap: var(--spacing-medium);
+    padding-block: var(--spacing-large);
+  }
+
+  .lens {
+    inline-size: min(12rem, 50%);
+    block-size: auto;
+    aspect-ratio: 1;
+  }
+
+  .quote {
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--typography-caption-font-weight);
+    letter-spacing: var(--typography-caption-letter-spacing);
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  /* 44rem of page container: room for a readable message beside the eye. */
+  @container page (min-inline-size: 44rem) {
+    .layout {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    }
+  }
+}

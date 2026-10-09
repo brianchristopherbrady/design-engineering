@@ -30,7 +30,9 @@
     border: var(--border-width-thin) solid var(--input-border);
     border-radius: var(--radius-full);
     background-color: var(--switch-track-off);
-    transition: background-color var(--motion-duration-feedback) var(--motion-easing-standard);
+    transition:
+      background-color var(--motion-duration-transition) var(--motion-easing-standard),
+      border-color var(--motion-duration-transition) var(--motion-easing-standard);
   }
 
   .thumb {
@@ -38,7 +40,8 @@
     block-size: var(--size-icon-md);
     border-radius: var(--radius-full);
     background-color: var(--switch-thumb);
-    transition: transform var(--motion-duration-transition) var(--motion-easing-standard);
+    box-shadow: var(--elevation-low);
+    transition: transform var(--motion-duration-emphasis) var(--motion-easing-enter);
   }
 
   .input:checked + .track {

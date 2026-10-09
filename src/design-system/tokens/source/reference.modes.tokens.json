@@ -1,0 +1,47 @@
+{
+  "$description": "Reference values used only by the product and density modifiers. Kept apart from reference.tokens.json so product palettes can be added without touching the core palette.",
+  "color": {
+    "$type": "color",
+    "harbor": {
+      "$description": "Harbor product ramp: deep sea teal for a calm, precise financial tool.",
+      "50": { "$value": { "colorSpace": "srgb", "components": [0.9412, 0.9922, 0.9804], "hex": "#f0fdfa" } },
+      "100": { "$value": { "colorSpace": "srgb", "components": [0.8, 0.9843, 0.9451], "hex": "#ccfbf1" } },
+      "200": { "$value": { "colorSpace": "srgb", "components": [0.6, 0.9647, 0.8941], "hex": "#99f6e4" } },
+      "300": { "$value": { "colorSpace": "srgb", "components": [0.3686, 0.9176, 0.8314], "hex": "#5eead4" } },
+      "400": { "$value": { "colorSpace": "srgb", "components": [0.1765, 0.8314, 0.749], "hex": "#2dd4bf" } },
+      "500": { "$value": { "colorSpace": "srgb", "components": [0.0784, 0.7216, 0.651], "hex": "#14b8a6" } },
+      "600": { "$value": { "colorSpace": "srgb", "components": [0.051, 0.5804, 0.5333], "hex": "#0d9488" } },
+      "700": { "$value": { "colorSpace": "srgb", "components": [0.0588, 0.4627, 0.4314], "hex": "#0f766e" } },
+      "800": { "$value": { "colorSpace": "srgb", "components": [0.0667, 0.3686, 0.349], "hex": "#115e59" } },
+      "900": { "$value": { "colorSpace": "srgb", "components": [0.0745, 0.3059, 0.2902], "hex": "#134e4a" } },
+      "950": { "$value": { "colorSpace": "srgb", "components": [0.0157, 0.1843, 0.1804], "hex": "#042f2e" } },
+      "975": {
+        "$value": { "colorSpace": "srgb", "components": [0.0118, 0.1412, 0.1373], "hex": "#032423" },
+        "$description": "Dark tinted surface; 950 left strong borders under 3:1."
+      }
+    },
+    "meadow": {
+      "$description": "Meadow product ramp: saturated violet for a friendly consumer app.",
+      "50": { "$value": { "colorSpace": "srgb", "components": [0.9608, 0.9529, 1], "hex": "#f5f3ff" } },
+      "100": { "$value": { "colorSpace": "srgb", "components": [0.9294, 0.9137, 0.9961], "hex": "#ede9fe" } },
+      "200": { "$value": { "colorSpace": "srgb", "components": [0.8667, 0.8392, 0.9961], "hex": "#ddd6fe" } },
+      "300": { "$value": { "colorSpace": "srgb", "components": [0.7686, 0.7098, 0.9922], "hex": "#c4b5fd" } },
+      "400": { "$value": { "colorSpace": "srgb", "components": [0.6549, 0.5451, 0.9804], "hex": "#a78bfa" } },
+      "500": { "$value": { "colorSpace": "srgb", "components": [0.5451, 0.3608, 0.9647], "hex": "#8b5cf6" } },
+      "600": { "$value": { "colorSpace": "srgb", "components": [0.4863, 0.2275, 0.9294], "hex": "#7c3aed" } },
+      "700": { "$value": { "colorSpace": "srgb", "components": [0.4275, 0.1569, 0.851], "hex": "#6d28d9" } },
+      "800": { "$value": { "colorSpace": "srgb", "components": [0.3569, 0.1294, 0.7137], "hex": "#5b21b6" } },
+      "900": { "$value": { "colorSpace": "srgb", "components": [0.298, 0.1137, 0.5843], "hex": "#4c1d95" } },
+      "950": { "$value": { "colorSpace": "srgb", "components": [0.1804, 0.0627, 0.3961], "hex": "#2e1065" } }
+    }
+  },
+  "size": {
+    "$type": "dimension",
+    "compact": {
+      "$description": "Control heights for the compact density. The smallest still exceeds the 24px WCAG 2.2 target-size minimum.",
+      "sm": { "$value": { "value": 1.75, "unit": "rem" } },
+      "md": { "$value": { "value": 2.25, "unit": "rem" } },
+      "lg": { "$value": { "value": 2.75, "unit": "rem" } }
+    }
+  }
+}

@@ -11,8 +11,12 @@
 
   .caption {
     padding-block-end: var(--spacing-small);
-    font-weight: var(--font-weight-semibold);
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--typography-caption-font-weight);
+    letter-spacing: var(--typography-caption-letter-spacing);
     text-align: start;
+    text-transform: uppercase;
   }
 
   .table th,
@@ -21,6 +25,15 @@
     border-block-end: var(--border-width-thin) solid var(--border-subtle);
     text-align: start;
     vertical-align: middle;
+  }
+
+  .table thead th {
+    border-block-end-color: var(--border-strong);
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--typography-caption-font-weight);
+    letter-spacing: var(--typography-caption-letter-spacing);
+    text-transform: uppercase;
   }
 
   .table code {

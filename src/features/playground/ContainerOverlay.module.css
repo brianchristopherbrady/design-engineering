@@ -1,0 +1,42 @@
+@layer product {
+  .anchor {
+    position: relative;
+  }
+
+  .layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .box {
+    position: absolute;
+    box-sizing: border-box;
+    border: var(--border-width-thick) dashed var(--tone-info-border);
+  }
+
+  .label {
+    position: absolute;
+    /* Bottom-end corner: usually empty padding, so the label rarely covers content. */
+    inset-block-end: 0;
+    inset-inline-end: 0;
+    padding: 0 var(--space-2xs);
+    background-color: var(--tone-info-solid);
+    color: var(--tone-info-on-solid);
+    font-family: var(--typography-code-font-family);
+    font-size: var(--typography-caption-font-size);
+    white-space: nowrap;
+  }
+
+  .summary {
+    color: var(--text-muted);
+    font-size: var(--typography-body-small-font-size);
+    overflow-wrap: anywhere;
+  }
+
+  @media (forced-colors: active) {
+    .box {
+      border-color: Highlight;
+    }
+  }
+}

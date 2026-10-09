@@ -1,0 +1,17 @@
+{
+  "$description": "Compact density for data-heavy screens: shorter controls and one step less space. Overrides only sizing and spacing.",
+  "control": {
+    "height": {
+      "small": { "$value": "{size.compact.sm}" },
+      "medium": { "$value": "{size.compact.md}" },
+      "large": { "$value": "{size.compact.lg}" }
+    },
+    "padding-inline": { "$value": "{space.xs}" }
+  },
+  "spacing": {
+    "small": { "$value": "{space.2xs}" },
+    "medium": { "$value": "{space.sm}" },
+    "large": { "$value": "{space.md}" },
+    "extra-large": { "$value": "{space.lg}" }
+  }
+}
