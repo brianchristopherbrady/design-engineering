@@ -11,6 +11,8 @@ const cssVar = (page: Page, name: string, scope?: Locator) =>
   }, name);
 
 const openPreviewSettings = (page: Page) => page.locator('summary', { hasText: 'Preview settings' }).click();
+const booleanValue = (page: Page, prop: string, value: 'false' | 'true') =>
+  page.getByRole('radiogroup', { name: prop }).getByRole('radio', { name: value });
 
 test.describe('playground', () => {
   test('opens on Button unless a valid component is requested', async ({ page }) => {
@@ -37,7 +39,7 @@ test.describe('playground', () => {
     const height = await button.evaluate((element) => element.getBoundingClientRect().height);
     expect(height).toBeGreaterThanOrEqual(52);
 
-    await page.getByRole('switch', { name: 'fullWidth' }).check();
+    await booleanValue(page, 'fullWidth', 'true').check();
     await expect(snippet).toContainText('fullWidth={true}');
 
     await page.getByRole('textbox', { name: 'children' }).fill('Delete entry');
@@ -55,7 +57,7 @@ test.describe('playground', () => {
     const snippet = page.getByTestId('playground-snippet');
     await openPreviewSettings(page);
     await page.getByRole('combobox', { name: 'Preview theme' }).selectOption('dark');
-    await page.getByRole('group', { name: 'Example presets' }).getByRole('button', { name: 'Destructive' }).click();
+    await page.getByRole('combobox', { name: 'Preset' }).selectOption('Destructive');
     await expect(snippet).toContainText('appearance="danger"');
     await expect(snippet).toContainText('Delete entry');
 
@@ -122,7 +124,7 @@ test.describe('playground', () => {
 
   test('presets apply several props at once', async ({ page }) => {
     await page.goto('/playground?component=badge');
-    await page.getByRole('button', { name: 'Danger filled' }).click();
+    await page.getByRole('combobox', { name: 'Preset' }).selectOption('Danger filled');
     const snippet = page.getByTestId('playground-snippet');
     await expect(snippet).toContainText('tone="danger"');
     await expect(snippet).toContainText('appearance="filled"');

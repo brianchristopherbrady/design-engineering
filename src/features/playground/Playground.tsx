@@ -1,13 +1,14 @@
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { Disclosure, Field } from '@/design-system/composites';
 import { ScrollRegion, ThemeScope, useThemeScope } from '@/design-system/layout';
-import { Button, Heading, iconNames, Input, Select, Switch, Text } from '@/design-system/primitives';
+import { Button, Heading, Input, Select, Switch, Text } from '@/design-system/primitives';
 import { densityNames, productNames, themeNames, type ModifierInput, type ThemeName } from '@/design-system/tokens';
 import { densityLabels, productProfiles } from '@/domain/system';
 import { inherit, previewWidth, withCapturedAppearance, type Inheritable, type PlaygroundConfig, type PreviewSettings } from './config';
-import { acceptedValues, buildProps, buildSnippet, initialValues, presetValues } from './engine';
+import { ControlsTable } from './ControlsTable';
+import { acceptedValues, buildProps, buildSnippet, initialValues, presetOf, presetValues } from './engine';
 import { ContainerInspector } from './ContainerOverlay';
-import type { AnyControl, AnyStory, ControlValue, ControlValues } from './types';
+import type { AnyStory, ControlValue, ControlValues, PropApi } from './types';
 import styles from './Playground.module.css';
 
 type Modifier = keyof ModifierInput;
@@ -35,19 +36,26 @@ export interface PlaygroundProps {
   linkFor: (config: PlaygroundConfig) => string;
   /** Links for the selected story, such as its documentation and source. */
   renderLinks: (story: AnyStory) => ReactNode;
+  /** Documented facts about a story's props, shown quietly in the Controls table. */
+  apiFor?: (story: AnyStory) => readonly PropApi[] | undefined;
 }
+
+/** The preset select's value when the props match no preset and are not the starting values. */
+const customPreset = '__custom__';
 
 /**
  * Storybook-style workbench. Its state is the configuration it receives, kept outside the
  * components it renders: the components only ever receive ordinary props.
  */
-export function Playground({ stories, config, onConfigChange, onStoryChange, linkFor, renderLinks }: PlaygroundProps) {
+export function Playground({ stories, config, onConfigChange, onStoryChange, linkFor, renderLinks, apiFor }: PlaygroundProps) {
   const story = stories.find((candidate) => candidate.id === config.component) ?? stories[0];
   if (!story) return null;
+  const preset = presetOf(story, config.props);
+  const setValues = (props: ControlValues) => onConfigChange({ ...config, props });
   return (
     <div className={styles.playground}>
-      <div className={styles.picker}>
-        <Field label="Component">
+      <div className={styles.bar}>
+        <Field label="Component" className={styles.barField}>
           {(control) => (
             <Select {...control} value={story.id} onChange={(event) => onStoryChange(event.target.value)}>
               {stories.map((candidate) => (
@@ -58,26 +66,36 @@ export function Playground({ stories, config, onConfigChange, onStoryChange, lin
             </Select>
           )}
         </Field>
-        <div className={styles.pickerText}>
-          <Text>{story.summary}</Text>
-          {renderLinks(story)}
-        </div>
+        {story.presets.length > 0 && (
+          <Field label="Preset" className={styles.barField}>
+            {(control) => (
+              <Select
+                {...control}
+                value={preset ?? customPreset}
+                onChange={(event) => setValues(event.target.value ? presetValues(story, event.target.value) : initialValues(story))}
+              >
+                <option value="">Starting values</option>
+                {story.presets.map((candidate) => (
+                  <option key={candidate.name} value={candidate.name}>
+                    {candidate.name}
+                  </option>
+                ))}
+                {preset === undefined && (
+                  <option value={customPreset} disabled>
+                    Custom
+                  </option>
+                )}
+              </Select>
+            )}
+          </Field>
+        )}
+        <Button onClick={() => setValues(initialValues(story))}>Reset component props</Button>
+        <div className={styles.barLinks}>{renderLinks(story)}</div>
       </div>
-      <dl className={styles.scopes} aria-label="What each set of settings changes">
-        <div>
-          <dt>Site appearance</dt>
-          <dd>The header controls restyle the whole site.</dd>
-        </div>
-        <div>
-          <dt>Preview settings</dt>
-          <dd>Product, theme, density and width for this example only.</dd>
-        </div>
-        <div>
-          <dt>Component props</dt>
-          <dd>The selected component’s public API.</dd>
-        </div>
-      </dl>
-      <Workbench key={story.id} story={story} config={config} onConfigChange={onConfigChange} linkFor={linkFor} />
+      <Text variant="bodySmall" tone="muted">
+        {story.summary}
+      </Text>
+      <Workbench key={story.id} story={story} config={config} onConfigChange={onConfigChange} linkFor={linkFor} api={apiFor?.(story)} />
     </div>
   );
 }
@@ -89,11 +107,13 @@ function Workbench({
   config,
   onConfigChange,
   linkFor,
+  api,
 }: {
   story: AnyStory;
   config: PlaygroundConfig;
   onConfigChange: (config: PlaygroundConfig) => void;
   linkFor: (config: PlaygroundConfig) => string;
+  api: readonly PropApi[] | undefined;
 }) {
   const site = useThemeScope();
   const values = config.props;
@@ -104,7 +124,7 @@ function Workbench({
   const [share, setShare] = useState<Share>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const manualLinkRef = useRef<HTMLInputElement>(null);
-  const ids = { preview: useId(), controls: useId(), presets: useId(), usage: useId(), shareHelp: useId() };
+  const ids = { preview: useId(), controls: useId(), usage: useId(), shareHelp: useId() };
 
   useEffect(() => {
     const frame = frameRef.current;
@@ -148,11 +168,10 @@ function Workbench({
     );
   };
 
-  const setValues = (props: ControlValues) => onConfigChange({ ...config, props });
   const setPreview = (changes: Partial<PreviewSettings>) => onConfigChange({ ...config, preview: { ...config.preview, ...changes } });
   const props = buildProps(story, values);
   const snippet = buildSnippet(story, values);
-  const setValue = (prop: string, value: ControlValue) => setValues({ ...values, [prop]: value });
+  const setValue = (prop: string, value: ControlValue) => onConfigChange({ ...config, props: { ...values, [prop]: value } });
 
   return (
     <div className={styles.workbench}>
@@ -281,38 +300,7 @@ function Workbench({
         <Heading level={2} size="small" id={ids.controls}>
           Component props
         </Heading>
-        {story.presets.length > 0 && (
-          <div className={styles.presets} role="group" aria-labelledby={ids.presets}>
-            <Text as="p" variant="caption" tone="muted" id={ids.presets}>
-              Example presets
-            </Text>
-            <Text variant="bodySmall" tone="muted">
-              Each fills in several component props.
-            </Text>
-            <div className={styles.toolGroup}>
-              {story.presets.map((preset) => (
-                <Button key={preset.name} size="small" onClick={() => setValues(presetValues(story, preset.name))}>
-                  {preset.name}
-                </Button>
-              ))}
-            </div>
-          </div>
-        )}
-        <div>
-          <Button size="small" appearance="ghost" onClick={() => setValues(initialValues(story))}>
-            Reset component props
-          </Button>
-        </div>
-        <div className={styles.controls}>
-          {story.controls.map((control) => (
-            <ControlField
-              key={control.prop}
-              control={control}
-              value={values[control.prop]}
-              onChange={(value) => setValue(control.prop, value)}
-            />
-          ))}
-        </div>
+        <ControlsTable story={story} values={values} api={api} onChange={setValue} labelledBy={ids.controls} />
       </section>
 
       <section aria-labelledby={ids.usage} className={styles.usagePanel}>
@@ -456,68 +444,4 @@ function ScopeSelect<T extends string>({
       )}
     </Field>
   );
-}
-
-function ControlField({
-  control,
-  value,
-  onChange,
-}: {
-  control: AnyControl;
-  value: ControlValue;
-  onChange: (value: ControlValue) => void;
-}) {
-  switch (control.kind) {
-    case 'switch':
-      return (
-        <Switch
-          label={<code>{control.prop}</code>}
-          description={control.description}
-          checked={Boolean(value)}
-          onChange={(event) => onChange(event.target.checked)}
-        />
-      );
-    case 'text':
-      return (
-        <Field label={<code>{control.prop}</code>} description={control.description}>
-          {(field) => <Input {...field} value={String(value ?? '')} onChange={(event) => onChange(event.target.value)} />}
-        </Field>
-      );
-    case 'icon':
-      return (
-        <Field label={<code>{control.prop}</code>} description={control.description}>
-          {(field) => (
-            <Select {...field} value={String(value ?? '')} onChange={(event) => onChange(event.target.value || undefined)}>
-              <option value="">None</option>
-              {iconNames.map((name) => (
-                <option key={name} value={name}>
-                  {name}
-                </option>
-              ))}
-            </Select>
-          )}
-        </Field>
-      );
-    case 'select':
-      return (
-        <Field label={<code>{control.prop}</code>} description={control.description}>
-          {(field) => (
-            <Select
-              {...field}
-              value={value === undefined ? '' : String(value)}
-              onChange={(event) =>
-                onChange(control.options.find((option) => String(option) === event.target.value))
-              }
-            >
-              {control.unsetLabel && <option value="">Unset: {control.unsetLabel}</option>}
-              {control.options.map((option) => (
-                <option key={option} value={String(option)}>
-                  {String(option)}
-                </option>
-              ))}
-            </Select>
-          )}
-        </Field>
-      );
-  }
 }

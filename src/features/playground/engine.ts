@@ -11,6 +11,18 @@ export function presetValues(story: AnyStory, presetName: string): ControlValues
   return { ...initialValues(story), ...preset?.values };
 }
 
+const sameValues = (story: AnyStory, a: ControlValues, b: ControlValues) => story.controls.every((control) => a[control.prop] === b[control.prop]);
+
+/**
+ * The preset the values equal, derived rather than remembered: `''` when they are the story's
+ * starting values, and undefined once an edit makes them match neither.
+ */
+export function presetOf(story: AnyStory, values: ControlValues): string | undefined {
+  const preset = story.presets.find((candidate) => sameValues(story, presetValues(story, candidate.name), values));
+  if (preset) return preset.name;
+  return sameValues(story, initialValues(story), values) ? '' : undefined;
+}
+
 function isOmitted(control: AnyControl, value: ControlValue): boolean {
   return value === undefined || (control.kind === 'text' && control.prop !== 'children' && value === '');
 }

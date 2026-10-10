@@ -1,78 +1,35 @@
 @layer product {
   .playground {
     display: grid;
-    gap: var(--spacing-large);
+    gap: var(--spacing-medium);
     min-inline-size: 0;
     container: playground / inline-size;
   }
 
-  .picker {
-    display: grid;
-    gap: var(--spacing-medium);
-    align-items: end;
+  /* Component, preset and reset on one line where they fit, with the story's links at the end. */
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--spacing-small) var(--spacing-medium);
   }
 
-  .pickerText {
-    display: grid;
-    gap: var(--spacing-extra-small);
+  .barField {
+    flex: 1 1 12rem;
+    max-inline-size: 18rem;
   }
 
-  /* Three scopes, side by side where they fit and stacked otherwise. */
-  .scopes {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
-    gap: var(--spacing-small) var(--spacing-large);
-    margin: 0;
-    font-size: var(--typography-body-small-font-size);
-    line-height: var(--typography-body-small-line-height);
-  }
-
-  .scopes dt {
-    font-weight: var(--font-weight-semibold);
-  }
-
-  .scopes dd {
-    margin: 0;
-    color: var(--text-muted);
-  }
-
-  /* A container cannot query itself, so the picker responds to the playground around it. */
-  @container playground (min-inline-size: 40rem) {
-    .picker {
-      grid-template-columns: 16rem minmax(0, 1fr);
-    }
+  .barLinks {
+    display: flex;
+    align-items: center;
+    min-block-size: var(--control-height-medium);
+    margin-inline-start: auto;
   }
 
   .workbench {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-areas:
-      'preview'
-      'controls'
-      'usage'
-      'props';
     gap: var(--spacing-large);
-  }
-
-  /* 52rem: a preview column of at least 32rem beside an 18rem controls column. */
-  @container playground (min-inline-size: 52rem) {
-    .workbench {
-      grid-template-columns: minmax(0, 1fr) 18rem;
-      /* The second row absorbs the props column's extra height, so usage sits right under the preview. */
-      grid-template-rows: auto 1fr;
-      grid-template-areas:
-        'preview controls'
-        'usage controls'
-        'props props';
-      align-items: start;
-    }
-
-    .controlsPanel {
-      position: sticky;
-      inset-block-start: var(--spacing-medium);
-      max-block-size: calc(100dvh - 2 * var(--spacing-medium));
-      overflow-y: auto;
-    }
   }
 
   .previewPanel,
@@ -84,10 +41,6 @@
     min-inline-size: 0;
   }
 
-  .previewPanel {
-    grid-area: preview;
-  }
-
   .previewHeader {
     display: flex;
     flex-wrap: wrap;
@@ -97,19 +50,10 @@
   }
 
   .controlsPanel {
-    grid-area: controls;
-    padding: var(--spacing-medium);
+    padding: var(--spacing-small) var(--spacing-medium);
     border: var(--border-width-thin) solid var(--border-default);
     border-radius: var(--radius-lg);
     background-color: var(--surface-panel);
-  }
-
-  .usagePanel {
-    grid-area: usage;
-  }
-
-  .propsPanel {
-    grid-area: props;
   }
 
   .toolbar {
@@ -122,13 +66,6 @@
   .toolbar > * + :not(.segmented) {
     padding-block-start: var(--spacing-medium);
     border-block-start: var(--border-width-thin) solid var(--border-subtle);
-  }
-
-  .toolGroup {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    gap: var(--spacing-small);
   }
 
   .scopeGroup {
@@ -202,21 +139,16 @@
     background-color: var(--surface-sunken);
   }
 
+  /* The frame hugs the component; a fixed preview width is the only thing that sizes it. */
   .frame {
     container: preview / inline-size;
     box-sizing: border-box;
     max-inline-size: none;
-    min-block-size: var(--size-item-xs);
     padding: var(--spacing-large);
     border: var(--border-width-thin) solid var(--border-subtle);
     border-radius: var(--radius-md);
     background-color: var(--surface-canvas);
     color: var(--text-primary);
-  }
-
-  .controls {
-    display: grid;
-    gap: var(--spacing-medium);
   }
 
   /* The collapsed summary still says what the preview is showing. */
@@ -240,11 +172,6 @@
 
   .contextSource {
     font-style: italic;
-  }
-
-  .presets {
-    display: grid;
-    gap: var(--spacing-extra-small);
   }
 
   .chain {

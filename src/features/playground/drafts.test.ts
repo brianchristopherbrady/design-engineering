@@ -12,7 +12,7 @@ const story = (id: string) =>
     imports: [],
     controls: [
       { kind: 'select', prop: 'size', options: ['small', 'large'], defaultValue: 'small', description: '' },
-      { kind: 'select', prop: 'padding', options: ['small', 'large'], defaultValue: undefined, unsetLabel: 'token', description: '' },
+      { kind: 'select', prop: 'padding', options: ['small', 'large'], defaultValue: undefined, unsetLabel: 'token', unsetKind: 'token', description: '' },
     ],
     presets: [],
     render: () => null,

@@ -3,12 +3,14 @@ import { expect, test, type Page } from '@playwright/test';
 const openPreviewSettings = (page: Page) => page.locator('summary', { hasText: 'Preview settings' }).click();
 const snippet = (page: Page) => page.getByTestId('playground-snippet');
 const preview = (page: Page) => page.getByTestId('playground-preview');
+const booleanValue = (page: Page, prop: string, value: 'false' | 'true') =>
+  page.getByRole('radiogroup', { name: prop }).getByRole('radio', { name: value });
 
 async function configureButton(page: Page) {
   await page.goto('/playground');
   await page.getByRole('combobox', { name: 'size' }).selectOption('large');
   await page.getByRole('combobox', { name: 'border' }).selectOption('thick');
-  await page.getByRole('switch', { name: 'fullWidth' }).check();
+  await booleanValue(page, 'fullWidth', 'true').check();
   await openPreviewSettings(page);
   await page.getByRole('combobox', { name: 'Preview product' }).selectOption('meadow');
   await page.getByRole('combobox', { name: 'Preview theme' }).selectOption('dark');
@@ -19,7 +21,7 @@ async function configureButton(page: Page) {
 async function expectConfiguredButton(page: Page) {
   await expect(page.getByRole('combobox', { name: 'size' })).toHaveValue('large');
   await expect(page.getByRole('combobox', { name: 'border' })).toHaveValue('thick');
-  await expect(page.getByRole('switch', { name: 'fullWidth' })).toBeChecked();
+  await expect(booleanValue(page, 'fullWidth', 'true')).toBeChecked();
   await expect(preview(page)).toHaveAttribute('data-product', 'meadow');
   await expect(preview(page)).toHaveAttribute('data-theme', 'dark');
   await expect(preview(page)).toHaveAttribute('data-density', 'compact');
@@ -133,7 +135,7 @@ test.describe('playground configuration', () => {
     await expect(preview(page).getByRole('button', { name: text })).toBeVisible();
 
     await page.goto('/playground?component=dialog&v=1&p.dismissOnBackdrop=false&p.size=small');
-    await expect(page.getByRole('switch', { name: 'dismissOnBackdrop' })).not.toBeChecked();
+    await expect(booleanValue(page, 'dismissOnBackdrop', 'false')).toBeChecked();
     await expect(snippet(page)).toContainText('dismissOnBackdrop={false}');
     await page.goto('/playground?component=theme-scope');
     await expect(page.getByRole('combobox', { name: 'product', exact: true })).toHaveValue('');
@@ -158,7 +160,7 @@ test.describe('playground configuration', () => {
     await configureButton(page);
     await page.getByRole('button', { name: 'Reset component props' }).click();
     await expect(page.getByRole('combobox', { name: 'size' })).toHaveValue('medium');
-    await expect(page.getByRole('switch', { name: 'fullWidth' })).not.toBeChecked();
+    await expect(booleanValue(page, 'fullWidth', 'false')).toBeChecked();
     await expect(page.getByTestId('preview-context')).toContainText('Meadow · Dark · Compact · 320px');
     const url = new URL(page.url());
     expect([...url.searchParams.keys()].filter((name) => name.startsWith('p.'))).toEqual([]);
@@ -196,7 +198,7 @@ test.describe('dialog backdrop dismissal', () => {
     await expect(page.getByRole('dialog')).toBeHidden();
     await expect(page.getByRole('button', { name: 'Open dialog' })).toBeFocused();
 
-    await page.getByRole('switch', { name: 'dismissOnBackdrop' }).check();
+    await booleanValue(page, 'dismissOnBackdrop', 'true').check();
     await expect(snippet(page)).toContainText('dismissOnBackdrop={true}');
     await openDialog(page);
     const box = (await page.getByRole('dialog').boundingBox())!;
@@ -218,18 +220,18 @@ test.describe('dialog backdrop dismissal', () => {
   test('a copied example keeps backdrop dismissal off when it was turned off', async ({ page }) => {
     await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
     await page.goto('/playground?component=dialog');
-    await page.getByRole('group', { name: 'Example presets' }).getByRole('button', { name: 'Dismiss on backdrop' }).click();
-    const dismiss = page.getByRole('switch', { name: 'dismissOnBackdrop' });
-    await expect(dismiss).toBeChecked();
-    await dismiss.click();
-    await expect(dismiss).not.toBeChecked();
+    await page.getByRole('combobox', { name: 'Preset' }).selectOption('Dismiss on backdrop');
+    await expect(booleanValue(page, 'dismissOnBackdrop', 'true')).toBeChecked();
+    await booleanValue(page, 'dismissOnBackdrop', 'false').click();
+    await expect(booleanValue(page, 'dismissOnBackdrop', 'false')).toBeChecked();
+    await expect(page.getByRole('combobox', { name: 'Preset' }).locator('option:checked')).toHaveText('Custom');
     await page.getByRole('combobox', { name: 'size' }).selectOption('large');
     await page.getByRole('button', { name: 'Copy example link' }).click();
     const link = await page.evaluate(() => navigator.clipboard.readText());
 
     await page.goto('/playground?component=dialog&v=1&p.dismissOnBackdrop=true');
     await page.goto(link);
-    await expect(page.getByRole('switch', { name: 'dismissOnBackdrop' })).not.toBeChecked();
+    await expect(booleanValue(page, 'dismissOnBackdrop', 'false')).toBeChecked();
     await expect(page.getByRole('combobox', { name: 'size' })).toHaveValue('large');
     await openDialog(page);
     await page.mouse.click(5, 5);

@@ -9,7 +9,7 @@ export {
   type PlaygroundConfig,
   type PreviewSettings,
 } from './config';
-export { acceptedValues, buildProps, buildSnippet, initialValues, presetValues } from './engine';
+export { acceptedValues, buildProps, buildSnippet, initialValues, presetOf, presetValues } from './engine';
 export { Playground, type PlaygroundProps } from './Playground';
 export { usePlaygroundConfig } from './usePlaygroundConfig';
 export {
@@ -21,4 +21,6 @@ export {
   type ControlValues,
   type PlaygroundStory,
   type Preset,
+  type PropApi,
+  type UnsetKind,
 } from './types';

@@ -1,0 +1,226 @@
+@layer product {
+  /* Narrow first: each row stacks its prop above its control. The header row is read, not shown. */
+  .table {
+    display: block;
+    inline-size: 100%;
+    border-collapse: collapse;
+  }
+
+  .head {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .table tbody {
+    display: block;
+  }
+
+  .row {
+    display: grid;
+    gap: var(--space-xs);
+    padding-block: var(--spacing-medium);
+    border-block-end: var(--border-width-thin) solid var(--border-subtle);
+  }
+
+  .row:last-child {
+    border-block-end: none;
+  }
+
+  .prop,
+  .control {
+    display: block;
+    padding: 0;
+    text-align: start;
+  }
+
+  .prop {
+    min-inline-size: 0;
+    font-weight: var(--font-weight-regular);
+  }
+
+  .name {
+    display: block;
+    padding: 0;
+    background: none;
+    color: var(--text-primary);
+    font-family: var(--typography-code-font-family);
+    font-size-adjust: none;
+    font-size: var(--typography-code-font-size);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--typography-code-line-height);
+    overflow-wrap: anywhere;
+  }
+
+  .description {
+    display: block;
+    color: var(--text-muted);
+    font-size: var(--typography-body-small-font-size);
+    line-height: var(--typography-body-small-line-height);
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--spacing-small);
+    margin-block-start: var(--space-2xs);
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    line-height: var(--typography-caption-line-height);
+  }
+
+  .meta code {
+    padding: 0;
+    background: none;
+    color: var(--text-primary);
+    font-size: inherit;
+  }
+
+  /* A step under body text to suit the table, but not below 16px, which phones zoom into on focus. */
+  .field {
+    max-inline-size: 26rem;
+    font-size: 1rem;
+  }
+
+  /* Wide enough for two columns: name and documentation beside the control, aligned row by row. */
+  @container playground (min-inline-size: 36rem) {
+    .table {
+      display: table;
+    }
+
+    .head {
+      position: static;
+      inline-size: auto;
+      block-size: auto;
+      overflow: visible;
+      clip-path: none;
+      white-space: normal;
+      display: table-header-group;
+    }
+
+    .head th {
+      padding: var(--spacing-small) var(--spacing-medium);
+      border-block-end: var(--border-width-thin) solid var(--border-strong);
+      color: var(--text-muted);
+      font-size: var(--typography-caption-font-size);
+      font-weight: var(--typography-caption-font-weight);
+      letter-spacing: var(--typography-caption-letter-spacing);
+      text-align: start;
+      text-transform: uppercase;
+    }
+
+    .table tbody {
+      display: table-row-group;
+    }
+
+    .row {
+      display: table-row;
+    }
+
+    .prop,
+    .control {
+      display: table-cell;
+      padding: var(--spacing-small) var(--spacing-medium);
+      border-block-end: var(--border-width-thin) solid var(--border-subtle);
+      vertical-align: middle;
+    }
+
+    .row:last-child > * {
+      border-block-end: none;
+    }
+
+    .prop {
+      inline-size: 45%;
+    }
+  }
+
+  /*
+   * Boolean values: a joined pair of native radios. Selection is a solid fill with a check mark;
+   * hover and press only tint the surface, so neither can be mistaken for the selected value.
+   */
+  .boolean {
+    display: inline-grid;
+    grid-template-columns: repeat(2, minmax(4.5rem, auto));
+    gap: var(--space-2xs);
+    min-block-size: var(--control-height-medium);
+    padding: var(--space-2xs);
+    border: var(--control-border-width) solid var(--input-border);
+    border-radius: var(--control-radius);
+    background-color: var(--input-background);
+  }
+
+  .booleanOption {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2xs);
+    padding-inline: var(--spacing-small);
+    border: var(--border-width-thin) solid transparent;
+    border-radius: var(--control-radius);
+    color: var(--text-primary);
+    font-family: var(--typography-code-font-family);
+    font-size-adjust: none;
+    font-size: var(--typography-code-font-size);
+    cursor: pointer;
+    transition:
+      background-color var(--motion-duration-feedback) var(--motion-easing-standard),
+      color var(--motion-duration-feedback) var(--motion-easing-standard);
+  }
+
+  /* The radio stays in place over its option, so pointer and keyboard both reach the native control. */
+  .booleanInput {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .booleanCheck {
+    visibility: hidden;
+  }
+
+  .booleanOption:hover {
+    background-color: var(--action-ghost-hover);
+  }
+
+  .booleanOption:active {
+    background-color: var(--action-ghost-active);
+  }
+
+  .booleanOption:has(.booleanInput:checked) {
+    border-color: var(--action-primary-border);
+    background-color: var(--action-primary-background);
+    color: var(--action-primary-foreground);
+  }
+
+  .booleanOption:has(.booleanInput:checked):hover {
+    background-color: var(--action-primary-hover);
+  }
+
+  .booleanOption:has(.booleanInput:checked):active {
+    background-color: var(--action-primary-active);
+  }
+
+  .booleanOption:has(.booleanInput:checked) .booleanCheck {
+    visibility: visible;
+  }
+
+  .booleanOption:has(.booleanInput:focus-visible) {
+    outline: var(--focus-width) solid var(--focus-ring);
+    outline-offset: var(--focus-offset);
+  }
+
+  @media (forced-colors: active) {
+    .booleanOption:has(.booleanInput:checked) {
+      forced-color-adjust: none;
+      border-color: Highlight;
+      background-color: Highlight;
+      color: HighlightText;
+    }
+  }
+}

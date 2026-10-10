@@ -126,7 +126,7 @@ test.describe('Switch pointer interaction', () => {
     await page.goto('/playground?component=switch');
     const preview = page.getByTestId('playground-preview');
     const input = preview.getByRole('switch', { name: 'Compact rows' });
-    const disabled = page.getByRole('switch', { name: 'disabled' });
+    const disabled = (value: 'false' | 'true') => page.getByRole('radiogroup', { name: 'disabled' }).getByRole('radio', { name: value });
     const changes = await countChanges(input);
 
     const attempt = async () => {
@@ -142,18 +142,17 @@ test.describe('Switch pointer interaction', () => {
       await expect(input).not.toBeFocused();
     };
 
-    await clickPart(page, disabled, 'thumb');
-    await expect(disabled).toBeChecked();
+    await disabled('true').click();
     await expect(input).toBeDisabled();
     await attempt();
     await expectState(input, changes, false, 0);
 
-    // Turn it on while enabled, then disable it again with the control's thumb, which is now on.
-    await clickPart(page, disabled, 'thumb');
+    // Turn it on while enabled, then disable it again.
+    await disabled('false').click();
     await expect(input).toBeEnabled();
     await clickPart(page, input, 'thumb');
     await expectState(input, changes, true, 1);
-    await clickPart(page, disabled, 'thumb');
+    await disabled('true').click();
     await expect(input).toBeDisabled();
     await attempt();
     await expectState(input, changes, true, 1);
@@ -161,46 +160,15 @@ test.describe('Switch pointer interaction', () => {
 });
 
 test.describe('Playground switches', () => {
-  test('fullWidth turns on and off from its switch graphic, and the preview, code and URL follow', async ({ page }) => {
+  test('Show query containers turns on and off from its switch graphic', async ({ page }) => {
     await page.goto('/playground?component=button');
-    const control = page.getByRole('switch', { name: 'fullWidth' });
-    const button = page.getByTestId('playground-preview').getByRole('button', { name: 'Save changes' });
-    const snippet = page.getByTestId('playground-snippet');
-    const width = () => button.evaluate((element) => element.getBoundingClientRect().width);
-    const narrow = await width();
-
-    await clickPart(page, control, 'thumb');
-    await expect(control).toBeChecked();
-    await expect(snippet).toContainText('fullWidth={true}');
-    await expect(page).toHaveURL(/[?&]p\.fullWidth=true(&|$)/);
-    await expect.poll(width).toBeGreaterThan(narrow);
-
-    await clickPart(page, control, 'thumb');
-    await expect(control).not.toBeChecked();
-    await expect(snippet).toContainText('fullWidth={false}');
-    await expect(page).not.toHaveURL(/p\.fullWidth/);
-    await expect.poll(width).toBe(narrow);
-  });
-
-  test('loading, disabled and Show query containers work from their switch graphics', async ({ page }) => {
-    await page.goto('/playground?component=button');
-    const button = page.getByTestId('playground-preview').getByRole('button', { name: 'Save changes' });
-
-    const loading = page.getByRole('switch', { name: 'loading' });
-    await clickPart(page, loading, 'thumb');
-    await expect(button).toHaveAttribute('aria-disabled', 'true');
-    await clickPart(page, loading, 'thumb');
-    await expect(button).not.toHaveAttribute('aria-disabled');
-
-    const disabled = page.getByRole('switch', { name: 'disabled' });
-    await clickPart(page, disabled, 'thumb');
-    await expect(button).toBeDisabled();
-    await clickPart(page, disabled, 'thumb');
-    await expect(button).toBeEnabled();
-
     await page.locator('summary', { hasText: 'Preview settings' }).click();
     const outlines = page.getByRole('switch', { name: 'Show query containers' });
     await clickPart(page, outlines, 'thumb');
+    await expect(page.getByTestId('container-summary')).toBeVisible();
+    await clickPart(page, outlines, 'thumb');
+    await expect(page.getByTestId('container-summary')).toBeHidden();
+    await clickPart(page, outlines, 'track', 0.85);
     await expect(page.getByTestId('container-summary')).toBeVisible();
     await clickPart(page, outlines, 'track', 0.15);
     await expect(page.getByTestId('container-summary')).toBeHidden();

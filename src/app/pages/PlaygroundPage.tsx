@@ -1,6 +1,6 @@
 import { Inline } from '@/design-system/layout';
 import { Icon, Link } from '@/design-system/primitives';
-import { playgroundStories } from '@/content/components';
+import { findComponentDoc, playgroundStories } from '@/content/components';
 import { findEntry } from '@/domain/system';
 import { Playground, usePlaygroundConfig } from '@/features/playground';
 import { paths } from '../paths';
@@ -17,7 +17,7 @@ export function PlaygroundPage() {
       title="Playground"
       eyebrow="Design system"
       width="wide"
-      description="Choose a component, change its props and copy the matching code. The preview is its own query container, so you can test narrow layouts without resizing the window."
+      description="Choose a component, edit its props and copy the code. Header settings restyle the whole site; preview settings change only the example."
     >
       {playground.config && (
         <Playground
@@ -26,6 +26,7 @@ export function PlaygroundPage() {
           onConfigChange={playground.update}
           onStoryChange={playground.selectStory}
           linkFor={playground.linkFor}
+          apiFor={(story) => findComponentDoc(story.id)?.props}
           renderLinks={(story) => (
             <Inline gap="medium">
               <Link href={paths.component(story.id)} variant="standalone">

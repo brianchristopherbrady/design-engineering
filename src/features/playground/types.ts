@@ -9,15 +9,26 @@ interface BaseControl<K extends string> {
   description: string;
 }
 
+/**
+ * What an unset prop falls back to: a component token, the surrounding scope, or behavior the
+ * component defines itself (such as "derived from level").
+ */
+export type UnsetKind = 'token' | 'inherit' | 'default';
+
+/**
+ * Offer an option that omits the prop, and say what applies instead. Props without one have no
+ * unset value in the Playground.
+ */
+type Unset = { unsetLabel?: undefined; unsetKind?: undefined } | { unsetLabel: string; unsetKind: UnsetKind };
+
 /** Enumerated prop. Options should be the component's exported option array. */
-export interface SelectControl<K extends string, V extends string | number = string | number> extends BaseControl<K> {
-  kind: 'select';
-  options: readonly V[];
-  /** Initial value. `undefined` means the prop starts unset. */
-  defaultValue: V | undefined;
-  /** Offer an option that omits the prop, and say what applies instead (usually a component token). */
-  unsetLabel?: string;
-}
+export type SelectControl<K extends string, V extends string | number = string | number> = BaseControl<K> &
+  Unset & {
+    kind: 'select';
+    options: readonly V[];
+    /** Initial value. `undefined` means the prop starts unset. */
+    defaultValue: V | undefined;
+  };
 
 export interface SwitchControl<K extends string> extends BaseControl<K> {
   kind: 'switch';
@@ -51,6 +62,14 @@ export type ControlSpec<P> = { [K in Keys<P>]-?: ControlFor<P, K> }[Keys<P>];
 
 export type ControlValue = string | number | boolean | undefined;
 export type ControlValues = Record<string, ControlValue>;
+
+/** Documented facts about one prop, from the component reference. */
+export interface PropApi {
+  name: string;
+  type: string;
+  /** The component's own default, as documented. */
+  defaultValue?: string;
+}
 
 export interface Preset<P> {
   name: string;
