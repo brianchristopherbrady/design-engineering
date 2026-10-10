@@ -87,21 +87,22 @@ test.describe('activity dashboard', () => {
 });
 
 test.describe('form validation', () => {
-  test('a valid proposal is sent and announced', async ({ page }) => {
+  test('a valid proposal completes the simulated submission and resets the form', async ({ page }) => {
     await page.goto('/patterns/form-validation');
     await page.getByRole('textbox', { name: /Component name/ }).fill('DatePicker');
     await page.getByRole('combobox', { name: /Layer/ }).selectOption('Composite');
     await page.getByRole('textbox', { name: /Summary/ }).fill('Choosing a date with keyboard and calendar support.');
     await page.getByRole('textbox', { name: /Contact email/ }).fill('team@example.com');
     await page.getByRole('checkbox', { name: /searched the directory/ }).check();
-    await page.getByRole('button', { name: 'Send proposal' }).click();
-    await expect(page.getByRole('status').filter({ hasText: 'Proposal for DatePicker sent.' })).toBeVisible();
+    await page.getByRole('button', { name: 'Submit proposal' }).click();
+    await expect(page.getByRole('status').filter({ hasText: 'Nothing was sent.' })).toBeVisible();
+    await expect(page.getByRole('textbox', { name: /Component name/ })).toHaveValue('');
   });
 
   test('duplicate names are rejected using the real catalog', async ({ page }) => {
     await page.goto('/patterns/form-validation');
     await page.getByRole('textbox', { name: /Component name/ }).fill('Button');
-    await page.getByRole('button', { name: 'Send proposal' }).click();
+    await page.getByRole('button', { name: 'Submit proposal' }).click();
     await expect(page.getByText('Button already exists. Propose a change to it instead.').first()).toBeVisible();
   });
 });

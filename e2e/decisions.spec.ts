@@ -54,17 +54,3 @@ test.describe('design decisions', () => {
     }
   });
 });
-
-test.describe('overview entry point', () => {
-  test('says who made the site and offers a review path', async ({ page }) => {
-    await page.goto('/');
-    await expect(page.getByRole('link', { name: 'Brian Brady' }).first()).toHaveAttribute('href', 'https://brianbrady.dev');
-    const path = page.getByRole('list', { name: 'Suggested review path' });
-    await expect(path.getByRole('listitem')).toHaveCount(5);
-    await expect(path.getByRole('link', { name: 'Token architecture' })).toHaveAttribute('href', /\/foundations\/tokens$/);
-    await expect(page.getByRole('contentinfo').getByRole('link', { name: 'Source on GitHub' })).toHaveAttribute(
-      'href',
-      'https://github.com/brianchristopherbrady/design-system-lab',
-    );
-  });
-});

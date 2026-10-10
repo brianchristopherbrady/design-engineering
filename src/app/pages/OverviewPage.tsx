@@ -1,4 +1,4 @@
-import { OverviewContent, overviewSections } from '@/content/overview';
+import { ExploreButtonLink, OverviewContent, overviewSections } from '@/content/overview';
 import { appName, author } from '../paths';
 import { DocPage } from './DocPage';
 
@@ -7,7 +7,8 @@ export function OverviewPage() {
     <DocPage
       title={appName}
       eyebrow="Overview"
-      description="A design system and the website that documents it, built by Brian Brady to show design-system judgment and implementation: tokens, components and patterns you can inspect down to the source."
+      description="A working design system by Brian Brady. Explore its shared design decisions, tokens, components, and interface patterns, and see how those same building blocks create this website."
+      actions={<ExploreButtonLink />}
       sections={overviewSections}
     >
       <OverviewContent author={author} />

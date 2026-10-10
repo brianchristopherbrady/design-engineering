@@ -1,0 +1,124 @@
+@layer product {
+  /* Navigation, so it is a link; drawn with Button's primary tokens because it is the page's main action. */
+  .primaryLink {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--button-gap);
+    min-block-size: var(--button-height-medium);
+    padding-inline: var(--button-padding-inline-medium);
+    border: var(--border-width-thin) solid var(--button-primary-border);
+    border-radius: var(--button-radius);
+    background-color: var(--button-primary-background);
+    color: var(--button-primary-foreground);
+    font-family: var(--typography-control-font-family);
+    font-size: var(--button-font-size-medium);
+    font-weight: var(--typography-control-font-weight);
+    letter-spacing: var(--typography-control-letter-spacing);
+    line-height: var(--font-line-height-snug);
+    text-decoration-line: none;
+    text-transform: uppercase;
+    transition: background-color var(--motion-duration-feedback) var(--motion-easing-standard);
+  }
+
+  .primaryLink:hover {
+    background-color: var(--button-primary-background-hover);
+    text-decoration-line: none;
+  }
+
+  .primaryLink:active {
+    background-color: var(--button-primary-background-active);
+  }
+
+  /* Links that lead to another page: an arrow joins the always-visible underline. */
+  .actionLink {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .actionLink:hover {
+    text-decoration-thickness: var(--border-width-thick);
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-extra-small) var(--spacing-medium);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Review path stops and demonstration steps. */
+  .stopNumber {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(14rem, 100%), 1fr));
+    gap: var(--spacing-small) var(--spacing-medium);
+    margin: 0;
+  }
+
+  .facts > div {
+    display: grid;
+    gap: var(--space-2xs);
+    min-inline-size: 0;
+  }
+
+  .facts dt {
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--typography-caption-font-weight);
+    letter-spacing: var(--typography-caption-letter-spacing);
+    line-height: var(--typography-caption-line-height);
+    text-transform: uppercase;
+  }
+
+  .facts dd {
+    margin: 0;
+    font-size: var(--typography-body-small-font-size);
+    line-height: var(--typography-body-small-line-height);
+  }
+
+  .facts code {
+    overflow-wrap: anywhere;
+  }
+
+  .demo {
+    display: grid;
+    gap: var(--spacing-medium);
+    min-inline-size: 0;
+  }
+
+  .value {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .specimen {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-small) var(--spacing-medium);
+    padding: var(--spacing-medium);
+    border-radius: var(--radius-md);
+    background-color: var(--surface-sunken);
+  }
+
+  .currentRow > * {
+    background-color: var(--surface-accent);
+  }
+
+  .groupRow > th {
+    background-color: var(--surface-sunken);
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
+    font-weight: var(--typography-caption-font-weight);
+    letter-spacing: var(--typography-caption-letter-spacing);
+    text-transform: uppercase;
+  }
+}

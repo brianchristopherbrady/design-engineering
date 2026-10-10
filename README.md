@@ -8,8 +8,9 @@ documents: the navigation, the Components index and the pattern demos all read t
 
 Sections:
 
-- **Overview** — who made it and why, a suggested review path, how the site is built from the
-  system, principles and the layered architecture.
+- **Overview** — what the project is and who made it, a live chain from a design decision to a working
+  Button, a suggested review path, how the page itself is built from the system, principles and the
+  implementation architecture.
 - **Foundations** — token tiers, color, typography, spacing, borders and radii, elevation, motion,
   themes and responsive rules, rendered from the generated token manifest. **Products and modes**
   shows one token source resolving into three products × two themes × two densities, with a mode

@@ -148,7 +148,7 @@ test.describe('keyboard and focus', () => {
 
   test('the form error summary receives focus and links to fields', async ({ page }) => {
     await page.goto('/patterns/form-validation');
-    await page.getByRole('button', { name: 'Send proposal' }).click();
+    await page.getByRole('button', { name: 'Submit proposal' }).click();
     const summary = page.getByText('Fix 5 problems to continue');
     await expect(summary).toBeVisible();
     await page.getByRole('link', { name: /Component name: Enter a component name/ }).click();

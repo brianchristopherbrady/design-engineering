@@ -128,7 +128,7 @@ export const operating: Decision = {
             ['Token sources are valid and every alias resolves in all twelve combinations', 'Checked in every build', '`scripts/tokens/pipeline.mjs`'],
             ['Who may read which token tier', 'Checked by the build and tests', '[Dependency policy](/foundations/tokens#policy)'],
             ['Stylesheets use only tokens and declare cascade layers', 'Checked by lint', '`scripts/architecture/check-styles.mjs`'],
-            ['Imports respect the layer boundaries', 'Checked by lint', '[Architecture](/#architecture)'],
+            ['Imports respect the layer boundaries', 'Checked by lint', '[Implementation architecture](/#architecture)'],
             ['Text and control contrast in every product and theme', 'Unit tested', '[Contrast](/foundations/color#contrast)'],
             ['Keyboard, focus, reflow at 320 pixels and automated accessibility scans', 'Browser tests on the production build', '`e2e/`'],
             ['Documentation agrees with the implementation', 'Unit tested', '`src/test/documentation.test.ts`'],

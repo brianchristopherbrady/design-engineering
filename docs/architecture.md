@@ -161,7 +161,7 @@ Routes: `/`, `/foundations`, `/foundations/:topicId`, `/components`, `/component
 `/playground`, `/patterns`, `/patterns/:patternId`, `/decisions`, `/decisions/:decisionId` and a
 catch-all. The retired `/guides` and `/guides/:id` URLs redirect to the page that now covers the same
 ground (`src/app/legacyGuides.ts`). All but the overview are lazy
-chunks. The 150 kB token manifest loads only with pages that inspect tokens; the overview reads the
-generated `tokenCounts` instead. `usePageTitle` sets `document.title` and moves focus to the page `h1` after client-side
+chunks. The token manifest (about 280 kB, 17 kB compressed) loads only with pages that inspect tokens; the
+overview reads the generated `tokenCounts` for its summary and loads its token demonstration as a separate chunk. `usePageTitle` sets `document.title` and moves focus to the page `h1` after client-side
 navigation, or to the target of a URL fragment; first load and query changes leave focus alone.
 `Link` renders a real anchor; the app passes React Router's `navigate` through `LinkProvider`.

@@ -323,11 +323,13 @@ function FormContent() {
               links to its field. Each field shows its own message, and messages update as fields change.
             </li>
             <li>
-              <strong>Sent:</strong> the form resets and a status message confirms.
+              <strong>Submitted:</strong> the form resets and a status message says the demo submission is complete and
+              nothing was sent.
             </li>
           </ul>
           <p>
-            This pattern has no request, so it has no Demo scenario selector. Validation rules are a pure function,{' '}
+            This pattern has no request, so it has no Demo scenario selector, and a valid submission goes nowhere. To
+            propose a real component, open an issue in the project’s repository. Validation rules are a pure function,{' '}
             <code>validateProposal</code>, tested without rendering.
           </p>
         </Prose>

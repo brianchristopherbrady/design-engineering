@@ -9,11 +9,12 @@
     container: horizon / inline-size;
   }
 
+  /* A strip rather than a banner: it supports the introduction instead of preceding it. */
   .scene {
     display: block;
     inline-size: 100%;
-    aspect-ratio: 3 / 1;
-    min-block-size: 11rem;
+    aspect-ratio: 5 / 1;
+    min-block-size: 7rem;
   }
 
   .stars {

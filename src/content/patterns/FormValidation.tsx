@@ -41,11 +41,12 @@ export function validateProposal(values: Proposal): Errors {
 /**
  * Submit-time validation: errors appear only after submitting, an error summary receives
  * focus and links to each field, and fields are re-validated as they change after that.
+ * A demonstration: a valid submission only resets the form. Nothing is sent or stored.
  */
 export function FormValidation() {
   const [values, setValues] = useState<Proposal>(empty);
   const [submitted, setSubmitted] = useState(false);
-  const [sent, setSent] = useState<string | null>(null);
+  const [complete, setComplete] = useState(false);
   const summaryRef = useRef<HTMLDivElement>(null);
   const ids = { name: useId(), layer: useId(), summary: useId(), email: useId(), searched: useId() };
   const errors = submitted ? validateProposal(values) : {};
@@ -58,19 +59,22 @@ export function FormValidation() {
     const found = validateProposal(values);
     setSubmitted(true);
     if (Object.keys(found).length > 0) {
-      setSent(null);
+      setComplete(false);
       // Wait for the summary to render, then move focus to it.
       requestAnimationFrame(() => summaryRef.current?.focus());
       return;
     }
-    setSent(values.name.trim());
+    setComplete(true);
     setValues(empty);
     setSubmitted(false);
   };
 
   return (
-    <form noValidate onSubmit={onSubmit} aria-label="Propose a component">
+    <form noValidate onSubmit={onSubmit} aria-label="Propose a component (demonstration)">
       <Stack gap="large">
+        <Alert tone="info" title="Demonstration form">
+          Submissions are simulated. Submitting checks the fields and resets the form; nothing is sent or stored.
+        </Alert>
         {errorKeys.length > 0 && (
           <div ref={summaryRef} tabIndex={-1}>
             <Alert tone="danger" title={`Fix ${errorKeys.length} ${errorKeys.length === 1 ? 'problem' : 'problems'} to continue`}>
@@ -92,7 +96,7 @@ export function FormValidation() {
             </Alert>
           </div>
         )}
-        <Text role="status">{sent ? `Proposal for ${sent} sent. The design system team replies within two working days.` : ''}</Text>
+        <Text role="status">{complete ? 'Demo submission complete. Nothing was sent.' : ''}</Text>
         <Grid minColumnWidth="medium" gap="large" align="start">
           <Field id={ids.name} label={labels.name} description="PascalCase, as it would be imported." error={errors.name} required>
             {(control) => <Input {...control} value={values.name} autoComplete="off" onChange={(event) => set('name', event.target.value)} />}
@@ -113,7 +117,7 @@ export function FormValidation() {
         <Field id={ids.summary} label={labels.summary} description="What problem does it solve that existing components do not?" error={errors.summary} required>
           {(control) => <Input {...control} value={values.summary} onChange={(event) => set('summary', event.target.value)} />}
         </Field>
-        <Field id={ids.email} label={labels.email} error={errors.email} required>
+        <Field id={ids.email} label={labels.email} description="Checked for format only; it is not sent anywhere." error={errors.email} required>
           {(control) => (
             <Input {...control} type="email" autoComplete="email" value={values.email} onChange={(event) => set('email', event.target.value)} />
           )}
@@ -135,7 +139,7 @@ export function FormValidation() {
         </Stack>
         <div>
           <Button type="submit" appearance="primary">
-            Send proposal
+            Submit proposal
           </Button>
         </div>
       </Stack>

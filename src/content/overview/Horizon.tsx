@@ -22,7 +22,7 @@ const stars = (() => {
 })();
 
 /**
- * The Overview's opening scene: a sun rising over a planet's limb, drawn as a nested dark
+ * The Overview's illustration: a sun rising over a planet's limb, drawn as a nested dark
  * theme so it reads as a window onto space in either site theme. The readouts below it
  * summarize the system; the scene itself is decorative.
  */
