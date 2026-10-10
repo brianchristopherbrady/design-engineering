@@ -3,7 +3,7 @@ import { Card } from '@/design-system/composites';
 import { Grid, ScrollRegion, Stack } from '@/design-system/layout';
 import { Heading, Icon, Link, Skeleton, Text } from '@/design-system/primitives';
 import { tokenCounts } from '@/design-system/tokens';
-import { catalog, entriesOfKind, productProfiles, summarizeCatalog, type EntryLayer } from '@/domain/system';
+import { catalog, entriesOfKind, productProfiles, summarizeCatalog, type ComponentLayer } from '@/domain/system';
 import { DocSection, Note, Prose, SourceList } from '@/features/docs';
 import { Horizon } from './Horizon';
 import styles from './Overview.module.css';
@@ -74,7 +74,7 @@ const reviewPath: readonly { title: string; try: string; shows: string; links: r
   },
 ];
 
-const componentNames = (layer: EntryLayer) =>
+const componentNames = (layer: ComponentLayer) =>
   entriesOfKind('component')
     .filter((entry) => entry.layer === layer)
     .map((entry) => entry.name)
@@ -340,17 +340,18 @@ export function OverviewContent({ author }: { author: OverviewAuthor }) {
             needs.
           </p>
           <p>
-            The first four layers are the reusable design system, in <code>src/design-system</code>; they know nothing
-            about this website. The other four are this application, which consumes the system. Here, “domain” means
+            The first four implementation layers are the reusable design system, in <code>src/design-system</code>; they
+            know nothing about this website. Of these, Layout, Primitives and Composites are also the component layers that
+            classify components. The other four are this application, which consumes the system. Here, “domain” means
             knowledge about what this site documents, such as its catalog of entries and its changelog, rather than
             reusable interface code. Each layer may import only from the layers before it, and only through a public index.
           </p>
-          <ScrollRegion axis="inline" aria-label="Layers and what they may import">
+          <ScrollRegion axis="inline" aria-label="Implementation layers and what they may import">
             <table>
-              <caption>Layers and what they may import</caption>
+              <caption>Implementation layers and what they may import</caption>
               <thead>
                 <tr>
-                  <th scope="col">Layer</th>
+                  <th scope="col">Implementation layer</th>
                   <th scope="col">Holds</th>
                   <th scope="col">May import</th>
                 </tr>

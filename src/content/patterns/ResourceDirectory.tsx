@@ -2,11 +2,13 @@ import { useEffect, useId, useRef, useState } from 'react';
 import { Alert, Card, EmptyState } from '@/design-system/composites';
 import { Grid, Inline, Stack } from '@/design-system/layout';
 import { Button, Heading, Icon, Link, Skeleton, Text } from '@/design-system/primitives';
-import { entryLayers, EntryCard, type CatalogEntry } from '@/domain/system';
+import { componentLayers, EntryCard, type CatalogEntry, type EntryKind } from '@/domain/system';
 import { defaultFilters, DirectoryFilters, filterEntries, type DirectoryFilterValues } from '@/features/directory';
 import { useRequest, type DemoScenario } from '@/features/scenarios';
 import { fetchEntries, noResultsQuery } from './fixtures';
 import { entryHref } from './hrefs';
+
+const resourceTypes: readonly EntryKind[] = ['component', 'foundation', 'pattern', 'decision'];
 
 /**
  * A searchable directory of the system's own catalog. The scenario only changes what the
@@ -81,7 +83,7 @@ export function ResourceDirectory({ scenario }: { scenario: DemoScenario }) {
           <EmptyState
             headingLevel={4}
             title="No entries yet"
-            description="The catalog has nothing published yet. Entries appear here as soon as a component, foundation or pattern is added to the catalog."
+            description="The catalog has nothing published yet. Entries appear here as soon as a component, foundation, pattern or design decision is added to the catalog."
             action={<Link href="/#contributing">Read how entries are added</Link>}
           />
         )}
@@ -133,7 +135,8 @@ function Results({
       <DirectoryFilters
         filters={filters}
         onChange={onFiltersChange}
-        layers={entryLayers}
+        types={resourceTypes}
+        layers={componentLayers}
         resultCount={results.length}
         totalCount={entries.length}
         label="Filter the directory"

@@ -3,7 +3,7 @@
 ## Before you add something
 
 1. **Search the Components index.** Extending an existing component is usually better than adding one.
-2. **Find the lowest layer that has everything the code needs.** Catalog knowledge belongs in
+2. **Find the lowest implementation layer that has everything the code needs.** Catalog knowledge belongs in
    `src/domain/system`; URL, storage, requests and demo orchestration belong in
    `src/features/<area>`; documentation, stories and fixtures belong in `src/content/<area>`;
    routes and the shell belong in `src/app`.
@@ -37,7 +37,8 @@
 
 ## Adding or changing a component
 
-1. Create `src/design-system/<layer>/<Name>/<Name>.tsx`, `<Name>.module.css` (wrapped in its
+1. Create `src/design-system/<layer>/<Name>/<Name>.tsx`, where `<layer>` is the component layer
+   (`layout`, `primitives` or `composites`), plus `<Name>.module.css` (wrapped in its
    cascade layer) and `<Name>.test.tsx`.
 2. Export `<Name>OwnProps`, the props type, option arrays (`nameSizes`, `nameAppearances` …) and
    a defaults object. Use the shared vocabularies from `vocabulary.ts` for space, radius, border,
@@ -45,7 +46,8 @@
 3. In CSS, read component tokens through private properties so explicit props win:
    `var(--_radius, var(--name-radius))`.
 4. Export it from the layer's `index.ts`.
-5. Add a catalog entry in `src/domain/system/catalog.ts`, a `ComponentDoc` in
+5. Add a catalog entry in `src/domain/system/catalog.ts` with `kind: 'component'` and its component
+   `layer`, a `ComponentDoc` in
    `src/content/components/docs/`, examples in `src/content/components/examples/`, and — when it
    has visual props — a story in `src/content/components/stories.tsx`.
    `propsTable<NameOwnProps>()` and `defineStory<NameProps>()` make the docs and controls
@@ -56,7 +58,7 @@
 
 ## Adding a pattern
 
-1. Add the catalog entry (kind `pattern`).
+1. Add the catalog entry (kind `pattern`, with no layer: only components have one).
 2. Put fixtures and simulated requests in `src/content/patterns/fixtures.ts`, using
    `simulateRequest` and `outcomeFor` so scenarios stay deterministic.
 3. Wrap request-driven demos in `ScenarioDemo` and render every state through design-system

@@ -42,7 +42,7 @@ export function TokenExplorer({ initialTier = 'semantic' }: { initialTier?: Tier
             <Input {...control} type="search" value={query} onChange={(event) => setQuery(event.target.value)} />
           )}
         </Field>
-        <Field label="Tier">
+        <Field label="Token tier">
           {(control) => (
             <Select {...control} value={tier} onChange={(event) => setTier(event.target.value as TierFilter)}>
               {tiers.map((value) => (

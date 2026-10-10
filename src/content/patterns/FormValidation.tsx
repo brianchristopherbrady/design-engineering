@@ -2,9 +2,9 @@ import { useId, useRef, useState, type FormEvent } from 'react';
 import { Alert, Field } from '@/design-system/composites';
 import { Grid, Stack } from '@/design-system/layout';
 import { Button, Checkbox, Input, Select, Text } from '@/design-system/primitives';
-import { catalog, entryLayers } from '@/domain/system';
+import { catalog, componentLayers, type ComponentLayer } from '@/domain/system';
 
-interface Proposal {
+export interface Proposal {
   name: string;
   layer: string;
   summary: string;
@@ -17,11 +17,14 @@ type Errors = Partial<Record<keyof Proposal, string>>;
 const empty: Proposal = { name: '', layer: '', summary: '', email: '', searched: false };
 const labels: Record<keyof Proposal, string> = {
   name: 'Component name',
-  layer: 'Layer',
+  layer: 'Component layer',
   summary: 'Summary',
   email: 'Contact email',
   searched: 'Existing components',
 };
+
+const isComponentLayer = (value: string): value is ComponentLayer => componentLayers.includes(value as ComponentLayer);
+const layerList = `${componentLayers.slice(0, -1).join(', ')} or ${componentLayers.at(-1)}`;
 
 /** Pure validation, so the rules are testable without rendering. */
 export function validateProposal(values: Proposal): Errors {
@@ -29,9 +32,10 @@ export function validateProposal(values: Proposal): Errors {
   const name = values.name.trim();
   if (!name) errors.name = 'Enter a component name.';
   else if (!/^[A-Z][A-Za-z]+$/.test(name)) errors.name = 'Use PascalCase letters only, like DatePicker.';
-  else if (catalog.some((entry) => entry.name.toLowerCase() === name.toLowerCase()))
+  else if (catalog.some((entry) => entry.kind === 'component' && entry.name.toLowerCase() === name.toLowerCase()))
     errors.name = `${name} already exists. Propose a change to it instead.`;
-  if (!values.layer) errors.layer = 'Choose the layer the component belongs to.';
+  if (!values.layer) errors.layer = 'Choose a component layer.';
+  else if (!isComponentLayer(values.layer)) errors.layer = `Choose a component layer: ${layerList}.`;
   if (values.summary.trim().length < 20) errors.summary = 'Describe the component in at least 20 characters.';
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim())) errors.email = 'Enter an email address, like team@example.com.';
   if (!values.searched) errors.searched = 'Confirm that you searched the directory first.';
@@ -104,8 +108,8 @@ export function FormValidation() {
           <Field id={ids.layer} label={labels.layer} error={errors.layer} required>
             {(control) => (
               <Select {...control} value={values.layer} onChange={(event) => set('layer', event.target.value)}>
-                <option value="">Choose a layer</option>
-                {entryLayers.map((layer) => (
+                <option value="">Choose a component layer</option>
+                {componentLayers.map((layer) => (
                   <option key={layer} value={layer}>
                     {layer}
                   </option>

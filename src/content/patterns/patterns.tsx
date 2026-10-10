@@ -185,7 +185,14 @@ function DirectoryContent() {
           <Prose>
             <ul>
               <li>Common mistake: one message for both “nothing exists” and “nothing matches”. They need different next actions.</li>
-              <li>The Components index stores the same filters in the URL; this demo keeps them in local state so scenarios reset cleanly.</li>
+              <li>
+                Component layer appears only while Resource type is Component, because only components have one. Changing the
+                type clears it, so a filter that is no longer shown cannot hide results.
+              </li>
+              <li>
+                The Components index uses the same filters without Resource type, since every entry there is a component, and
+                stores them in the URL; this demo keeps them in local state so scenarios reset cleanly.
+              </li>
             </ul>
           </Prose>
           <Note title="Same filters, two state owners">
@@ -338,7 +345,11 @@ function FormContent() {
         <Prose>
           <ul>
             <li>Field wires each label, description and error; the form only decides when errors are shown.</li>
-            <li>The name rule reads the real catalog, so proposing “Button” is rejected as a duplicate.</li>
+            <li>The name rule reads the components in the real catalog, so proposing “Button” is rejected as a duplicate.</li>
+            <li>
+              The component layer must be Layout, Primitive or Composite, read from the catalog’s shared list. Validation
+              checks the value itself, not only the options offered.
+            </li>
           </ul>
         </Prose>
       }
@@ -353,7 +364,7 @@ function FormContent() {
       }
       responsive={
         <Prose>
-          <p>Name and layer share a row when the Grid has room for two 18rem columns.</p>
+          <p>Component name and component layer share a row when the Grid has room for two 18rem columns.</p>
         </Prose>
       }
       tradeoffs={

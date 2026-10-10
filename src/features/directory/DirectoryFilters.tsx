@@ -1,14 +1,16 @@
 import { Button, Input, Select } from '@/design-system/primitives';
 import { Field } from '@/design-system/composites';
-import { maturities, maturityLabels, type EntryLayer } from '@/domain/system';
-import { defaultFilters, hasActiveFilters, type DirectoryFilters as Filters } from './filters';
+import { kindLabels, maturities, maturityLabels, type ComponentLayer, type EntryKind } from '@/domain/system';
+import { defaultFilters, hasActiveFilters, withType, type DirectoryFilters as Filters } from './filters';
 import styles from './DirectoryFilters.module.css';
 
 export interface DirectoryFiltersProps {
   filters: Filters;
   onChange: (filters: Filters) => void;
-  /** Layers offered in the Layer select. */
-  layers: readonly EntryLayer[];
+  /** Resource types offered in the Resource type select. Omit where every entry has the same type. */
+  types?: readonly EntryKind[];
+  /** Component layers offered in the Component layer select. With `types`, shown only while Component is selected. */
+  layers: readonly ComponentLayer[];
   resultCount: number;
   totalCount: number;
   /** Accessible name of the search region. */
@@ -19,7 +21,9 @@ export interface DirectoryFiltersProps {
  * Search and filter controls. Controlled, so the same UI works with URL state (the
  * Components index) or local state (the directory pattern demo).
  */
-export function DirectoryFilters({ filters, onChange, layers, resultCount, totalCount, label = 'Filter entries' }: DirectoryFiltersProps) {
+export function DirectoryFilters({ filters, onChange, types, layers, resultCount, totalCount, label = 'Filter entries' }: DirectoryFiltersProps) {
+  const offerTypes = types !== undefined && types.length > 1;
+  const offerLayers = layers.length > 1 && (!offerTypes || filters.type === 'component');
   return (
     <div role="search" className={styles.filters} aria-label={label}>
       <div className={styles.fields}>
@@ -34,8 +38,26 @@ export function DirectoryFilters({ filters, onChange, layers, resultCount, total
             />
           )}
         </Field>
-        {layers.length > 1 && (
-          <Field label="Layer">
+        {offerTypes && (
+          <Field label="Resource type">
+            {(control) => (
+              <Select
+                {...control}
+                value={filters.type}
+                onChange={(event) => onChange(withType(filters, event.target.value as Filters['type']))}
+              >
+                <option value="all">All types</option>
+                {types.map((type) => (
+                  <option key={type} value={type}>
+                    {kindLabels[type]}
+                  </option>
+                ))}
+              </Select>
+            )}
+          </Field>
+        )}
+        {offerLayers && (
+          <Field label="Component layer">
             {(control) => (
               <Select
                 {...control}

@@ -86,7 +86,7 @@ test.describe('container queries', () => {
 test.describe('URL state', () => {
   test('component filters live in the URL and follow Back and Forward', async ({ page }) => {
     await page.goto('/components');
-    await page.getByRole('combobox', { name: 'Layer' }).selectOption('Composite');
+    await page.getByRole('combobox', { name: 'Component layer' }).selectOption('Composite');
     await expect(page).toHaveURL(/layer=Composite/);
     await expect(page.getByRole('heading', { level: 2, name: /^Primitive/ })).toHaveCount(0);
 
@@ -95,7 +95,13 @@ test.describe('URL state', () => {
     await expect(page.getByRole('heading', { level: 2, name: /^Primitive/ })).toBeVisible();
 
     await page.goForward();
-    await expect(page.getByRole('combobox', { name: 'Layer' })).toHaveValue('Composite');
+    await expect(page.getByRole('combobox', { name: 'Component layer' })).toHaveValue('Composite');
+
+    // A link shared before the filter was renamed still applies.
+    await page.goto('/components?layer=Layout&maturity=beta');
+    await expect(page.getByRole('combobox', { name: 'Component layer' })).toHaveValue('Layout');
+    await expect(page.getByRole('heading', { level: 2, name: /^Layout/ })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 2, name: /^Composite/ })).toHaveCount(0);
 
     await page.goto('/components?q=zzz');
     await expect(page.getByRole('heading', { name: 'No components match these filters' })).toBeVisible();

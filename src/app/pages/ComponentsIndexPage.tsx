@@ -1,21 +1,22 @@
 import { EmptyState } from '@/design-system/composites';
 import { Grid, Stack } from '@/design-system/layout';
 import { Button, Heading, Text } from '@/design-system/primitives';
-import { EntryCard, entriesOfKind, type EntryLayer } from '@/domain/system';
+import { componentLayers, EntryCard, entriesOfKind, type ComponentLayer } from '@/domain/system';
 import { defaultFilters, DirectoryFilters, filterEntries, useUrlDirectoryFilters } from '@/features/directory';
 import { paths } from '../paths';
 import { DocPage } from './DocPage';
 
 const components = entriesOfKind('component');
-const layers: EntryLayer[] = ['Layout', 'Primitive', 'Composite'];
-const layerDescriptions: Record<string, string> = {
+const layerDescriptions: Record<ComponentLayer, string> = {
   Layout: 'Space and structure. They read spacing and size tokens and never draw content.',
   Primitive: 'Single-purpose elements built on native HTML.',
   Composite: 'Compositions of primitives with structure and behavior of their own.',
 };
 
 export function ComponentsIndexPage() {
-  const [filters, setFilters] = useUrlDirectoryFilters();
+  const [urlFilters, setFilters] = useUrlDirectoryFilters();
+  // Every entry here is a component, so a resource type from the URL has no control and must not hide results.
+  const filters = { ...urlFilters, type: 'all' as const };
   const results = filterEntries(components, filters);
 
   return (
@@ -28,7 +29,7 @@ export function ComponentsIndexPage() {
         <DirectoryFilters
           filters={filters}
           onChange={setFilters}
-          layers={layers}
+          layers={componentLayers}
           resultCount={results.length}
           totalCount={components.length}
           label="Filter components"
@@ -40,7 +41,7 @@ export function ComponentsIndexPage() {
             action={<Button onClick={() => setFilters(defaultFilters)}>Clear filters</Button>}
           />
         ) : (
-          layers.map((layer) => {
+          componentLayers.map((layer) => {
             const group = results.filter((entry) => entry.layer === layer);
             if (group.length === 0) return null;
             return (

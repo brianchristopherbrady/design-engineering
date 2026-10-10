@@ -2,7 +2,7 @@ import { Suspense, useState } from 'react';
 import { Outlet, useLocation } from 'react-router';
 import { Container, Inline } from '@/design-system/layout';
 import { Button, Icon, Link, Text } from '@/design-system/primitives';
-import { entriesOfKind, entryLayers, type CatalogEntry } from '@/domain/system';
+import { componentLayers, entriesOfKind, type CatalogEntry } from '@/domain/system';
 import { appName, author, paths, sections } from '../paths';
 import styles from './AppShell.module.css';
 import { Lens } from './Lens';
@@ -27,7 +27,7 @@ const sectionNavs: Record<string, SectionNav> = {
   components: {
     label: 'Components',
     href: paths.component,
-    groups: entryLayers
+    groups: componentLayers
       .map((layer) => ({ heading: layer, entries: components.filter((entry) => entry.layer === layer) }))
       .filter((group) => group.entries.length > 0),
   },

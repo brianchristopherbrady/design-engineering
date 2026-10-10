@@ -13,16 +13,17 @@ export {
 export { ActivityList, type ActivityListProps } from './ActivityList';
 export {
   catalog,
+  classificationOf,
+  componentLayers,
   entriesOfKind,
   entryKinds,
-  entryLayers,
   findEntry,
   kindLabels,
   maturities,
   maturityLabels,
   type CatalogEntry,
+  type ComponentLayer,
   type EntryKind,
-  type EntryLayer,
   type Maturity,
 } from './catalog';
 export { EntryCard, type EntryCardProps } from './EntryCard';

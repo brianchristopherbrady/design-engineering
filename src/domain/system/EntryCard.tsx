@@ -2,7 +2,7 @@ import { Card } from '@/design-system/composites';
 import { Inline } from '@/design-system/layout';
 import { Badge, Button, Icon, Link, Text, VisuallyHidden } from '@/design-system/primitives';
 import { formatDate } from './activity';
-import type { CatalogEntry } from './catalog';
+import { classificationOf, type CatalogEntry } from './catalog';
 import { MaturityBadge } from './MaturityBadge';
 import styles from './EntryCard.module.css';
 
@@ -28,7 +28,7 @@ export function EntryCard({ entry, href, pinned, onTogglePin, headingLevel = 3 }
         <div className={styles.main}>
           <Inline gap="extraSmall">
             <Badge appearance="outlined" size="small">
-              {entry.layer}
+              {classificationOf(entry)}
             </Badge>
             <MaturityBadge maturity={entry.maturity} size="small" />
           </Inline>

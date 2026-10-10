@@ -15,6 +15,28 @@ test.describe('resource directory scenarios', () => {
     await expect(page.getByRole('searchbox', { name: 'Search' })).toHaveValue('');
   });
 
+  test('resource type and component layer filter together, and a new type clears the layer', async ({ page }) => {
+    await page.goto('/patterns/resource-directory');
+    const type = page.getByRole('combobox', { name: 'Resource type' });
+    const layer = page.getByRole('combobox', { name: 'Component layer' });
+    await expect(page.getByRole('heading', { level: 4, name: 'Button' })).toBeVisible();
+    await expect(layer).toHaveCount(0);
+
+    await type.selectOption('component');
+    await layer.selectOption('Composite');
+    await expect(page.getByRole('heading', { level: 4, name: 'Card' })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 4, name: 'Button' })).toHaveCount(0);
+
+    await type.selectOption('pattern');
+    await expect(layer).toHaveCount(0);
+    await expect(page.getByRole('heading', { level: 4, name: 'Form validation' })).toBeVisible();
+    await expect(page.getByRole('status').filter({ hasText: /^Showing 4 of/ })).toBeVisible();
+
+    await type.selectOption('component');
+    await expect(layer).toHaveValue('all');
+    await expect(page.getByRole('heading', { level: 4, name: 'Button' })).toBeVisible();
+  });
+
   test('loading stays pending and is announced', async ({ page }) => {
     await page.goto('/patterns/resource-directory');
     await page.getByRole('combobox', { name: 'Demo scenario' }).selectOption('loading');
@@ -90,7 +112,7 @@ test.describe('form validation', () => {
   test('a valid proposal completes the simulated submission and resets the form', async ({ page }) => {
     await page.goto('/patterns/form-validation');
     await page.getByRole('textbox', { name: /Component name/ }).fill('DatePicker');
-    await page.getByRole('combobox', { name: /Layer/ }).selectOption('Composite');
+    await page.getByRole('combobox', { name: /Component layer/ }).selectOption('Composite');
     await page.getByRole('textbox', { name: /Summary/ }).fill('Choosing a date with keyboard and calendar support.');
     await page.getByRole('textbox', { name: /Contact email/ }).fill('team@example.com');
     await page.getByRole('checkbox', { name: /searched the directory/ }).check();
