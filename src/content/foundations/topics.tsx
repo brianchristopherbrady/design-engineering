@@ -56,7 +56,8 @@ function TokensContent() {
       <DocSection id="tiers" title="Three tiers">
         <Prose>
           <p>
-            Every visual value in the system is a token, and every token belongs to exactly one tier. An alias points to its
+            Colors, spacing, sizes, radii, type, shadows and motion are tokens; a few drawing details inside one component,
+            such as the Select chevron, are plain values. Every token belongs to exactly one tier. An alias points to its
             own tier or a lower one, so a value always has one path back to its source. The{' '}
             <Link href="#policy">dependency policy</Link> below says exactly who may read what. Semantic and component
             names describe a job, not an appearance: <code>text.muted</code> rather than <code>text.gray</code>, because the
@@ -81,17 +82,28 @@ function TokensContent() {
           <Card header={<Heading level={3} size="small">Component ({tierCount('component')})</Heading>}>
             <Text variant="bodySmall">
               Decisions for one component: <code>button.primary.background</code>, <code>card.radius</code>,{' '}
-              <code>dialog.width.medium</code>. Each aliases a semantic role or a non-color scale, and is added only where a
-              component exposes a knob a product or density may retune.
+              <code>dialog.width.medium</code>. Each aliases a semantic role or a non-color scale. They exist where a
+              component-specific decision needs independent control, such as Button’s hover colors or Card’s default corner.
             </Text>
           </Card>
         </Grid>
-        <Note title="Why component tokens are optional">
+        <Note title="Which path a value takes">
           <p>
-            Layout primitives read semantic spacing tokens directly, because a component token such as{' '}
-            <code>stack.gap.medium</code> would only repeat <code>spacing.medium</code>. Button, Badge, Card, Dialog, Switch
-            and Skeleton have component tokens because each makes decisions (hover colors, default padding, widths) that a
-            product may want to retune without touching every usage.
+            Values that depend on context go through semantic roles. Color: Button’s <code>appearance="primary"</code> reads{' '}
+            <code>button.primary.background</code>, which aliases <code>action.primary.background</code>, which each theme
+            and product maps to a palette step.
+          </p>
+          <p>
+            Geometry can take other paths, and an explicit prop can resolve differently from the default. With no{' '}
+            <code>radius</code> prop, Button reads <code>button.radius</code> → <code>control.radius</code>, which each
+            product sets. With <code>radius="large"</code>, it reads <code>radius.lg</code> directly, the same everywhere.
+            Its <code>border="thick"</code> reads <code>border-width.thick</code> directly.
+          </p>
+          <p>
+            Those direct reads follow a convention of this repository: a stylesheet may read a non-color reference scale for
+            a value meant to stay fixed in every theme, product and density, never a palette color. Component tokens are
+            optional too: layout primitives read semantic spacing without one, because a token such as{' '}
+            <code>stack.gap.medium</code> would only repeat <code>spacing.medium</code>.
           </p>
         </Note>
       </DocSection>
@@ -385,7 +397,12 @@ function SpacingContent() {
     <Stack gap="extraExtraLarge">
       <DocSection id="scale" title="Space scale">
         <Prose>
-          <p>Eight reference steps from 0.25rem to 4rem. Nothing reads them directly except semantic aliases and a few component tokens.</p>
+          <p>
+            Eight reference steps from 0.25rem to 4rem. Layout props reach them through the semantic spacing tokens below,
+            which compact density tightens. By this repository’s dependency policy, a stylesheet may also read a step
+            directly for a distance meant to stay the same in every theme, product and density, such as the gap inside Field
+            (<code>space.2xs</code>). <Link href="/foundations/tokens#policy">Token architecture</Link> lists every such read.
+          </p>
         </Prose>
         <TokenTable
           caption="Reference space tokens"
@@ -633,14 +650,16 @@ function ThemePreview() {
 
 function ThemesContent() {
   const themed = tokenManifest.filter((record) => record.themed);
+  const themedIn = (tier: string) => themed.filter((record) => record.tier === tier).length;
   return (
     <Stack gap="extraExtraLarge">
       <DocSection id="mapping" title="Same roles, different mappings">
         <Prose>
           <p>
-            Only semantic tokens change between themes ({themed.length} of {tokenManifest.length} tokens). Component tokens
-            alias semantic ones, and CSS keeps the aliases as <code>var()</code> references, so switching a theme is a
-            single attribute change that cascades through every tier.
+            Theme files set only semantic roles: {themedIn('semantic')} semantic tokens differ between themes, and{' '}
+            {themedIn('component')} component tokens follow them through aliases ({themed.length} of {tokenManifest.length}{' '}
+            tokens in all). CSS keeps the aliases as <code>var()</code> references, so switching a theme is a single
+            attribute change that cascades through every tier.
           </p>
         </Prose>
         <div className={styles.themes}>

@@ -10,7 +10,7 @@ const chain = [
   },
   {
     stage: 'Requirement',
-    text: 'Components may read semantic and component tokens, never palette colors. **Accepted when** the build fails if a stylesheet reads a palette variable or a component token points at a palette color.',
+    text: 'Components may read semantic and component tokens, never palette colors. **Accepted when** lint fails if a stylesheet reads a palette variable, and the token build fails if a component token points at a palette color.',
   },
   {
     stage: 'Implementation',
@@ -18,7 +18,7 @@ const chain = [
   },
   {
     stage: 'Validation',
-    text: '`check-styles.mjs` and the token pipeline fail the build when a rule breaks, and policy tests cover each rule. To see the result, switch **Product** in the header: every component restyles without a code change.',
+    text: '`check-styles.mjs` (run by lint) and the token pipeline (run by the build) fail when a rule breaks, and policy tests cover each rule. To see the result, switch **Product** in the header: every component restyles without a code change.',
   },
 ] as const;
 
@@ -101,11 +101,11 @@ export const planning: Decision = {
           evidence: 'implemented',
           columns: ['Tension', 'Principle', 'What it decides'],
           rows: [
-            ['Flexibility or consistency', 'Choices, not values', 'Props accept named options such as `size="large"`, never arbitrary CSS, so every value resolves to a token.'],
+            ['Flexibility or consistency', 'Choices, not values', 'Visual props accept named options such as `size="large"` rather than arbitrary CSS, and the options map to token scales.'],
             ['Brand expression or shared behavior', 'Purpose before appearance', 'Components read semantic roles; products remap the roles instead of forking components.'],
-            ['Custom polish or accessibility', 'Native first', 'A button is a `<button>`, so keyboard, focus and screen-reader behavior come from the platform.'],
+            ['Custom polish or accessibility', 'Native first', 'A button is a `<button>`, so the platform supplies its keyboard and screen-reader basics; components add what the element lacks, and both still need testing.'],
             ['Page layouts or reusable parts', 'Space-aware components', 'Components respond to their container, so one implementation works in a sidebar, a dialog or a full page.'],
-            ['Speed of documentation or trust in it', 'Verified, not promised', 'Claims are backed by checks that fail the build, and documentation is generated from the code.'],
+            ['Speed of documentation or trust in it', 'Verified where it can be checked', 'Claims are backed by the token build, lint and tests, documentation is generated from the code, and the limits of automated checks are stated.'],
           ],
         },
       ],
@@ -139,7 +139,7 @@ export const planning: Decision = {
           columns: ['ID', 'Requirement', 'Accepted when', 'Priority'],
           rows: [
             ['R1', 'Every shared control works with a keyboard alone.', 'The pilot flow completes with Tab, Shift+Tab, Enter, Space and arrow keys, and focus is always visible.', 'Must'],
-            ['R2', 'Shared controls meet WCAG 2.2 AA.', 'No automated violations in the pilot flow, contrast checked in every theme, and targets of at least 24 by 24 CSS pixels.', 'Must'],
+            ['R2', 'The pilot flow targets WCAG 2.2 AA.', 'An evaluation of the pilot flow lists the applicable success criteria; records automated results and manual checks of keyboard use, focus, labels and error handling, plus a screen-reader pass; and names untested criteria and open failures. It reports results per criterion rather than claiming conformance.', 'Must'],
             ['R3', 'Products change brand and shape without forking components.', 'Each product’s token file overrides only brand roles and radii, and a test fails otherwise.', 'Must'],
             ['R4', 'Dense screens can opt into a compact density.', 'Compact density applies per screen or region, and targets and contrast still pass.', 'Should'],
             ['R5', 'A failed submission keeps what people entered.', 'A test forces a failure and checks that every value survives and focus moves to an error summary.', 'Should'],

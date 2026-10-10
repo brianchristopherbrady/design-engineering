@@ -153,7 +153,7 @@ export const playgroundStories: readonly AnyStory[] = [
   defineStory<ButtonProps>({
     id: 'button',
     component: 'Button',
-    summary: 'Every visual prop maps to a button component token; native button behavior is untouched.',
+    summary: 'Appearance and size use Button’s component tokens; border and an explicit radius read fixed reference scales. Native button behavior is untouched.',
     imports: [primitives('Button', 'Icon')],
     controls: [
       { kind: 'text', prop: 'children', defaultValue: 'Save changes', description: 'Visible label and accessible name.' },

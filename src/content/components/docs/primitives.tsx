@@ -87,14 +87,14 @@ export const primitiveDocs: ComponentDoc[] = [
   {
     id: 'button',
     purpose:
-      'Button is a native <button> with a deliberate set of visual choices. appearance sets the background treatment, size sets height, padding and type, border sets width, and radius sets the corners. Every choice resolves to a button component token, which aliases a semantic action token, which aliases a palette color.',
+      'Button is a native <button> with a deliberate set of visual choices: appearance sets the colors, size sets height, padding and type size, border sets the border width, and radius sets the corners. Colors resolve through Button’s component tokens to semantic action roles, which each theme and product maps to a palette color. Geometry takes other paths: size uses Button’s size tokens, whose height and padding follow density; border reads the fixed border-width scale; and an unset radius uses button.radius, which follows the product, while an explicit radius reads the radius scale directly.',
     whenToUse: ['Actions that change something on this page: save, delete, open a dialog, retry.', 'Form submission (type="submit").'],
     whenNotToUse: ['Navigation to another page: use Link, even if it should look prominent.', 'Toggling a persistent setting: use Switch.'],
     props: propsTable<ButtonOwnProps>({
       appearance: { type: '"primary" | "secondary" | "ghost" | "danger"', defaultValue: '"secondary"', description: 'Background treatment and emphasis.' },
       size: { type: '"small" | "medium" | "large"', defaultValue: '"medium"', description: 'Height, inline padding and font size from button.* tokens.' },
       border: { type: '"none" | "thin" | "thick"', defaultValue: '"thin"', description: 'Border width. Color always comes from the appearance.' },
-      radius: { type: radius, defaultValue: 'button.radius token', description: 'Corner radius. Unset uses the component token (control.radius).' },
+      radius: { type: radius, defaultValue: 'button.radius token', description: 'Corner radius. Unset uses the button.radius component token, which aliases control.radius.' },
       fullWidth: { type: 'boolean', defaultValue: 'false', description: 'Fill the container’s inline size.' },
       loading: { type: 'boolean', defaultValue: 'false', description: 'Show a progress indicator, set aria-disabled and ignore clicks while keeping focus.' },
       iconStart: { type: 'ReactNode', description: 'Decorative icon before the label; replaced by the spinner while loading.' },
@@ -122,7 +122,7 @@ export const primitiveDocs: ComponentDoc[] = [
     accessibility: [
       'The accessible name is the label. Icon-only buttons need aria-label.',
       'loading uses aria-disabled instead of disabled so focus is not lost mid-action; announce the outcome with a status message.',
-      'Medium and large heights meet the 44px target size; small is 32px and meets WCAG 2.2 minimum (24px) with spacing.',
+      'At comfortable density, small, medium and large are 32, 44 and 52px tall at the default text size; compact density makes them 28, 36 and 44px. Every height is above the 24px minimum in WCAG 2.2 target size (2.5.8).',
       'Foreground on background, hover and active backgrounds meets 4.5:1 in both themes.',
     ],
     responsive: ['Labels wrap inside narrow containers instead of overflowing; fullWidth is the usual choice in narrow dialogs and cards.'],

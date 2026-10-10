@@ -438,8 +438,9 @@ export function OverviewContent({ author }: { author: OverviewAuthor }) {
               problem it solves and what you searched.
             </li>
             <li>
-              Follow the <Link href={`${author.repository}/blob/main/docs/contributing.md`}>contributing guide</Link>. A new
-              visual decision needs a semantic or component token before any CSS.
+              Follow the <Link href={`${author.repository}/blob/main/docs/contributing.md`}>contributing guide</Link>. A
+              visual decision that should change with theme, product or density needs a semantic or component token before
+              any CSS; a fixed value may read a non-color reference scale directly.
             </li>
             <li>Add a catalog entry, a ComponentDoc and, for components with visual props, a Playground story.</li>
             <li>
