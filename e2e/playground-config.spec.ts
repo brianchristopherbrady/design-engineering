@@ -221,9 +221,7 @@ test.describe('dialog backdrop dismissal', () => {
     await page.getByRole('group', { name: 'Example presets' }).getByRole('button', { name: 'Dismiss on backdrop' }).click();
     const dismiss = page.getByRole('switch', { name: 'dismissOnBackdrop' });
     await expect(dismiss).toBeChecked();
-    // The checked thumb covers the input's centre, so toggle it the way a keyboard user would.
-    await dismiss.focus();
-    await page.keyboard.press('Space');
+    await dismiss.click();
     await expect(dismiss).not.toBeChecked();
     await page.getByRole('combobox', { name: 'size' }).selectOption('large');
     await page.getByRole('button', { name: 'Copy example link' }).click();

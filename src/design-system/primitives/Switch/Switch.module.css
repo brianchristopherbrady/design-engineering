@@ -20,6 +20,7 @@
     cursor: pointer;
   }
 
+  /* Decoration only: the transformed thumb paints above the input, so it must not take the input's clicks. */
   .track {
     display: inline-flex;
     align-items: center;
@@ -30,6 +31,7 @@
     border: var(--border-width-thin) solid var(--input-border);
     border-radius: var(--radius-full);
     background-color: var(--switch-track-off);
+    pointer-events: none;
     transition:
       background-color var(--motion-duration-transition) var(--motion-easing-standard),
       border-color var(--motion-duration-transition) var(--motion-easing-standard);

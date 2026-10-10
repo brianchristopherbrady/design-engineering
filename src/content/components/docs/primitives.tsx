@@ -285,7 +285,7 @@ export const primitiveDocs: ComponentDoc[] = [
     accessibility: ['Space toggles; screen readers announce “switch, on/off”.', 'Forced-colors mode uses system colors for track and thumb.'],
     responsive: ['Track is a fixed size; the label wraps.'],
     mistakes: ['Label text “On” or “Enabled”, which duplicates the state.'],
-    tradeoffs: ['The input is visually transparent over the track rather than hidden, so pointer, touch and assistive technology all hit the same element.'],
+    tradeoffs: ['The input is visually transparent over the track rather than hidden, and the drawn track and thumb ignore pointer events, so pointer, touch and assistive technology all hit the same element in either state.'],
     sourcePaths: ['src/design-system/primitives/Switch/Switch.tsx', 'src/design-system/primitives/Switch/Switch.module.css'],
     Example: SwitchExample,
   },
