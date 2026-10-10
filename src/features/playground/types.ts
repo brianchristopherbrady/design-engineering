@@ -76,6 +76,8 @@ export interface PlaygroundStory<P> {
   snippetChildren?: string;
   /** Note under the preview, for stories whose preview needs explaining. */
   previewNote?: string;
+  /** The component's unset theme, product and density inherit from the scope around it; show where each comes from. */
+  inheritsScope?: boolean;
 }
 
 type AnyControl =

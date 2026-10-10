@@ -21,7 +21,7 @@ export type DialogSize = (typeof dialogSizes)[number];
 export interface DialogOwnProps {
   /** Whether the dialog is shown. The dialog is always controlled. */
   open: boolean;
-  /** Called for Escape, the close button and any native close. Set `open` to false in response. */
+  /** Called for Escape, the close button, any native close and, with `dismissOnBackdrop`, a backdrop click. Set `open` to false in response. */
   onClose: () => void;
   /** Visible title; also the dialog's accessible name. */
   title: ReactNode;
@@ -47,14 +47,25 @@ export interface DialogOwnProps {
   initialFocus?: RefObject<HTMLElement | null>;
   /** Accessible name of the close button. */
   closeLabel?: string;
+  /**
+   * Call `onClose` when a click starts and ends on the backdrop outside the dialog. Off by default, so a
+   * stray click cannot discard input. Escape and the close button work either way.
+   */
+  dismissOnBackdrop?: boolean;
   children?: ReactNode;
 }
 
 export type DialogProps = DialogOwnProps;
 
-export const dialogDefaults = { size: 'medium', closeLabel: 'Close' } as const satisfies Partial<DialogOwnProps>;
+export const dialogDefaults = { size: 'medium', closeLabel: 'Close', dismissOnBackdrop: false } as const satisfies Partial<DialogOwnProps>;
 
 const focusable = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+/** Whether a pointer position on the dialog element lies outside its box, which means on the ::backdrop. */
+function onBackdrop(dialog: HTMLDialogElement, x: number, y: number) {
+  const box = dialog.getBoundingClientRect();
+  return x < box.left || x > box.right || y < box.top || y > box.bottom;
+}
 
 /**
  * A modal dialog built on the native `<dialog>` element and `showModal()`, which provide the
@@ -76,6 +87,7 @@ export function Dialog({
   footer,
   initialFocus,
   closeLabel = dialogDefaults.closeLabel,
+  dismissOnBackdrop = dialogDefaults.dismissOnBackdrop,
   children,
 }: DialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -88,6 +100,27 @@ export function Dialog({
     onCloseRef.current = onClose;
     initialFocusRef.current = initialFocus;
   });
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog || !dismissOnBackdrop) return;
+    // Where the press began, so pressing inside and releasing on the backdrop is not a dismissal.
+    let pressedOnBackdrop = false;
+    const press = (event: PointerEvent) => {
+      pressedOnBackdrop = event.target === dialog && onBackdrop(dialog, event.clientX, event.clientY);
+    };
+    const click = (event: MouseEvent) => {
+      const started = pressedOnBackdrop;
+      pressedOnBackdrop = false;
+      if (started && event.target === dialog && onBackdrop(dialog, event.clientX, event.clientY)) onCloseRef.current();
+    };
+    dialog.addEventListener('pointerdown', press);
+    dialog.addEventListener('click', click);
+    return () => {
+      dialog.removeEventListener('pointerdown', press);
+      dialog.removeEventListener('click', click);
+    };
+  }, [dismissOnBackdrop]);
 
   useEffect(() => {
     const dialog = dialogRef.current;

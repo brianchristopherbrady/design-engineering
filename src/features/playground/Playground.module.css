@@ -17,6 +17,25 @@
     gap: var(--spacing-extra-small);
   }
 
+  /* Three scopes, side by side where they fit and stacked otherwise. */
+  .scopes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    gap: var(--spacing-small) var(--spacing-large);
+    margin: 0;
+    font-size: var(--typography-body-small-font-size);
+    line-height: var(--typography-body-small-line-height);
+  }
+
+  .scopes dt {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .scopes dd {
+    margin: 0;
+    color: var(--text-muted);
+  }
+
   /* A container cannot query itself, so the picker responds to the playground around it. */
   @container playground (min-inline-size: 40rem) {
     .picker {
@@ -39,6 +58,8 @@
   @container playground (min-inline-size: 52rem) {
     .workbench {
       grid-template-columns: minmax(0, 1fr) 18rem;
+      /* The second row absorbs the props column's extra height, so usage sits right under the preview. */
+      grid-template-rows: auto 1fr;
       grid-template-areas:
         'preview controls'
         'usage controls'
@@ -67,6 +88,14 @@
     grid-area: preview;
   }
 
+  .previewHeader {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-small);
+  }
+
   .controlsPanel {
     grid-area: controls;
     padding: var(--spacing-medium);
@@ -86,10 +115,6 @@
   .toolbar {
     display: grid;
     gap: var(--spacing-medium);
-    padding: var(--spacing-medium);
-    border: var(--border-width-thin) solid var(--border-default);
-    border-radius: var(--radius-lg);
-    background-color: var(--surface-sunken);
     container: toolbar / inline-size;
   }
 
@@ -191,6 +216,50 @@
   .controls {
     display: grid;
     gap: var(--spacing-medium);
+  }
+
+  /* The collapsed summary still says what the preview is showing. */
+  .settingsSummary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2xs) var(--spacing-small);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .context {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs) var(--spacing-small);
+    color: var(--text-muted);
+    font-size: var(--typography-body-small-font-size);
+    font-weight: var(--font-weight-regular);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .contextSource {
+    font-style: italic;
+  }
+
+  .presets {
+    display: grid;
+    gap: var(--spacing-extra-small);
+  }
+
+  .chain {
+    display: grid;
+    gap: var(--spacing-small);
+  }
+
+  .chainCaption {
+    padding-block-end: var(--spacing-small);
+    font-weight: var(--font-weight-medium);
+    text-align: start;
+  }
+
+  .source {
+    color: var(--text-muted);
+    font-size: var(--typography-caption-font-size);
   }
 
   .usageHeader {

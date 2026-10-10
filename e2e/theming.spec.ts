@@ -44,6 +44,7 @@ test.describe('products and modes', () => {
   test('the playground preview takes its own product without changing the site', async ({ page }) => {
     await page.goto('/playground?component=button');
     const preview = page.getByTestId('playground-preview');
+    await page.locator('summary', { hasText: 'Preview settings' }).click();
     await page.getByRole('combobox', { name: 'Preview product' }).selectOption('meadow');
     await expect(preview).toHaveAttribute('data-product', 'meadow');
     await expect(page.locator('html')).toHaveAttribute('data-product', 'system-lab');
@@ -179,6 +180,7 @@ test.describe('container query tooling', () => {
 
   test('the playground reports the preview container width as it is resized', async ({ page }) => {
     await page.goto('/playground?component=card');
+    await page.locator('summary', { hasText: 'Preview settings' }).click();
     await page.getByRole('switch', { name: 'Show query containers' }).check();
     await page.getByRole('button', { name: /^Narrow/ }).click();
     await expect(page.getByTestId('container-summary')).toContainText(/preview \d+px/);

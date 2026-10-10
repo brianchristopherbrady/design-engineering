@@ -10,7 +10,18 @@ const cssVar = (page: Page, name: string, scope?: Locator) =>
     return value;
   }, name);
 
+const openPreviewSettings = (page: Page) => page.locator('summary', { hasText: 'Preview settings' }).click();
+
 test.describe('playground', () => {
+  test('opens on Button unless a valid component is requested', async ({ page }) => {
+    await page.goto('/playground');
+    await expect(page.getByRole('combobox', { name: 'Component' })).toHaveValue('button');
+    await page.goto('/playground?component=no-such-component');
+    await expect(page.getByRole('combobox', { name: 'Component' })).toHaveValue('button');
+    await page.goto('/playground?component=theme-scope');
+    await expect(page.getByRole('combobox', { name: 'Component' })).toHaveValue('theme-scope');
+  });
+
   test('controls change real props, the snippet and the rendered tokens together', async ({ page }) => {
     await page.goto('/playground?component=button');
     const preview = page.getByTestId('playground-preview');
@@ -33,9 +44,80 @@ test.describe('playground', () => {
     await expect(preview.getByRole('button', { name: 'Delete entry' })).toBeVisible();
     await expect(snippet).toContainText('Delete entry');
 
-    await page.getByRole('button', { name: 'Reset controls' }).click();
+    await page.getByRole('button', { name: 'Reset component props' }).click();
     await expect(snippet).toContainText('appearance="secondary"');
     await expect(snippet).toContainText('fullWidth={false}');
+  });
+
+  test('presets and Reset component props change the code but not the preview settings', async ({ page }) => {
+    await page.goto('/playground?component=button');
+    const preview = page.getByTestId('playground-preview');
+    const snippet = page.getByTestId('playground-snippet');
+    await openPreviewSettings(page);
+    await page.getByRole('combobox', { name: 'Preview theme' }).selectOption('dark');
+    await page.getByRole('group', { name: 'Example presets' }).getByRole('button', { name: 'Destructive' }).click();
+    await expect(snippet).toContainText('appearance="danger"');
+    await expect(snippet).toContainText('Delete entry');
+
+    await page.getByRole('button', { name: 'Reset component props' }).click();
+    await expect(snippet).toContainText('appearance="secondary"');
+    await expect(snippet).not.toContainText('Delete entry');
+    await expect(snippet).not.toContainText('theme');
+    await expect(preview).toHaveAttribute('data-theme', 'dark');
+    await expect(page.getByRole('combobox', { name: 'Preview theme' })).toHaveValue('dark');
+  });
+
+  test('preview settings stay separate from the site, and Same as site follows it', async ({ page }) => {
+    await page.goto('/playground?component=button');
+    const preview = page.getByTestId('playground-preview');
+    const context = page.getByTestId('preview-context');
+    await expect(context).toContainText('Same as site');
+
+    await openPreviewSettings(page);
+    await page.getByRole('combobox', { name: 'Preview product' }).selectOption('meadow');
+    await expect(context).toContainText('Meadow');
+    await expect(context).toContainText('Overrides product');
+    await expect(page.getByRole('combobox', { name: 'Product', exact: true })).toHaveValue('system-lab');
+
+    await page.getByRole('combobox', { name: 'Density', exact: true }).selectOption('compact');
+    await expect(preview).toHaveAttribute('data-density', 'compact');
+    await expect(preview).toHaveAttribute('data-product', 'meadow');
+    await expect(context).toContainText('Compact');
+  });
+
+  test('ThemeScope props override the preview, and unset ones inherit it', async ({ page }) => {
+    await page.goto('/playground?component=theme-scope');
+    const preview = page.getByTestId('playground-preview');
+    const scope = preview.locator('[data-product]').first();
+    await page.getByRole('combobox', { name: 'Product', exact: true }).selectOption('harbor');
+    await openPreviewSettings(page);
+    await page.getByRole('combobox', { name: 'Preview product' }).selectOption('meadow');
+    await expect(preview).toHaveAttribute('data-product', 'meadow');
+    await expect(scope).toHaveAttribute('data-product', 'harbor');
+
+    await page.getByRole('combobox', { name: 'product', exact: true }).selectOption('');
+    await expect(scope).toHaveAttribute('data-product', 'meadow');
+    const chain = page.getByRole('table', { name: 'Where ThemeScope gets each setting' });
+    await expect(chain.getByRole('row', { name: /^product/ })).toContainText('Harbor');
+    await expect(chain.getByRole('row', { name: /^product/ })).toContainText('Meadow from preview');
+    await expect(page.getByTestId('playground-snippet')).not.toContainText('product=');
+  });
+
+  test('expandable sections open and close from the keyboard', async ({ page }) => {
+    await page.goto('/playground?component=button');
+    const settings = page.locator('details', { has: page.locator('summary', { hasText: 'Preview settings' }) });
+    const reference = page.locator('details', { has: page.locator('summary', { hasText: 'Props reference' }) });
+    await page.locator('summary', { hasText: 'Preview settings' }).focus();
+    await page.keyboard.press('Enter');
+    await expect(settings).toHaveAttribute('open', '');
+    await expect(page.getByRole('combobox', { name: 'Preview theme' })).toBeVisible();
+    await page.keyboard.press('Space');
+    await expect(settings).not.toHaveAttribute('open', '');
+
+    await page.locator('summary', { hasText: 'Props reference' }).focus();
+    await page.keyboard.press('Enter');
+    await expect(reference).toHaveAttribute('open', '');
+    await expect(reference.getByRole('rowheader', { name: 'appearance' })).toBeVisible();
   });
 
   test('presets apply several props at once', async ({ page }) => {
@@ -51,6 +133,7 @@ test.describe('playground', () => {
   test('the preview theme is scoped to the preview', async ({ page }) => {
     await page.goto('/playground?component=card');
     const preview = page.getByTestId('playground-preview');
+    await openPreviewSettings(page);
     await page.getByRole('combobox', { name: 'Preview theme' }).selectOption('dark');
     await expect(preview).toHaveAttribute('data-theme', 'dark');
     await expect(page.locator('html')).not.toHaveAttribute('data-theme', 'dark');
@@ -63,6 +146,7 @@ test.describe('playground', () => {
     await page.setViewportSize({ width: 1400, height: 900 });
     await page.goto('/playground?component=grid');
     const preview = page.getByTestId('playground-preview');
+    await openPreviewSettings(page);
     await page.getByRole('button', { name: 'Narrow (320px)' }).click();
     await expect(page.getByRole('button', { name: 'Narrow (320px)' })).toHaveAttribute('aria-pressed', 'true');
     expect(Math.round((await preview.boundingBox())?.width ?? 0)).toBe(320);

@@ -12,7 +12,7 @@ const pages = [
   { name: 'Button reference', path: '/components/button', ready: 'From prop to token' },
   { name: 'Badge reference', path: '/components/badge', ready: 'Tones and appearances' },
   { name: 'Card reference', path: '/components/card', ready: 'Elevation, surface and padding' },
-  { name: 'playground', path: '/playground?component=card', ready: 'Controls' },
+  { name: 'playground', path: '/playground?component=card', ready: 'Component props' },
   { name: 'resource directory', path: '/patterns/resource-directory', ready: 'System directory' },
   { name: 'resource detail', path: '/patterns/resource-detail', ready: 'Button' },
   { name: 'activity dashboard', path: '/patterns/activity-dashboard', ready: 'System activity' },

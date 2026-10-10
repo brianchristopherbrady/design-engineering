@@ -121,13 +121,14 @@ export const playgroundStories: readonly AnyStory[] = [
   defineStory<ThemeScopeProps>({
     id: 'theme-scope',
     component: 'ThemeScope',
-    summary: 'Re-theme a region. Unset modifiers inherit from the site, so try changing the site settings too.',
+    summary: 'Re-theme a region. Unset modifiers inherit from the scope around it: here the preview, which follows the site unless a preview setting overrides it.',
     imports: [layout('ThemeScope')],
     snippetChildren: '{children}',
+    inheritsScope: true,
     controls: [
-      { kind: 'select', prop: 'product', options: productNames, defaultValue: 'harbor', unsetLabel: 'inherited', description: 'Brand roles and shape.' },
-      { kind: 'select', prop: 'theme', options: themeNames, defaultValue: undefined, unsetLabel: 'inherited', description: 'Color theme.' },
-      { kind: 'select', prop: 'density', options: densityNames, defaultValue: undefined, unsetLabel: 'inherited', description: 'Control size and spacing.' },
+      { kind: 'select', prop: 'product', options: productNames, defaultValue: 'harbor', unsetLabel: 'parent scope', description: 'Brand roles and shape.' },
+      { kind: 'select', prop: 'theme', options: themeNames, defaultValue: undefined, unsetLabel: 'parent scope', description: 'Color theme.' },
+      { kind: 'select', prop: 'density', options: densityNames, defaultValue: undefined, unsetLabel: 'parent scope', description: 'Control size and spacing.' },
     ],
     presets: [
       { name: 'Meadow, dark', values: { product: 'meadow', theme: 'dark' } },
@@ -227,7 +228,7 @@ export const playgroundStories: readonly AnyStory[] = [
     imports: ["import { useState } from 'react';", composites('Dialog'), primitives('Badge', 'Text')],
     setup: ['const [open, setOpen] = useState(false);'],
     fixedAttributes: ['open={open}', 'onClose={() => setOpen(false)}'],
-    previewNote: 'A modal dialog covers the whole viewport, so the preview width does not constrain it; size does. Close it with Escape or the close button.',
+    previewNote: 'A modal dialog covers the whole viewport, so the preview width does not constrain it; size does. Close it with Escape or the close button, or by clicking the backdrop when dismissOnBackdrop is on.',
     controls: [
       { kind: 'text', prop: 'title', defaultValue: 'Archive this entry?', description: 'Visible title and accessible name.' },
       { kind: 'text', prop: 'description', defaultValue: 'It will be hidden from the directory.', description: 'Accessible description.' },
@@ -240,11 +241,13 @@ export const playgroundStories: readonly AnyStory[] = [
       { kind: 'select', prop: 'radius', options: radiusScale, defaultValue: undefined, unsetLabel: 'dialog.radius (extraLarge)', description: 'Corner radius.' },
       { kind: 'select', prop: 'border', options: borderScale, defaultValue: undefined, unsetLabel: 'dialog.border (subtle)', description: 'Border color strength.' },
       { kind: 'select', prop: 'elevation', options: elevationScale, defaultValue: undefined, unsetLabel: 'dialog.elevation (high)', description: 'Shadow depth.' },
+      { kind: 'switch', prop: 'dismissOnBackdrop', defaultValue: false, description: 'Close on a backdrop click. Escape and the close button work either way.' },
     ],
     presets: [
-      { name: 'Small confirm', values: { size: 'small', children: '', header: 'Irreversible' } },
+      { name: 'Small confirm', values: { size: 'small', children: '', header: 'Irreversible', dismissOnBackdrop: false } },
       { name: 'Large form', values: { size: 'large', title: 'Edit entry', description: 'Change the name and summary.', footer: '' } },
       { name: 'Flat', values: { elevation: 'none', border: 'strong', radius: 'small' } },
+      { name: 'Dismiss on backdrop', values: { size: 'small', title: 'Keyboard shortcuts', description: 'Press ? to open this list.', children: '', footer: 'Click outside to close.', dismissOnBackdrop: true } },
     ],
     render: (props) => <DialogPreview {...props} />,
   }),

@@ -70,7 +70,7 @@ export const compositeDocs: ComponentDoc[] = [
     whenNotToUse: ['Information people need while they keep working: use an inline Alert.', 'Long forms: use a page.'],
     props: propsTable<DialogOwnProps>({
       open: { type: 'boolean', required: true, description: 'Whether the dialog is shown. Always controlled.' },
-      onClose: { type: '() => void', required: true, description: 'Called for Escape, the close button and native close. Set open to false.' },
+      onClose: { type: '() => void', required: true, description: 'Called for Escape, the close button, native close and, with dismissOnBackdrop, a backdrop click. Set open to false.' },
       title: { type: 'ReactNode', required: true, description: 'Visible title and accessible name (aria-labelledby).' },
       description: { type: 'ReactNode', description: 'Accessible description (aria-describedby).' },
       size: { type: '"small" | "medium" | "large"', defaultValue: '"medium"', description: 'Maximum width from dialog.width.*; always fits the viewport.' },
@@ -83,6 +83,11 @@ export const compositeDocs: ComponentDoc[] = [
       footer: { type: 'ReactNode', description: 'Actions row, aligned to the end.' },
       initialFocus: { type: 'RefObject<HTMLElement | null>', description: 'Element to focus on open. Defaults to the first focusable element (the close button).' },
       closeLabel: { type: 'string', defaultValue: '"Close"', description: 'Accessible name of the close button.' },
+      dismissOnBackdrop: {
+        type: 'boolean',
+        defaultValue: 'false',
+        description: 'Call onClose when a click starts and ends on the backdrop. Independent of Escape and the close button, which always work.',
+      },
       children: { type: 'ReactNode', description: 'Body content.' },
     }),
     nativeProps: 'Dialog does not spread native props: its element is managed by showModal() and a stray open attribute would make it non-modal.',
@@ -108,7 +113,10 @@ export const compositeDocs: ComponentDoc[] = [
     ],
     responsive: ['Width and height are capped by the viewport; content scrolls inside the dialog when it is taller than the screen.', 'The entry animation runs only when reduced motion is not requested.'],
     mistakes: ['Closing the dialog when the action fails, which hides the error.', 'Opening a dialog on page load.', 'Using a dialog for a message that does not need a decision.'],
-    tradeoffs: ['Backdrop clicks do not close the dialog, to avoid losing input by accident.', 'Relies on ::backdrop inheriting custom properties (all current browsers).'],
+    tradeoffs: [
+      'Backdrop clicks close the dialog only with dismissOnBackdrop. It is off by default so a stray click cannot discard input; turn it on for dialogs with nothing to lose.',
+      'Relies on ::backdrop inheriting custom properties (all current browsers).',
+    ],
     sourcePaths: ['src/design-system/composites/Dialog/Dialog.tsx', 'src/design-system/composites/Dialog/Dialog.module.css'],
     Example: DialogExample,
   },
