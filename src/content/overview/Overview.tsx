@@ -260,7 +260,8 @@ export function OverviewContent({ author }: { author: OverviewAuthor }) {
             Harbor and Meadow are example product profiles for different product contexts. Harbor stands for{' '}
             {harbor.audience.charAt(0).toLowerCase() + harbor.audience.slice(1)} Meadow stands for{' '}
             {meadow.audience.charAt(0).toLowerCase() + meadow.audience.slice(1)} Switching profiles restyles this same site
-            through its tokens; it does not open a separate application.
+            through its tokens: colors, typefaces and corner shapes change, while the name, logo and content stay. It does
+            not open a separate application.
           </p>
         </Note>
         <Prose>

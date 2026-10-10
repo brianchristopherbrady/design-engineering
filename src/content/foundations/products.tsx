@@ -17,7 +17,7 @@ import { tokenManifest } from '@/design-system/tokens/manifest';
 import { densityLabels, productProfiles } from '@/domain/system';
 import { DocSection, LiveExample, Note, Prose, SourceList, TokenSwatch } from '@/features/docs';
 import { ChoiceGroup, CopyButton } from '@/features/theming';
-import { densityTokens, permutationCount, permutationIndex, productTokens, recordOf, resolveFor, selectorFor } from './modes';
+import { densityTokens, permutationCount, permutationIndex, primaryFamily, productTokens, recordOf, resolveFor, selectorFor } from './modes';
 import styles from './products.module.css';
 
 const contextsOf = { theme: themeNames, product: productNames, density: densityNames } as const;
@@ -370,10 +370,14 @@ function ProductDiff() {
                       <span className={styles.value}>
                         {record.type === 'color' ? (
                           <TokenSwatch type="color" value={value.resolved} />
+                        ) : record.type === 'fontFamily' ? (
+                          <span className={styles.typeSample} style={{ fontFamily: value.resolved }} aria-hidden="true">
+                            Ag
+                          </span>
                         ) : (
                           <span className={styles.radiusSample} style={{ borderStartEndRadius: value.resolved }} aria-hidden="true" />
                         )}
-                        <code>{value.resolved}</code>
+                        <code>{record.type === 'fontFamily' ? primaryFamily(value.resolved) : value.resolved}</code>
                       </span>
                     </td>
                   ))}
@@ -525,7 +529,7 @@ function ProductsContent() {
                     <code>product</code>
                   </th>
                   <td>{productNames.map((name) => productProfiles[name].name).join(', ')}</td>
-                  <td>Brand roles and shape only. Contexts may only override existing tokens, so a typo fails the build.</td>
+                  <td>Brand roles, typefaces and shape only. Contexts may only override existing tokens, so a typo fails the build.</td>
                 </tr>
                 <tr>
                   <th scope="row">
@@ -690,7 +694,10 @@ function ProductsContent() {
             <span className={styles.stepTitle}>Add the token sources</span>
             <Text variant="bodySmall" tone="muted">
               Merge the ramp into <code>reference.modes.tokens.json</code>, the roles into <code>brands.light.tokens.json</code>{' '}
-              and <code>brands.dark.tokens.json</code>, and add <code>product.&lt;id&gt;.tokens.json</code>.
+              and <code>brands.dark.tokens.json</code>, and add <code>product.&lt;id&gt;.tokens.json</code>. The product
+              inherits the system’s typefaces. To change them, add the families to <code>reference.modes.tokens.json</code>,
+              import their font files in <code>styles/index.css</code> and set <code>typeface.display</code> and{' '}
+              <code>typeface.text</code> in the product file.
             </Text>
           </li>
           <li className={styles.step}>
@@ -721,7 +728,7 @@ function ProductsContent() {
         <SourceList
           sources={[
             { path: 'src/design-system/tokens/source/system-lab.resolver.json', note: 'Modifiers and resolution order' },
-            { path: 'src/design-system/tokens/source/product.harbor.tokens.json', note: 'A whole product in 40 lines' },
+            { path: 'src/design-system/tokens/source/product.harbor.tokens.json', note: 'A whole product in about 50 lines' },
             { path: 'src/design-system/tokens/source/brands.light.tokens.json', note: 'Brand roles per theme' },
             { path: 'src/design-system/tokens/source/density.compact.tokens.json', note: 'Compact density' },
             { path: 'scripts/tokens/pipeline.mjs', note: 'Permutations and dependency-minimal emission' },

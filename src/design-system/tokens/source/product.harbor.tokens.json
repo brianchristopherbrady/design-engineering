@@ -1,5 +1,9 @@
 {
-  "$description": "Harbor: a financial operations tool. Teal brand, tight corners. Overrides only brand roles and shape; everything else is inherited.",
+  "$description": "Harbor: an example profile for dense professional tools. Teal brand, IBM Plex Sans, tight corners. Overrides only brand roles, typefaces and shape; everything else is inherited.",
+  "typeface": {
+    "display": { "$value": "{font.family.plex-sans}" },
+    "text": { "$value": "{font.family.plex-sans}" }
+  },
   "action": {
     "primary": {
       "background": { "$value": "{brand.harbor.strong}" },
@@ -17,6 +21,10 @@
   },
   "surface": {
     "accent": { "$value": "{brand.harbor.subtle}" }
+  },
+  "signal": {
+    "current": { "$value": "{brand.harbor.border}" },
+    "glow": { "$value": "{brand.harbor.glow}" }
   },
   "tone": {
     "brand": {

@@ -31,7 +31,7 @@
       "$extensions": { "org.systemlab": { "tier": "semantic", "complete": true } }
     },
     "product": {
-      "description": "Product brand and shape. Contexts only re-point existing roles, so every product inherits everything it does not override.",
+      "description": "Product brand, typefaces and shape. Contexts only re-point existing roles, so every product inherits everything it does not override.",
       "contexts": {
         "system-lab": [],
         "harbor": [{ "$ref": "product.harbor.tokens.json" }],

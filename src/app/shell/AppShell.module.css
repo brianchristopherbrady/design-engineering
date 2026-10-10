@@ -52,7 +52,9 @@
     text-decoration-line: none;
   }
 
+  /* The wordmark is part of the logo, so it keeps the system's typeface in every product. */
   .brandName {
+    font-family: var(--font-family-sans);
     font-size: var(--typography-control-font-size);
     font-weight: var(--font-weight-medium);
     letter-spacing: var(--font-letter-spacing-wider);

@@ -4,6 +4,8 @@
     color: var(--text-primary);
     font-family: var(--typography-body-font-family);
     line-height: var(--typography-body-line-height);
+    /* Product typefaces render at Jost's x-height, so the shared size scale looks the same in each. */
+    font-size-adjust: var(--typeface-x-height);
     /* Keeps the user's default font size: every rem in the system scales with it. */
     font-size: 100%;
     font-optical-sizing: auto;
@@ -23,10 +25,11 @@
     color: var(--tone-brand-on-solid);
   }
 
-  /* A nested theme scope repaints its own surface and text with that theme's roles. */
+  /* A nested scope repaints its own surface and text, and sets text in its product's typeface. */
   [data-theme] {
     background-color: var(--surface-canvas);
     color: var(--text-primary);
+    font-family: var(--typography-body-font-family);
   }
 
   :focus-visible {
@@ -56,6 +59,7 @@
   pre,
   samp {
     font-family: var(--typography-code-font-family);
+    font-size-adjust: none;
   }
 
   :not(pre) > code {

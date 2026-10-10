@@ -65,6 +65,7 @@
 
   .hexInput {
     font-family: var(--typography-code-font-family);
+    font-size-adjust: none;
   }
 
   .shapeField {
@@ -332,6 +333,7 @@
     grid-template-columns: repeat(12, minmax(0, 1fr));
     color: var(--text-muted);
     font-family: var(--typography-code-font-family);
+    font-size-adjust: none;
     font-size: min(var(--typography-caption-font-size), 2.6cqi);
     font-variant-numeric: tabular-nums;
     text-align: center;
@@ -419,6 +421,7 @@
     background-color: var(--_swatch);
     color: var(--_ink);
     font-family: var(--typography-code-font-family);
+    font-size-adjust: none;
     font-size: var(--typography-caption-font-size);
     font-variant-numeric: tabular-nums;
     transition:
@@ -751,6 +754,7 @@
     background-color: var(--surface-sunken);
     color: var(--text-primary);
     font-family: var(--typography-code-font-family);
+    font-size-adjust: none;
     font-size: var(--typography-code-font-size);
     line-height: var(--typography-code-line-height);
   }

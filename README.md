@@ -33,7 +33,8 @@ Sections:
   and measuring a system. Hypothetical, proposed and conceptual material is labelled as such.
 
 The header switches the whole site between products (Design System Lab, Harbor, Meadow), themes and
-densities; nothing in a component knows which one is active.
+densities. A product changes brand colors, typefaces and corner shapes, not the site's name, logo or
+content; nothing in a component knows which one is active.
 
 ## Run it
 

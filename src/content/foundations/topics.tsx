@@ -1,24 +1,29 @@
 import { useState, type ComponentType } from 'react';
 import { Card, Field } from '@/design-system/composites';
-import { Box, Grid, Inline, ScrollRegion, Stack } from '@/design-system/layout';
+import { Box, Grid, Inline, ScrollRegion, Stack, ThemeScope } from '@/design-system/layout';
 import { Badge, Button, Heading, Link, Select, Text } from '@/design-system/primitives';
 import {
   borderScale,
   borderTokenPaths,
   elevationScale,
   elevationTokenPaths,
+  modifierDefaults,
+  productNames,
   radiusScale,
   radiusTokenPaths,
   spaceScale,
   spaceTokenPaths,
   themeNames,
+  tokenValueIn,
   toneScale,
+  type ProductName,
   type TokenPath,
 } from '@/design-system/tokens';
 import { tokenManifest } from '@/design-system/tokens/manifest';
-import { catalog, EntryCard } from '@/domain/system';
+import { catalog, EntryCard, productProfiles } from '@/domain/system';
 import { DocSection, LiveExample, Note, Prose, SourceList, TokenChain, TokenExplorer, TokenSwatch } from '@/features/docs';
 import { contrastRatio } from './contrast';
+import { primaryFamily } from './modes';
 import { productsTopic } from './products';
 import { studioTopic } from './studio';
 import { QueryRegistry } from './QueryRegistry';
@@ -339,14 +344,40 @@ function ContrastTable() {
 
 /* -------------------------------------------------------------- Typography */
 
+const typefaceName = (role: 'display' | 'text', product: ProductName) => {
+  const record = tokenManifest.find((candidate) => candidate.path === `typeface.${role}`);
+  return record ? primaryFamily(tokenValueIn(record, { ...modifierDefaults, product }).resolved).replace(/ Variable$/, '') : '';
+};
+
+/** Each product's typeface roles, set by the tokens inside a scope for that product. */
+function TypefaceSpecimens() {
+  return (
+    <Grid minColumnWidth="medium" gap="medium">
+      {productNames.map((product) => (
+        <ThemeScope key={product} as="section" product={product} className={styles.themePanel} aria-label={`${productProfiles[product].name} typefaces`}>
+          <Text variant="caption" tone="muted">
+            {productProfiles[product].name}
+          </Text>
+          <Heading level={3} size="medium">
+            {typefaceName('display', product)}
+          </Heading>
+          <Text>Body text in {typefaceName('text', product)}, at the shared size and line height.</Text>
+        </ThemeScope>
+      ))}
+    </Grid>
+  );
+}
+
 function TypographyContent() {
   return (
     <Stack gap="extraExtraLarge">
       <DocSection id="families" title="Families and scale">
         <Prose>
           <p>
-            Two families (a system sans and a system mono) and an eight-step size scale in rem, so text follows the
-            reader’s font-size preference and zoom. Weights and line heights are separate reference tokens.
+            The system sets text in Jost, a self-hosted geometric sans, and code in the platform’s monospace. Harbor and
+            Meadow add three more families, described under typefaces by product. Sizes are an eight-step scale in rem,
+            so text follows the reader’s font-size preference and zoom. Weights and line heights are separate reference
+            tokens.
           </p>
         </Prose>
         <TokenTable
@@ -355,6 +386,26 @@ function TypographyContent() {
           preview={(cssVar) => <span style={{ fontSize: cssVar, lineHeight: 1.1 }}>Aa</span>}
         />
         <TokenTable caption="Families, weights, line heights and letter spacing" paths={[...pathsWithPrefix('font.family.'), ...pathsWithPrefix('font.weight.'), ...pathsWithPrefix('font.line-height.'), ...pathsWithPrefix('font.letter-spacing.')]} />
+      </DocSection>
+      <DocSection id="typefaces" title="Typefaces by product">
+        <Prose>
+          <p>
+            Text styles never name a family. They read two typeface roles: <code>typeface.display</code> for headings and{' '}
+            <code>typeface.text</code> for body text, labels, captions and controls. Each product points the roles at its
+            own families. Sizes, weights, line heights and letter case stay shared, so a product changes how text looks
+            without changing the hierarchy. Families differ in x-height, so every one is scaled to Jost’s with{' '}
+            <code>font-size-adjust</code> and <code>typeface.x-height</code>: a size token looks the same size in every
+            product. Code stays monospace, at its natural size, in every product.
+          </p>
+        </Prose>
+        <TypefaceSpecimens />
+        <Note title="Loading">
+          <p>
+            Every family is a self-hosted variable font with <code>font-display: swap</code> and one file per script. A
+            browser downloads a file only when text on the page uses it, so a product’s typefaces cost nothing until
+            someone chooses that product. The first switch shows a fallback font briefly while the file downloads.
+          </p>
+        </Note>
       </DocSection>
       <DocSection id="styles" title="Text styles">
         <Prose>
@@ -809,6 +860,7 @@ export const foundationTopics: readonly FoundationTopic[] = [
     id: 'typography',
     sections: [
       { id: 'families', label: 'Families and scale' },
+      { id: 'typefaces', label: 'Typefaces by product' },
       { id: 'styles', label: 'Text styles' },
     ],
     Content: TypographyContent,

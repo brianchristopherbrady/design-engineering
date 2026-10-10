@@ -33,6 +33,22 @@
       "800": { "$value": { "colorSpace": "srgb", "components": [0.3569, 0.1294, 0.7137], "hex": "#5b21b6" } },
       "900": { "$value": { "colorSpace": "srgb", "components": [0.298, 0.1137, 0.5843], "hex": "#4c1d95" } },
       "950": { "$value": { "colorSpace": "srgb", "components": [0.1804, 0.0627, 0.3961], "hex": "#2e1065" } }
+    },
+    "harbor-glow": {
+      "$value": { "colorSpace": "srgb", "components": [0.0784, 0.7216, 0.651], "alpha": 0.55 },
+      "$description": "Halo around Harbor's signal indicator on dark surfaces."
+    },
+    "harbor-glow-soft": {
+      "$value": { "colorSpace": "srgb", "components": [0.051, 0.5804, 0.5333], "alpha": 0.28 },
+      "$description": "Halo around Harbor's signal indicator on light surfaces."
+    },
+    "meadow-glow": {
+      "$value": { "colorSpace": "srgb", "components": [0.6549, 0.5451, 0.9804], "alpha": 0.55 },
+      "$description": "Halo around Meadow's signal indicator on dark surfaces."
+    },
+    "meadow-glow-soft": {
+      "$value": { "colorSpace": "srgb", "components": [0.5451, 0.3608, 0.9647], "alpha": 0.28 },
+      "$description": "Halo around Meadow's signal indicator on light surfaces."
     }
   },
   "size": {
@@ -42,6 +58,23 @@
       "sm": { "$value": { "value": 1.75, "unit": "rem" } },
       "md": { "$value": { "value": 2.25, "unit": "rem" } },
       "lg": { "$value": { "value": 2.75, "unit": "rem" } }
+    }
+  },
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "plex-sans": {
+        "$value": ["IBM Plex Sans Variable", "IBM Plex Sans", "Helvetica Neue", "Arial", "system-ui", "sans-serif"],
+        "$description": "Harbor's typeface: an engineered grotesque with open apertures that stays legible in dense tables."
+      },
+      "fraunces": {
+        "$value": ["Fraunces Variable", "Fraunces", "Georgia", "Cambria", "serif"],
+        "$description": "Meadow's display face: a soft, warm serif whose optical-size axis adapts it to each heading size."
+      },
+      "nunito": {
+        "$value": ["Nunito Variable", "Nunito", "ui-rounded", "Avenir Next", "system-ui", "sans-serif"],
+        "$description": "Meadow's text face: rounded terminals for a friendly, unhurried read."
+      }
     }
   }
 }

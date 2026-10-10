@@ -10,6 +10,9 @@ export const recordOf = (path: string) => tokenManifest.find((record) => record.
 /** The value a token takes in one permutation of the modifiers. */
 export const resolveFor = tokenValueIn;
 
+/** The first family in a CSS font stack, without quotes. */
+export const primaryFamily = (stack: string) => stack.split(',')[0]?.trim().replace(/^"|"$/g, '') ?? stack;
+
 /** The selector the pipeline emits a token under for one permutation: only the modifiers it depends on. */
 export const selectorFor = tokenSelectorIn;
 
@@ -26,15 +29,18 @@ export function permutationIndex(input: ModifierInput): number {
 const byProduct = (record: TokenRecord, theme: ThemeName) =>
   productNames.map((product) => resolveFor(record, { theme, product, density: densityNames[0] }));
 
+const typeOrder = ['color', 'fontFamily'];
+const rank = (record: TokenRecord) => (typeOrder.includes(record.type) ? typeOrder.indexOf(record.type) : typeOrder.length);
+
 /**
- * Tokens a product context changes, split into those its file overrides directly (the authored
- * value differs between products) and those that only follow through an alias.
+ * Tokens a product context changes, split into those its file overrides directly (a product file
+ * set the value) and those that only follow through an alias. Colors come first, then typefaces.
  */
 export function productTokens(theme: ThemeName) {
   const dependent = tokenManifest.filter((record) => record.dependsOn.includes('product'));
   const direct = dependent
-    .filter((record) => new Set(byProduct(record, theme).map((value) => value.authored)).size > 1)
-    .sort((a, b) => Number(a.type !== 'color') - Number(b.type !== 'color'));
+    .filter((record) => new Set(byProduct(record, theme).map((value) => value.source ?? record.source)).size > 1)
+    .sort((a, b) => rank(a) - rank(b));
   return {
     direct: direct.map((record) => ({ record, values: byProduct(record, theme) })),
     aliases: dependent.filter((record) => !direct.includes(record)),

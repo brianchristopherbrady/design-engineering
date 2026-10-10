@@ -191,6 +191,7 @@
     border-radius: var(--radius-md);
     background-color: var(--surface-sunken);
     font-family: var(--typography-code-font-family);
+    font-size-adjust: none;
     font-size: var(--typography-code-font-size);
     line-height: var(--typography-code-line-height);
   }

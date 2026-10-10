@@ -20,7 +20,7 @@ export interface ModifierInput {
 export const modifierDefaults: ModifierInput = {"theme":"light","product":"system-lab","density":"comfortable"};
 
 /** Token counts per tier, so summaries need not load the full manifest. */
-export const tokenCounts = {"total":349,"reference":146,"semantic":131,"component":72} as const;
+export const tokenCounts = {"total":361,"reference":153,"semantic":136,"component":72} as const;
 
 /** Direct children of `space`. */
 export const spaceTokens = ["2xs","xs","sm","md","lg","xl","2xl","3xl"] as const;
@@ -202,9 +202,16 @@ export type TokenPath =
   | 'color.meadow.800'
   | 'color.meadow.900'
   | 'color.meadow.950'
+  | 'color.harbor-glow'
+  | 'color.harbor-glow-soft'
+  | 'color.meadow-glow'
+  | 'color.meadow-glow-soft'
   | 'size.compact.sm'
   | 'size.compact.md'
   | 'size.compact.lg'
+  | 'font.family.plex-sans'
+  | 'font.family.fraunces'
+  | 'font.family.nunito'
   | 'spacing.extra-small'
   | 'spacing.small'
   | 'spacing.medium'
@@ -241,6 +248,9 @@ export type TokenPath =
   | 'horizon.corona'
   | 'horizon.limb'
   | 'horizon.planet'
+  | 'typeface.display'
+  | 'typeface.text'
+  | 'typeface.x-height'
   | 'typography.body'
   | 'typography.body-small'
   | 'typography.lead'
@@ -329,6 +339,7 @@ export type TokenPath =
   | 'brand.harbor.text'
   | 'brand.harbor.subtle'
   | 'brand.harbor.border'
+  | 'brand.harbor.glow'
   | 'brand.meadow.strong'
   | 'brand.meadow.stronger'
   | 'brand.meadow.strongest'
@@ -336,6 +347,7 @@ export type TokenPath =
   | 'brand.meadow.text'
   | 'brand.meadow.subtle'
   | 'brand.meadow.border'
+  | 'brand.meadow.glow'
   | 'button.primary.background'
   | 'button.primary.background-hover'
   | 'button.primary.background-active'

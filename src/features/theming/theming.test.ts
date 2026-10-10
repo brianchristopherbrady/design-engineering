@@ -199,8 +199,8 @@ describe('export', () => {
       const paths = productPaths(shape);
       expect(paths.filter((path) => !productDependent.has(path))).toEqual([]);
     }
-    expect(productPaths('machined')).toHaveLength(13);
-    expect(productPaths('pill')).toHaveLength(13 + shapedComponents.length);
+    expect(productPaths('machined')).toHaveLength(15);
+    expect(productPaths('pill')).toHaveLength(15 + shapedComponents.length);
   });
 
   it('treats machined as the system default, so it exports no shape', () => {

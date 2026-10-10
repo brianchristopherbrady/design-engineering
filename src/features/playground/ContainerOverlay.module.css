@@ -24,6 +24,7 @@
     background-color: var(--tone-info-solid);
     color: var(--tone-info-on-solid);
     font-family: var(--typography-code-font-family);
+    font-size-adjust: none;
     font-size: var(--typography-caption-font-size);
     white-space: nowrap;
   }

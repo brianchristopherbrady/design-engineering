@@ -20,7 +20,7 @@ export function ThemeScopeProvider({ value, children }: { value: ModifierInput; 
 export interface ThemeScopeOwnProps {
   /** Color theme. Omit to inherit from the nearest scope. */
   theme?: ThemeName;
-  /** Product brand and shape. Omit to inherit. */
+  /** Product brand, typefaces and shape. Omit to inherit. */
   product?: ProductName;
   /** Spacing and control size. Omit to inherit. */
   density?: DensityName;

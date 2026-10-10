@@ -99,7 +99,7 @@ export const tokenPolicy: readonly TokenPolicyRule[] = [
   {
     id: 'modifier-lanes',
     title: 'Each modifier keeps to its lane',
-    rule: 'Theme defines color and elevation roles. Product overrides only brand roles and shape. Density overrides only control size, button padding and the spacing scale.',
+    rule: 'Theme defines color and elevation roles. Product overrides only brand roles, typefaces and shape. Density overrides only control size, button padding and the spacing scale.',
     rationale: 'Independent axes are what let twelve permutations come from a few small files without combinations that need individual review.',
     scope: 'system',
     enforcement: [
@@ -135,9 +135,11 @@ export const policyExceptions: readonly PolicyException[] = [
 /** Path prefixes each override modifier may change. A token outside its lane fails the policy test. */
 export const modifierLanes: Readonly<Record<'product' | 'density', readonly string[]>> = {
   product: [
+    'typeface.',
     'action.primary.',
     'text.link',
     'focus.ring',
+    'signal.',
     'surface.accent',
     'tone.brand.',
     'control.radius',

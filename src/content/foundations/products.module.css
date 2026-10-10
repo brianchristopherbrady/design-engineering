@@ -100,6 +100,7 @@
     background-color: var(--surface-sunken);
     color: var(--text-primary);
     font-family: var(--typography-code-font-family);
+    font-size-adjust: none;
     font-size: var(--typography-code-font-size);
     line-height: var(--typography-code-line-height);
   }
@@ -264,6 +265,13 @@
     border-inline-end: var(--border-width-thick) solid var(--text-primary);
   }
 
+  .typeSample {
+    flex: none;
+    min-inline-size: var(--space-lg);
+    font-size: var(--font-size-lg);
+    line-height: var(--font-line-height-tight);
+  }
+
   /* Nested scopes */
   .nesting {
     display: grid;
@@ -304,6 +312,7 @@
     border: var(--border-width-thin) dashed var(--border-default);
     border-radius: var(--badge-radius);
     font-family: var(--typography-code-font-family);
+    font-size-adjust: none;
     font-size: var(--typography-caption-font-size);
   }
 
@@ -377,6 +386,7 @@
     grid-row: 1;
     color: var(--text-muted);
     font-family: var(--typography-code-font-family);
+    font-size-adjust: none;
     font-size: var(--typography-body-small-font-size);
     font-variant-numeric: tabular-nums;
   }

@@ -31,7 +31,7 @@ export const layoutDocs: ComponentDoc[] = [
     ],
     props: propsTable<ThemeScopeOwnProps>({
       theme: { type: '"light" | "dark"', defaultValue: 'inherited', description: 'Color theme.' },
-      product: { type: '"system-lab" | "harbor" | "meadow"', defaultValue: 'inherited', description: 'Brand roles and shape.' },
+      product: { type: '"system-lab" | "harbor" | "meadow"', defaultValue: 'inherited', description: 'Brand roles, typefaces and shape.' },
       density: { type: '"comfortable" | "compact"', defaultValue: 'inherited', description: 'Control size and spacing.' },
     }),
     nativeProps: `${layoutNative} The accepted values are generated from the resolver, so adding a product context adds it to the type.`,

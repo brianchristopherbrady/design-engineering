@@ -20,8 +20,8 @@ const componentPathOf = (/** @type {string} */ cssVar) => {
 };
 
 /**
- * Tokens whose authored value differs between contexts of one modifier with every other
- * modifier held fixed: the tokens that modifier's files override directly.
+ * Tokens that one modifier's files set directly: with every other modifier held fixed, the file
+ * that set the value differs between that modifier's contexts.
  * @param {'product' | 'density'} modifier
  */
 function overriddenBy(modifier) {
@@ -32,9 +32,9 @@ function overriddenBy(modifier) {
       const groups = new Map();
       for (const variant of record.variants ?? []) {
         const rest = Object.entries(variant.input).filter(([name]) => name !== modifier).map((pair) => pair.join('=')).join(',');
-        groups.set(rest, (groups.get(rest) ?? new Set()).add(variant.authored));
+        groups.set(rest, (groups.get(rest) ?? new Set()).add(variant.source ?? record.source));
       }
-      return [...groups.values()].some((authored) => authored.size > 1);
+      return [...groups.values()].some((sources) => sources.size > 1);
     })
     .map((record) => record.path);
 }

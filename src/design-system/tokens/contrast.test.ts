@@ -40,6 +40,7 @@ const requirements: [TokenPath, TokenPath, number, string][] = [
     ['text.link', surface, 4.5, 'link text'],
     ['border.strong', surface, 3, 'control boundary (1.4.11)'],
     ['focus.ring', surface, 3, 'focus indicator (1.4.11)'],
+    ['signal.current', surface, 3, 'current-location indicator (1.4.11)'],
     ['button.ghost.foreground', surface, 4.5, 'ghost button label (transparent background)'],
     ...tones.map((tone): [TokenPath, TokenPath, number, string] => [`tone.${tone}.text`, surface, 4.5, `${tone} text and outlined badge`]),
   ]),

@@ -74,43 +74,54 @@
     "limb": { "$value": "{color.neutral.400}", "$description": "Sunlight catching the curved edge of the planet." },
     "planet": { "$value": "{color.neutral.900}" }
   },
+  "typeface": {
+    "$type": "fontFamily",
+    "$description": "Which family each kind of text is set in. Typography roles read these, so a product can change typefaces without touching the type scale.",
+    "display": { "$value": "{font.family.sans}", "$description": "Headings." },
+    "text": { "$value": "{font.family.sans}", "$description": "Body text, labels, captions and controls." },
+    "x-height": {
+      "$type": "number",
+      "$value": 0.46,
+      "$description": "x-height as a fraction of font size, Jost's own. Every typeface is scaled to it (font-size-adjust), so a size token looks the same size in every product."
+    }
+  },
   "typography": {
     "$type": "typography",
     "$description": "Text roles. Text and Heading map their variants and sizes onto these.",
     "body": {
-      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.md}", "fontWeight": "{font.weight.regular}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.normal}" }
+      "$value": { "fontFamily": "{typeface.text}", "fontSize": "{font.size.md}", "fontWeight": "{font.weight.regular}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.normal}" }
     },
     "body-small": {
-      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.sm}", "fontWeight": "{font.weight.regular}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.normal}" }
+      "$value": { "fontFamily": "{typeface.text}", "fontSize": "{font.size.sm}", "fontWeight": "{font.weight.regular}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.normal}" }
     },
     "lead": {
-      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.lg}", "fontWeight": "{font.weight.light}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.normal}" }
+      "$value": { "fontFamily": "{typeface.text}", "fontSize": "{font.size.lg}", "fontWeight": "{font.weight.light}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.normal}" }
     },
     "label": {
-      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.sm}", "fontWeight": "{font.weight.medium}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.snug}" }
+      "$value": { "fontFamily": "{typeface.text}", "fontSize": "{font.size.sm}", "fontWeight": "{font.weight.medium}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.snug}" }
     },
     "caption": {
-      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.xs}", "fontWeight": "{font.weight.medium}", "letterSpacing": "{font.letter-spacing.wider}", "lineHeight": "{font.line-height.snug}" },
+      "$value": { "fontFamily": "{typeface.text}", "fontSize": "{font.size.xs}", "fontWeight": "{font.weight.medium}", "letterSpacing": "{font.letter-spacing.wider}", "lineHeight": "{font.line-height.snug}" },
       "$description": "Uppercase readouts: eyebrows, group headings, table captions."
     },
     "control": {
-      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.sm}", "fontWeight": "{font.weight.medium}", "letterSpacing": "{font.letter-spacing.wide}", "lineHeight": "{font.line-height.snug}" },
+      "$value": { "fontFamily": "{typeface.text}", "fontSize": "{font.size.sm}", "fontWeight": "{font.weight.medium}", "letterSpacing": "{font.letter-spacing.wide}", "lineHeight": "{font.line-height.snug}" },
       "$description": "Buttons, navigation, tabs and badges, set in uppercase like panel labels."
     },
     "code": {
       "$value": { "fontFamily": "{font.family.mono}", "fontSize": "{font.size.sm}", "fontWeight": "{font.weight.regular}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.normal}" }
     },
     "heading-1": {
-      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.3xl}", "fontWeight": "{font.weight.light}", "letterSpacing": "{font.letter-spacing.tight}", "lineHeight": "{font.line-height.tight}" }
+      "$value": { "fontFamily": "{typeface.display}", "fontSize": "{font.size.3xl}", "fontWeight": "{font.weight.light}", "letterSpacing": "{font.letter-spacing.tight}", "lineHeight": "{font.line-height.tight}" }
     },
     "heading-2": {
-      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.2xl}", "fontWeight": "{font.weight.regular}", "letterSpacing": "{font.letter-spacing.tight}", "lineHeight": "{font.line-height.tight}" }
+      "$value": { "fontFamily": "{typeface.display}", "fontSize": "{font.size.2xl}", "fontWeight": "{font.weight.regular}", "letterSpacing": "{font.letter-spacing.tight}", "lineHeight": "{font.line-height.tight}" }
     },
     "heading-3": {
-      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.xl}", "fontWeight": "{font.weight.regular}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.snug}" }
+      "$value": { "fontFamily": "{typeface.display}", "fontSize": "{font.size.xl}", "fontWeight": "{font.weight.regular}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.snug}" }
     },
     "heading-4": {
-      "$value": { "fontFamily": "{font.family.sans}", "fontSize": "{font.size.lg}", "fontWeight": "{font.weight.medium}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.snug}" }
+      "$value": { "fontFamily": "{typeface.display}", "fontSize": "{font.size.lg}", "fontWeight": "{font.weight.medium}", "letterSpacing": "{font.letter-spacing.normal}", "lineHeight": "{font.line-height.snug}" }
     }
   }
 }

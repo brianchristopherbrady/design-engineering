@@ -9,7 +9,8 @@
       "on-strong": { "$value": "{color.harbor.50}", "$description": "Text and icons on strong." },
       "text": { "$value": "{color.harbor.700}", "$description": "Brand-colored text and links on surfaces." },
       "subtle": { "$value": "{color.harbor.50}", "$description": "Tinted brand surface." },
-      "border": { "$value": "{color.harbor.600}", "$description": "Brand outlines; at least 3:1 against panels." }
+      "border": { "$value": "{color.harbor.600}", "$description": "Brand outlines; at least 3:1 against panels." },
+      "glow": { "$value": "{color.harbor-glow-soft}", "$description": "Translucent halo around a border-colored indicator." }
     },
     "meadow": {
       "strong": { "$value": "{color.meadow.600}" },
@@ -18,7 +19,8 @@
       "on-strong": { "$value": "{color.meadow.50}" },
       "text": { "$value": "{color.meadow.700}" },
       "subtle": { "$value": "{color.meadow.50}" },
-      "border": { "$value": "{color.meadow.500}" }
+      "border": { "$value": "{color.meadow.500}" },
+      "glow": { "$value": "{color.meadow-glow-soft}" }
     }
   }
 }

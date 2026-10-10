@@ -3746,6 +3746,110 @@ export const tokenManifest: readonly TokenRecord[] = [
     }
   },
   {
+    "path": "color.harbor-glow",
+    "cssVar": "--color-harbor-glow",
+    "type": "color",
+    "tier": "reference",
+    "source": "reference.modes.tokens.json",
+    "description": "Halo around Harbor's signal indicator on dark surfaces.",
+    "themed": false,
+    "dependsOn": [],
+    "values": {
+      "light": {
+        "authored": "rgb(20 184 166 / 0.55)",
+        "resolved": "rgb(20 184 166 / 0.55)",
+        "chain": [
+          "color.harbor-glow"
+        ]
+      },
+      "dark": {
+        "authored": "rgb(20 184 166 / 0.55)",
+        "resolved": "rgb(20 184 166 / 0.55)",
+        "chain": [
+          "color.harbor-glow"
+        ]
+      }
+    }
+  },
+  {
+    "path": "color.harbor-glow-soft",
+    "cssVar": "--color-harbor-glow-soft",
+    "type": "color",
+    "tier": "reference",
+    "source": "reference.modes.tokens.json",
+    "description": "Halo around Harbor's signal indicator on light surfaces.",
+    "themed": false,
+    "dependsOn": [],
+    "values": {
+      "light": {
+        "authored": "rgb(13 148 136 / 0.28)",
+        "resolved": "rgb(13 148 136 / 0.28)",
+        "chain": [
+          "color.harbor-glow-soft"
+        ]
+      },
+      "dark": {
+        "authored": "rgb(13 148 136 / 0.28)",
+        "resolved": "rgb(13 148 136 / 0.28)",
+        "chain": [
+          "color.harbor-glow-soft"
+        ]
+      }
+    }
+  },
+  {
+    "path": "color.meadow-glow",
+    "cssVar": "--color-meadow-glow",
+    "type": "color",
+    "tier": "reference",
+    "source": "reference.modes.tokens.json",
+    "description": "Halo around Meadow's signal indicator on dark surfaces.",
+    "themed": false,
+    "dependsOn": [],
+    "values": {
+      "light": {
+        "authored": "rgb(167 139 250 / 0.55)",
+        "resolved": "rgb(167 139 250 / 0.55)",
+        "chain": [
+          "color.meadow-glow"
+        ]
+      },
+      "dark": {
+        "authored": "rgb(167 139 250 / 0.55)",
+        "resolved": "rgb(167 139 250 / 0.55)",
+        "chain": [
+          "color.meadow-glow"
+        ]
+      }
+    }
+  },
+  {
+    "path": "color.meadow-glow-soft",
+    "cssVar": "--color-meadow-glow-soft",
+    "type": "color",
+    "tier": "reference",
+    "source": "reference.modes.tokens.json",
+    "description": "Halo around Meadow's signal indicator on light surfaces.",
+    "themed": false,
+    "dependsOn": [],
+    "values": {
+      "light": {
+        "authored": "rgb(139 92 246 / 0.28)",
+        "resolved": "rgb(139 92 246 / 0.28)",
+        "chain": [
+          "color.meadow-glow-soft"
+        ]
+      },
+      "dark": {
+        "authored": "rgb(139 92 246 / 0.28)",
+        "resolved": "rgb(139 92 246 / 0.28)",
+        "chain": [
+          "color.meadow-glow-soft"
+        ]
+      }
+    }
+  },
+  {
     "path": "size.compact.sm",
     "cssVar": "--size-compact-sm",
     "type": "dimension",
@@ -3819,6 +3923,84 @@ export const tokenManifest: readonly TokenRecord[] = [
         "resolved": "2.75rem",
         "chain": [
           "size.compact.lg"
+        ]
+      }
+    }
+  },
+  {
+    "path": "font.family.plex-sans",
+    "cssVar": "--font-family-plex-sans",
+    "type": "fontFamily",
+    "tier": "reference",
+    "source": "reference.modes.tokens.json",
+    "description": "Harbor's typeface: an engineered grotesque with open apertures that stays legible in dense tables.",
+    "themed": false,
+    "dependsOn": [],
+    "values": {
+      "light": {
+        "authored": "\"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "resolved": "\"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "chain": [
+          "font.family.plex-sans"
+        ]
+      },
+      "dark": {
+        "authored": "\"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "resolved": "\"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "chain": [
+          "font.family.plex-sans"
+        ]
+      }
+    }
+  },
+  {
+    "path": "font.family.fraunces",
+    "cssVar": "--font-family-fraunces",
+    "type": "fontFamily",
+    "tier": "reference",
+    "source": "reference.modes.tokens.json",
+    "description": "Meadow's display face: a soft, warm serif whose optical-size axis adapts it to each heading size.",
+    "themed": false,
+    "dependsOn": [],
+    "values": {
+      "light": {
+        "authored": "\"Fraunces Variable\", Fraunces, Georgia, Cambria, serif",
+        "resolved": "\"Fraunces Variable\", Fraunces, Georgia, Cambria, serif",
+        "chain": [
+          "font.family.fraunces"
+        ]
+      },
+      "dark": {
+        "authored": "\"Fraunces Variable\", Fraunces, Georgia, Cambria, serif",
+        "resolved": "\"Fraunces Variable\", Fraunces, Georgia, Cambria, serif",
+        "chain": [
+          "font.family.fraunces"
+        ]
+      }
+    }
+  },
+  {
+    "path": "font.family.nunito",
+    "cssVar": "--font-family-nunito",
+    "type": "fontFamily",
+    "tier": "reference",
+    "source": "reference.modes.tokens.json",
+    "description": "Meadow's text face: rounded terminals for a friendly, unhurried read.",
+    "themed": false,
+    "dependsOn": [],
+    "values": {
+      "light": {
+        "authored": "\"Nunito Variable\", Nunito, ui-rounded, \"Avenir Next\", system-ui, sans-serif",
+        "resolved": "\"Nunito Variable\", Nunito, ui-rounded, \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "font.family.nunito"
+        ]
+      },
+      "dark": {
+        "authored": "\"Nunito Variable\", Nunito, ui-rounded, \"Avenir Next\", system-ui, sans-serif",
+        "resolved": "\"Nunito Variable\", Nunito, ui-rounded, \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "font.family.nunito"
         ]
       }
     }
@@ -5083,6 +5265,166 @@ export const tokenManifest: readonly TokenRecord[] = [
     }
   },
   {
+    "path": "typeface.display",
+    "cssVar": "--typeface-display",
+    "type": "fontFamily",
+    "tier": "semantic",
+    "source": "semantic.tokens.json",
+    "description": "Headings.",
+    "themed": false,
+    "dependsOn": [
+      "product"
+    ],
+    "values": {
+      "light": {
+        "authored": "{font.family.sans}",
+        "resolved": "\"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "typeface.display",
+          "font.family.sans"
+        ]
+      },
+      "dark": {
+        "authored": "{font.family.sans}",
+        "resolved": "\"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "typeface.display",
+          "font.family.sans"
+        ]
+      }
+    },
+    "variants": [
+      {
+        "input": {
+          "product": "system-lab"
+        },
+        "authored": "{font.family.sans}",
+        "resolved": "\"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "typeface.display",
+          "font.family.sans"
+        ]
+      },
+      {
+        "input": {
+          "product": "harbor"
+        },
+        "authored": "{font.family.plex-sans}",
+        "resolved": "\"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "chain": [
+          "typeface.display",
+          "font.family.plex-sans"
+        ],
+        "source": "product.harbor.tokens.json"
+      },
+      {
+        "input": {
+          "product": "meadow"
+        },
+        "authored": "{font.family.fraunces}",
+        "resolved": "\"Fraunces Variable\", Fraunces, Georgia, Cambria, serif",
+        "chain": [
+          "typeface.display",
+          "font.family.fraunces"
+        ],
+        "source": "product.meadow.tokens.json"
+      }
+    ]
+  },
+  {
+    "path": "typeface.text",
+    "cssVar": "--typeface-text",
+    "type": "fontFamily",
+    "tier": "semantic",
+    "source": "semantic.tokens.json",
+    "description": "Body text, labels, captions and controls.",
+    "themed": false,
+    "dependsOn": [
+      "product"
+    ],
+    "values": {
+      "light": {
+        "authored": "{font.family.sans}",
+        "resolved": "\"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "typeface.text",
+          "font.family.sans"
+        ]
+      },
+      "dark": {
+        "authored": "{font.family.sans}",
+        "resolved": "\"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "typeface.text",
+          "font.family.sans"
+        ]
+      }
+    },
+    "variants": [
+      {
+        "input": {
+          "product": "system-lab"
+        },
+        "authored": "{font.family.sans}",
+        "resolved": "\"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "typeface.text",
+          "font.family.sans"
+        ]
+      },
+      {
+        "input": {
+          "product": "harbor"
+        },
+        "authored": "{font.family.plex-sans}",
+        "resolved": "\"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "chain": [
+          "typeface.text",
+          "font.family.plex-sans"
+        ],
+        "source": "product.harbor.tokens.json"
+      },
+      {
+        "input": {
+          "product": "meadow"
+        },
+        "authored": "{font.family.nunito}",
+        "resolved": "\"Nunito Variable\", Nunito, ui-rounded, \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "typeface.text",
+          "font.family.nunito"
+        ],
+        "source": "product.meadow.tokens.json"
+      }
+    ]
+  },
+  {
+    "path": "typeface.x-height",
+    "cssVar": "--typeface-x-height",
+    "type": "number",
+    "tier": "semantic",
+    "source": "semantic.tokens.json",
+    "description": "x-height as a fraction of font size, Jost's own. Every typeface is scaled to it (font-size-adjust), so a size token looks the same size in every product.",
+    "themed": false,
+    "dependsOn": [],
+    "values": {
+      "light": {
+        "authored": "0.46",
+        "resolved": "0.46",
+        "chain": [
+          "typeface.x-height"
+        ]
+      },
+      "dark": {
+        "authored": "0.46",
+        "resolved": "0.46",
+        "chain": [
+          "typeface.x-height"
+        ]
+      }
+    }
+  },
+  {
     "path": "typography.body",
     "cssVar": "--typography-body",
     "type": "typography",
@@ -5090,7 +5432,9 @@ export const tokenManifest: readonly TokenRecord[] = [
     "source": "semantic.tokens.json",
     "description": "",
     "themed": false,
-    "dependsOn": [],
+    "dependsOn": [
+      "product"
+    ],
     "values": {
       "light": {
         "authored": "400 1.0625rem/1.65 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
@@ -5106,7 +5450,39 @@ export const tokenManifest: readonly TokenRecord[] = [
           "typography.body"
         ]
       }
-    }
+    },
+    "variants": [
+      {
+        "input": {
+          "product": "system-lab"
+        },
+        "authored": "400 1.0625rem/1.65 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "resolved": "400 1.0625rem/1.65 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "typography.body"
+        ]
+      },
+      {
+        "input": {
+          "product": "harbor"
+        },
+        "authored": "400 1.0625rem/1.65 \"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "resolved": "400 1.0625rem/1.65 \"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "chain": [
+          "typography.body"
+        ]
+      },
+      {
+        "input": {
+          "product": "meadow"
+        },
+        "authored": "400 1.0625rem/1.65 \"Nunito Variable\", Nunito, ui-rounded, \"Avenir Next\", system-ui, sans-serif",
+        "resolved": "400 1.0625rem/1.65 \"Nunito Variable\", Nunito, ui-rounded, \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "typography.body"
+        ]
+      }
+    ]
   },
   {
     "path": "typography.body-small",
@@ -5116,7 +5492,9 @@ export const tokenManifest: readonly TokenRecord[] = [
     "source": "semantic.tokens.json",
     "description": "",
     "themed": false,
-    "dependsOn": [],
+    "dependsOn": [
+      "product"
+    ],
     "values": {
       "light": {
         "authored": "400 0.875rem/1.65 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
@@ -5132,7 +5510,39 @@ export const tokenManifest: readonly TokenRecord[] = [
           "typography.body-small"
         ]
       }
-    }
+    },
+    "variants": [
+      {
+        "input": {
+          "product": "system-lab"
+        },
+        "authored": "400 0.875rem/1.65 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "resolved": "400 0.875rem/1.65 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "typography.body-small"
+        ]
+      },
+      {
+        "input": {
+          "product": "harbor"
+        },
+        "authored": "400 0.875rem/1.65 \"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "resolved": "400 0.875rem/1.65 \"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "chain": [
+          "typography.body-small"
+        ]
+      },
+      {
+        "input": {
+          "product": "meadow"
+        },
+        "authored": "400 0.875rem/1.65 \"Nunito Variable\", Nunito, ui-rounded, \"Avenir Next\", system-ui, sans-serif",
+        "resolved": "400 0.875rem/1.65 \"Nunito Variable\", Nunito, ui-rounded, \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "typography.body-small"
+        ]
+      }
+    ]
   },
   {
     "path": "typography.lead",
@@ -5142,7 +5552,9 @@ export const tokenManifest: readonly TokenRecord[] = [
     "source": "semantic.tokens.json",
     "description": "",
     "themed": false,
-    "dependsOn": [],
+    "dependsOn": [
+      "product"
+    ],
     "values": {
       "light": {
         "authored": "300 1.25rem/1.65 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
@@ -5158,7 +5570,39 @@ export const tokenManifest: readonly TokenRecord[] = [
           "typography.lead"
         ]
       }
-    }
+    },
+    "variants": [
+      {
+        "input": {
+          "product": "system-lab"
+        },
+        "authored": "300 1.25rem/1.65 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "resolved": "300 1.25rem/1.65 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "typography.lead"
+        ]
+      },
+      {
+        "input": {
+          "product": "harbor"
+        },
+        "authored": "300 1.25rem/1.65 \"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "resolved": "300 1.25rem/1.65 \"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "chain": [
+          "typography.lead"
+        ]
+      },
+      {
+        "input": {
+          "product": "meadow"
+        },
+        "authored": "300 1.25rem/1.65 \"Nunito Variable\", Nunito, ui-rounded, \"Avenir Next\", system-ui, sans-serif",
+        "resolved": "300 1.25rem/1.65 \"Nunito Variable\", Nunito, ui-rounded, \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "typography.lead"
+        ]
+      }
+    ]
   },
   {
     "path": "typography.label",
@@ -5168,7 +5612,9 @@ export const tokenManifest: readonly TokenRecord[] = [
     "source": "semantic.tokens.json",
     "description": "",
     "themed": false,
-    "dependsOn": [],
+    "dependsOn": [
+      "product"
+    ],
     "values": {
       "light": {
         "authored": "500 0.875rem/1.35 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
@@ -5184,7 +5630,39 @@ export const tokenManifest: readonly TokenRecord[] = [
           "typography.label"
         ]
       }
-    }
+    },
+    "variants": [
+      {
+        "input": {
+          "product": "system-lab"
+        },
+        "authored": "500 0.875rem/1.35 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "resolved": "500 0.875rem/1.35 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "typography.label"
+        ]
+      },
+      {
+        "input": {
+          "product": "harbor"
+        },
+        "authored": "500 0.875rem/1.35 \"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "resolved": "500 0.875rem/1.35 \"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "chain": [
+          "typography.label"
+        ]
+      },
+      {
+        "input": {
+          "product": "meadow"
+        },
+        "authored": "500 0.875rem/1.35 \"Nunito Variable\", Nunito, ui-rounded, \"Avenir Next\", system-ui, sans-serif",
+        "resolved": "500 0.875rem/1.35 \"Nunito Variable\", Nunito, ui-rounded, \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "typography.label"
+        ]
+      }
+    ]
   },
   {
     "path": "typography.caption",
@@ -5194,7 +5672,9 @@ export const tokenManifest: readonly TokenRecord[] = [
     "source": "semantic.tokens.json",
     "description": "Uppercase readouts: eyebrows, group headings, table captions.",
     "themed": false,
-    "dependsOn": [],
+    "dependsOn": [
+      "product"
+    ],
     "values": {
       "light": {
         "authored": "500 0.75rem/1.35 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
@@ -5210,7 +5690,39 @@ export const tokenManifest: readonly TokenRecord[] = [
           "typography.caption"
         ]
       }
-    }
+    },
+    "variants": [
+      {
+        "input": {
+          "product": "system-lab"
+        },
+        "authored": "500 0.75rem/1.35 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "resolved": "500 0.75rem/1.35 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "typography.caption"
+        ]
+      },
+      {
+        "input": {
+          "product": "harbor"
+        },
+        "authored": "500 0.75rem/1.35 \"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "resolved": "500 0.75rem/1.35 \"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "chain": [
+          "typography.caption"
+        ]
+      },
+      {
+        "input": {
+          "product": "meadow"
+        },
+        "authored": "500 0.75rem/1.35 \"Nunito Variable\", Nunito, ui-rounded, \"Avenir Next\", system-ui, sans-serif",
+        "resolved": "500 0.75rem/1.35 \"Nunito Variable\", Nunito, ui-rounded, \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "typography.caption"
+        ]
+      }
+    ]
   },
   {
     "path": "typography.control",
@@ -5220,7 +5732,9 @@ export const tokenManifest: readonly TokenRecord[] = [
     "source": "semantic.tokens.json",
     "description": "Buttons, navigation, tabs and badges, set in uppercase like panel labels.",
     "themed": false,
-    "dependsOn": [],
+    "dependsOn": [
+      "product"
+    ],
     "values": {
       "light": {
         "authored": "500 0.875rem/1.35 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
@@ -5236,7 +5750,39 @@ export const tokenManifest: readonly TokenRecord[] = [
           "typography.control"
         ]
       }
-    }
+    },
+    "variants": [
+      {
+        "input": {
+          "product": "system-lab"
+        },
+        "authored": "500 0.875rem/1.35 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "resolved": "500 0.875rem/1.35 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "typography.control"
+        ]
+      },
+      {
+        "input": {
+          "product": "harbor"
+        },
+        "authored": "500 0.875rem/1.35 \"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "resolved": "500 0.875rem/1.35 \"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "chain": [
+          "typography.control"
+        ]
+      },
+      {
+        "input": {
+          "product": "meadow"
+        },
+        "authored": "500 0.875rem/1.35 \"Nunito Variable\", Nunito, ui-rounded, \"Avenir Next\", system-ui, sans-serif",
+        "resolved": "500 0.875rem/1.35 \"Nunito Variable\", Nunito, ui-rounded, \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "typography.control"
+        ]
+      }
+    ]
   },
   {
     "path": "typography.code",
@@ -5272,7 +5818,9 @@ export const tokenManifest: readonly TokenRecord[] = [
     "source": "semantic.tokens.json",
     "description": "",
     "themed": false,
-    "dependsOn": [],
+    "dependsOn": [
+      "product"
+    ],
     "values": {
       "light": {
         "authored": "300 2.75rem/1.12 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
@@ -5288,7 +5836,39 @@ export const tokenManifest: readonly TokenRecord[] = [
           "typography.heading-1"
         ]
       }
-    }
+    },
+    "variants": [
+      {
+        "input": {
+          "product": "system-lab"
+        },
+        "authored": "300 2.75rem/1.12 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "resolved": "300 2.75rem/1.12 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "typography.heading-1"
+        ]
+      },
+      {
+        "input": {
+          "product": "harbor"
+        },
+        "authored": "300 2.75rem/1.12 \"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "resolved": "300 2.75rem/1.12 \"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "chain": [
+          "typography.heading-1"
+        ]
+      },
+      {
+        "input": {
+          "product": "meadow"
+        },
+        "authored": "300 2.75rem/1.12 \"Fraunces Variable\", Fraunces, Georgia, Cambria, serif",
+        "resolved": "300 2.75rem/1.12 \"Fraunces Variable\", Fraunces, Georgia, Cambria, serif",
+        "chain": [
+          "typography.heading-1"
+        ]
+      }
+    ]
   },
   {
     "path": "typography.heading-2",
@@ -5298,7 +5878,9 @@ export const tokenManifest: readonly TokenRecord[] = [
     "source": "semantic.tokens.json",
     "description": "",
     "themed": false,
-    "dependsOn": [],
+    "dependsOn": [
+      "product"
+    ],
     "values": {
       "light": {
         "authored": "400 2rem/1.12 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
@@ -5314,7 +5896,39 @@ export const tokenManifest: readonly TokenRecord[] = [
           "typography.heading-2"
         ]
       }
-    }
+    },
+    "variants": [
+      {
+        "input": {
+          "product": "system-lab"
+        },
+        "authored": "400 2rem/1.12 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "resolved": "400 2rem/1.12 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "typography.heading-2"
+        ]
+      },
+      {
+        "input": {
+          "product": "harbor"
+        },
+        "authored": "400 2rem/1.12 \"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "resolved": "400 2rem/1.12 \"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "chain": [
+          "typography.heading-2"
+        ]
+      },
+      {
+        "input": {
+          "product": "meadow"
+        },
+        "authored": "400 2rem/1.12 \"Fraunces Variable\", Fraunces, Georgia, Cambria, serif",
+        "resolved": "400 2rem/1.12 \"Fraunces Variable\", Fraunces, Georgia, Cambria, serif",
+        "chain": [
+          "typography.heading-2"
+        ]
+      }
+    ]
   },
   {
     "path": "typography.heading-3",
@@ -5324,7 +5938,9 @@ export const tokenManifest: readonly TokenRecord[] = [
     "source": "semantic.tokens.json",
     "description": "",
     "themed": false,
-    "dependsOn": [],
+    "dependsOn": [
+      "product"
+    ],
     "values": {
       "light": {
         "authored": "400 1.5rem/1.35 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
@@ -5340,7 +5956,39 @@ export const tokenManifest: readonly TokenRecord[] = [
           "typography.heading-3"
         ]
       }
-    }
+    },
+    "variants": [
+      {
+        "input": {
+          "product": "system-lab"
+        },
+        "authored": "400 1.5rem/1.35 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "resolved": "400 1.5rem/1.35 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "typography.heading-3"
+        ]
+      },
+      {
+        "input": {
+          "product": "harbor"
+        },
+        "authored": "400 1.5rem/1.35 \"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "resolved": "400 1.5rem/1.35 \"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "chain": [
+          "typography.heading-3"
+        ]
+      },
+      {
+        "input": {
+          "product": "meadow"
+        },
+        "authored": "400 1.5rem/1.35 \"Fraunces Variable\", Fraunces, Georgia, Cambria, serif",
+        "resolved": "400 1.5rem/1.35 \"Fraunces Variable\", Fraunces, Georgia, Cambria, serif",
+        "chain": [
+          "typography.heading-3"
+        ]
+      }
+    ]
   },
   {
     "path": "typography.heading-4",
@@ -5350,7 +5998,9 @@ export const tokenManifest: readonly TokenRecord[] = [
     "source": "semantic.tokens.json",
     "description": "",
     "themed": false,
-    "dependsOn": [],
+    "dependsOn": [
+      "product"
+    ],
     "values": {
       "light": {
         "authored": "500 1.25rem/1.35 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
@@ -5366,7 +6016,39 @@ export const tokenManifest: readonly TokenRecord[] = [
           "typography.heading-4"
         ]
       }
-    }
+    },
+    "variants": [
+      {
+        "input": {
+          "product": "system-lab"
+        },
+        "authored": "500 1.25rem/1.35 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "resolved": "500 1.25rem/1.35 \"Jost Variable\", Jost, Futura, \"Century Gothic\", \"Avenir Next\", system-ui, sans-serif",
+        "chain": [
+          "typography.heading-4"
+        ]
+      },
+      {
+        "input": {
+          "product": "harbor"
+        },
+        "authored": "500 1.25rem/1.35 \"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "resolved": "500 1.25rem/1.35 \"IBM Plex Sans Variable\", \"IBM Plex Sans\", \"Helvetica Neue\", Arial, system-ui, sans-serif",
+        "chain": [
+          "typography.heading-4"
+        ]
+      },
+      {
+        "input": {
+          "product": "meadow"
+        },
+        "authored": "500 1.25rem/1.35 \"Fraunces Variable\", Fraunces, Georgia, Cambria, serif",
+        "resolved": "500 1.25rem/1.35 \"Fraunces Variable\", Fraunces, Georgia, Cambria, serif",
+        "chain": [
+          "typography.heading-4"
+        ]
+      }
+    ]
   },
   {
     "path": "surface.canvas",
@@ -7093,7 +7775,8 @@ export const tokenManifest: readonly TokenRecord[] = [
     "description": "Current-location indicator. Meets 3:1 against every surface.",
     "themed": true,
     "dependsOn": [
-      "theme"
+      "theme",
+      "product"
     ],
     "values": {
       "light": {
@@ -7113,7 +7796,90 @@ export const tokenManifest: readonly TokenRecord[] = [
         ],
         "source": "theme.dark.tokens.json"
       }
-    }
+    },
+    "variants": [
+      {
+        "input": {
+          "theme": "light",
+          "product": "system-lab"
+        },
+        "authored": "{color.red.600}",
+        "resolved": "#d21a1a",
+        "chain": [
+          "signal.current",
+          "color.red.600"
+        ]
+      },
+      {
+        "input": {
+          "theme": "light",
+          "product": "harbor"
+        },
+        "authored": "{brand.harbor.border}",
+        "resolved": "#0d9488",
+        "chain": [
+          "signal.current",
+          "brand.harbor.border",
+          "color.harbor.600"
+        ],
+        "source": "product.harbor.tokens.json"
+      },
+      {
+        "input": {
+          "theme": "light",
+          "product": "meadow"
+        },
+        "authored": "{brand.meadow.border}",
+        "resolved": "#8b5cf6",
+        "chain": [
+          "signal.current",
+          "brand.meadow.border",
+          "color.meadow.500"
+        ],
+        "source": "product.meadow.tokens.json"
+      },
+      {
+        "input": {
+          "theme": "dark",
+          "product": "system-lab"
+        },
+        "authored": "{color.red.400}",
+        "resolved": "#ff5a4f",
+        "chain": [
+          "signal.current",
+          "color.red.400"
+        ],
+        "source": "theme.dark.tokens.json"
+      },
+      {
+        "input": {
+          "theme": "dark",
+          "product": "harbor"
+        },
+        "authored": "{brand.harbor.border}",
+        "resolved": "#14b8a6",
+        "chain": [
+          "signal.current",
+          "brand.harbor.border",
+          "color.harbor.500"
+        ],
+        "source": "product.harbor.tokens.json"
+      },
+      {
+        "input": {
+          "theme": "dark",
+          "product": "meadow"
+        },
+        "authored": "{brand.meadow.border}",
+        "resolved": "#a78bfa",
+        "chain": [
+          "signal.current",
+          "brand.meadow.border",
+          "color.meadow.400"
+        ],
+        "source": "product.meadow.tokens.json"
+      }
+    ]
   },
   {
     "path": "signal.glow",
@@ -7124,7 +7890,8 @@ export const tokenManifest: readonly TokenRecord[] = [
     "description": "Translucent halo around the indicator.",
     "themed": true,
     "dependsOn": [
-      "theme"
+      "theme",
+      "product"
     ],
     "values": {
       "light": {
@@ -7144,7 +7911,90 @@ export const tokenManifest: readonly TokenRecord[] = [
         ],
         "source": "theme.dark.tokens.json"
       }
-    }
+    },
+    "variants": [
+      {
+        "input": {
+          "theme": "light",
+          "product": "system-lab"
+        },
+        "authored": "{color.glow-soft}",
+        "resolved": "rgb(210 26 26 / 0.28)",
+        "chain": [
+          "signal.glow",
+          "color.glow-soft"
+        ]
+      },
+      {
+        "input": {
+          "theme": "light",
+          "product": "harbor"
+        },
+        "authored": "{brand.harbor.glow}",
+        "resolved": "rgb(13 148 136 / 0.28)",
+        "chain": [
+          "signal.glow",
+          "brand.harbor.glow",
+          "color.harbor-glow-soft"
+        ],
+        "source": "product.harbor.tokens.json"
+      },
+      {
+        "input": {
+          "theme": "light",
+          "product": "meadow"
+        },
+        "authored": "{brand.meadow.glow}",
+        "resolved": "rgb(139 92 246 / 0.28)",
+        "chain": [
+          "signal.glow",
+          "brand.meadow.glow",
+          "color.meadow-glow-soft"
+        ],
+        "source": "product.meadow.tokens.json"
+      },
+      {
+        "input": {
+          "theme": "dark",
+          "product": "system-lab"
+        },
+        "authored": "{color.glow}",
+        "resolved": "rgb(238 49 36 / 0.55)",
+        "chain": [
+          "signal.glow",
+          "color.glow"
+        ],
+        "source": "theme.dark.tokens.json"
+      },
+      {
+        "input": {
+          "theme": "dark",
+          "product": "harbor"
+        },
+        "authored": "{brand.harbor.glow}",
+        "resolved": "rgb(20 184 166 / 0.55)",
+        "chain": [
+          "signal.glow",
+          "brand.harbor.glow",
+          "color.harbor-glow"
+        ],
+        "source": "product.harbor.tokens.json"
+      },
+      {
+        "input": {
+          "theme": "dark",
+          "product": "meadow"
+        },
+        "authored": "{brand.meadow.glow}",
+        "resolved": "rgb(167 139 250 / 0.55)",
+        "chain": [
+          "signal.glow",
+          "brand.meadow.glow",
+          "color.meadow-glow"
+        ],
+        "source": "product.meadow.tokens.json"
+      }
+    ]
   },
   {
     "path": "tone.neutral.text",
@@ -8832,6 +9682,37 @@ export const tokenManifest: readonly TokenRecord[] = [
     }
   },
   {
+    "path": "brand.harbor.glow",
+    "cssVar": "--brand-harbor-glow",
+    "type": "color",
+    "tier": "semantic",
+    "source": "brands.light.tokens.json",
+    "description": "Translucent halo around a border-colored indicator.",
+    "themed": true,
+    "dependsOn": [
+      "theme"
+    ],
+    "values": {
+      "light": {
+        "authored": "{color.harbor-glow-soft}",
+        "resolved": "rgb(13 148 136 / 0.28)",
+        "chain": [
+          "brand.harbor.glow",
+          "color.harbor-glow-soft"
+        ]
+      },
+      "dark": {
+        "authored": "{color.harbor-glow}",
+        "resolved": "rgb(20 184 166 / 0.55)",
+        "chain": [
+          "brand.harbor.glow",
+          "color.harbor-glow"
+        ],
+        "source": "brands.dark.tokens.json"
+      }
+    }
+  },
+  {
     "path": "brand.meadow.strong",
     "cssVar": "--brand-meadow-strong",
     "type": "color",
@@ -9043,6 +9924,37 @@ export const tokenManifest: readonly TokenRecord[] = [
         "chain": [
           "brand.meadow.border",
           "color.meadow.400"
+        ],
+        "source": "brands.dark.tokens.json"
+      }
+    }
+  },
+  {
+    "path": "brand.meadow.glow",
+    "cssVar": "--brand-meadow-glow",
+    "type": "color",
+    "tier": "semantic",
+    "source": "brands.light.tokens.json",
+    "description": "",
+    "themed": true,
+    "dependsOn": [
+      "theme"
+    ],
+    "values": {
+      "light": {
+        "authored": "{color.meadow-glow-soft}",
+        "resolved": "rgb(139 92 246 / 0.28)",
+        "chain": [
+          "brand.meadow.glow",
+          "color.meadow-glow-soft"
+        ]
+      },
+      "dark": {
+        "authored": "{color.meadow-glow}",
+        "resolved": "rgb(167 139 250 / 0.55)",
+        "chain": [
+          "brand.meadow.glow",
+          "color.meadow-glow"
         ],
         "source": "brands.dark.tokens.json"
       }

@@ -61,7 +61,7 @@ forbids raw colors and palette (`--color-*`) variables outside the token files, 
 
 The pipeline keeps aliases as `var()` in CSS, so changing a modifier attribute on any element
 cascades through all three tiers. Contrast for every foreground/background pair is unit-tested in
-every product and theme (`contrast.test.ts`, 510 checks).
+every product and theme (`contrast.test.ts`, 534 checks).
 
 ## Modifiers: theme, product and density
 
@@ -71,7 +71,7 @@ component) always apply; three **modifiers** add or replace tokens by context:
 | Modifier | Contexts | Sources | Rule |
 | --- | --- | --- | --- |
 | `theme` | light, dark | `theme.*.tokens.json`, `brands.*.tokens.json` | `complete`: every context defines the same tokens |
-| `product` | system-lab (default, empty), harbor, meadow | `product.*.tokens.json` | `overrides`: may only replace existing tokens |
+| `product` | system-lab (default, empty), harbor, meadow | `product.*.tokens.json` | `overrides`: may only replace existing tokens; brand roles, typefaces and shape only |
 | `density` | comfortable (default, empty), compact | `density.compact.tokens.json` | `overrides` |
 
 The pipeline resolves every permutation (3 × 2 × 2 = 12), then compares each token's resolved

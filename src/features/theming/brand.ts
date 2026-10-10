@@ -157,10 +157,18 @@ export function assignRoles(ramp: Ramp, theme: 'light' | 'dark', surfaces: Surfa
   return { roles, checks };
 }
 
-const dtcgColor = (hex: string) => {
-  const components = hexToRgb(hex).map((channel) => Math.round(channel * 10000) / 10000);
-  return { $value: { colorSpace: 'srgb', components, hex } };
-};
+const srgbComponents = (hex: string) => hexToRgb(hex).map((channel) => Math.round(channel * 10000) / 10000);
+
+const dtcgColor = (hex: string) => ({ $value: { colorSpace: 'srgb', components: srgbComponents(hex), hex } });
+
+/** Opacity of the halo around the signal indicator, matching the system's own glow colors. */
+const glowAlpha = { light: 0.28, dark: 0.55 } as const;
+
+/** The signal halo for a theme: the brand border step, translucent. */
+export const glowColor = (hex: string, theme: 'light' | 'dark') =>
+  `rgb(${hexToRgb(hex)
+    .map((channel) => Math.round(channel * 255))
+    .join(' ')} / ${glowAlpha[theme]})`;
 
 export const statusTones = ['danger', 'warning', 'success', 'info'] as const;
 export type StatusTone = (typeof statusTones)[number];
@@ -281,10 +289,18 @@ const tokenSource = 'src/design-system/tokens/source';
  */
 export function exportProduct({ id, brand, shape, ramp, roles }: ProductSpec): ExportFile[] {
   const name = productNameOf(id);
+  const glowName = (theme: 'light' | 'dark') => `${id}-glow${theme === 'light' ? '-soft' : ''}`;
+  const glow = (theme: 'light' | 'dark') => ({
+    $value: { colorSpace: 'srgb', components: srgbComponents(ramp[roles[theme].border]), alpha: glowAlpha[theme] },
+    $description: `Halo around ${name}’s signal indicator on ${theme} surfaces.`,
+  });
   const brandFile = (theme: 'light' | 'dark') => ({
     brand: {
       $type: 'color',
-      [id]: Object.fromEntries(brandRoles.map((role) => [role, { $value: `{color.${id}.${roles[theme][role]}}` }])),
+      [id]: {
+        ...Object.fromEntries(brandRoles.map((role) => [role, { $value: `{color.${id}.${roles[theme][role]}}` }])),
+        glow: { $value: `{color.${glowName(theme)}}` },
+      },
     },
   });
   const ref = (role: BrandRole) => ({ $value: `{brand.${id}.${role}}` });
@@ -298,12 +314,20 @@ export function exportProduct({ id, brand, shape, ramp, roles }: ProductSpec): E
     text: { link: ref('text') },
     focus: { ring: ref('border') },
     surface: { accent: ref('subtle') },
+    signal: { current: ref('border'), glow: { $value: `{brand.${id}.glow}` } },
     tone: { brand: { text: ref('text'), surface: ref('subtle'), border: ref('border'), solid: ref('strong'), 'on-solid': ref('on-strong') } },
     ...shaped,
   };
   const json = (value: unknown) => `${JSON.stringify(value, null, 2)}\n`;
   // Integer-like keys always serialize first, so the group description is spliced in ahead of the steps.
-  const ramps = json({ color: { $type: 'color', [id]: Object.fromEntries(rampSteps.map((step) => [step, dtcgColor(ramp[step])])) } }).replace(
+  const ramps = json({
+    color: {
+      $type: 'color',
+      [id]: Object.fromEntries(rampSteps.map((step) => [step, dtcgColor(ramp[step])])),
+      [glowName('dark')]: glow('dark'),
+      [glowName('light')]: glow('light'),
+    },
+  }).replace(
     `"${id}": {\n`,
     `"${id}": {\n      "$description": ${JSON.stringify(`${name} product ramp, generated from ${brand} at fixed OKLCH lightness.`)},\n`,
   );

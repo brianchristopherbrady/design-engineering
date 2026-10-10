@@ -9,6 +9,7 @@ import {
   compareWithStatus,
   exportProduct,
   generateRamp,
+  glowColor,
   hueName,
   productIdProblem,
   productNameOf,
@@ -51,6 +52,7 @@ const themes = ['light', 'dark'] as const;
 
 /** The existing product whose brand roles the preview re-points inline, so no CSS is generated at runtime. */
 export const previewProduct = 'harbor';
+const typefaceRoles = ['display', 'text'] as const;
 
 function fromUrl(search: URLSearchParams) {
   const brand = parseHex(search.get('brand') ?? '') ?? defaults.brand;
@@ -136,11 +138,16 @@ export function useThemeStudio() {
     [id, brand, shape, color],
   );
 
-  /** Inline custom properties that re-point the preview product's brand roles and shape. */
+  /**
+   * Inline custom properties that re-point the preview product's brand roles and shape. Generated
+   * products inherit the system's typefaces, so the preview resets the ones it borrows.
+   */
   const previewStyle = (theme: ThemeName) =>
     Object.fromEntries([
       ...brandRoles.map((role) => [`--brand-${previewProduct}-${role}`, color.ramp[color.roles[theme].roles[role]]]),
+      [`--brand-${previewProduct}-glow`, glowColor(color.ramp[color.roles[theme].roles.border], theme)],
       ...shapedComponents.map((component) => [`--${component}-radius`, `var(--radius-${shapes[shape].radii[component]})`]),
+      ...typefaceRoles.map((role) => [`--typeface-${role}`, resolved(`typeface.${role}`, theme)]),
     ]) as CSSProperties;
 
   const checks = themes.flatMap((theme) => color.roles[theme].checks);

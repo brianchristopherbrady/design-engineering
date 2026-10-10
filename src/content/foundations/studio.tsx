@@ -102,7 +102,9 @@ function StudioContent() {
               never conveyed by color alone, so a close pair is a design warning rather than a WCAG failure.
             </li>
             <li>
-              The preview re-points one existing product’s brand roles and radii inline on a ThemeScope. Shipping still goes
+              The preview re-points one existing product’s brand roles and radii inline on a ThemeScope, and keeps the
+              system’s typefaces, which a generated product inherits. To give a product its own typefaces, set{' '}
+              <code>typeface.display</code> and <code>typeface.text</code> in its product file. Shipping still goes
               through the token files and the pipeline.
             </li>
           </ul>

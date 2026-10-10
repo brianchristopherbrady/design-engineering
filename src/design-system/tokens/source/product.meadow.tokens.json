@@ -1,5 +1,9 @@
 {
-  "$description": "Meadow: a consumer app. Violet brand, pill-shaped controls and soft cards. Overrides only brand roles and shape.",
+  "$description": "Meadow: an example profile for consumer apps. Violet brand, Fraunces headings over Nunito text, pill-shaped controls and soft cards. Overrides only brand roles, typefaces and shape.",
+  "typeface": {
+    "display": { "$value": "{font.family.fraunces}" },
+    "text": { "$value": "{font.family.nunito}" }
+  },
   "action": {
     "primary": {
       "background": { "$value": "{brand.meadow.strong}" },
@@ -17,6 +21,10 @@
   },
   "surface": {
     "accent": { "$value": "{brand.meadow.subtle}" }
+  },
+  "signal": {
+    "current": { "$value": "{brand.meadow.border}" },
+    "glow": { "$value": "{brand.meadow.glow}" }
   },
   "tone": {
     "brand": {

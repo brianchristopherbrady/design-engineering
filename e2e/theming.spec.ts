@@ -3,6 +3,8 @@ import { expectNoAxeViolations } from './axe';
 
 const background = (locator: Locator) =>
   locator.evaluate((element) => getComputedStyle(element).backgroundColor);
+const fontFamily = (locator: Locator) => locator.evaluate((element) => getComputedStyle(element).fontFamily);
+const signal = (locator: Locator) => locator.evaluate((element) => getComputedStyle(element, '::after').backgroundColor);
 
 test.describe('products and modes', () => {
   test('the header product and density selects re-theme the site and persist', async ({ page }) => {
@@ -12,7 +14,11 @@ test.describe('products and modes', () => {
     await expect(html).toHaveAttribute('data-density', 'comfortable');
 
     const primary = page.getByRole('main').getByRole('button', { name: 'Save changes' }).first();
-    const before = { color: await background(primary), height: (await primary.boundingBox())!.height };
+    const heading = page.getByRole('heading', { level: 1 });
+    const wordmark = page.getByRole('banner').getByRole('link', { name: 'Design System Lab' }).locator('span').last();
+    const current = page.getByRole('navigation', { name: 'Sections' }).locator('[aria-current]');
+    const before = { color: await background(primary), height: (await primary.boundingBox())!.height, signal: await signal(current) };
+    expect(await fontFamily(heading)).toMatch(/^"Jost Variable"/);
 
     await page.getByRole('combobox', { name: 'Product' }).selectOption('harbor');
     await page.getByRole('combobox', { name: 'Density' }).selectOption('compact');
@@ -20,6 +26,12 @@ test.describe('products and modes', () => {
     await expect(html).toHaveAttribute('data-density', 'compact');
     expect(await background(primary)).not.toBe(before.color);
     expect((await primary.boundingBox())!.height).toBeLessThan(before.height);
+    expect(await fontFamily(heading)).toMatch(/^"IBM Plex Sans Variable"/);
+    expect(await fontFamily(primary)).toMatch(/^"IBM Plex Sans Variable"/);
+    // Controls inherit the x-height normalization rather than resetting it with `font: inherit`.
+    expect(await primary.evaluate((element) => getComputedStyle(element).fontSizeAdjust)).toBe('0.46');
+    expect(await fontFamily(wordmark)).toMatch(/^"Jost Variable"/);
+    expect(await signal(current)).not.toBe(before.signal);
 
     await page.reload();
     await expect(html).toHaveAttribute('data-product', 'harbor');
@@ -70,7 +82,7 @@ test.describe('products and modes', () => {
   test('the product diff and nested scopes are computed, not written by hand', async ({ page }) => {
     await page.goto('/foundations/products');
     const diff = page.getByRole('region', { name: /Product overrides/ });
-    await expect(diff.getByRole('row')).toHaveCount(19);
+    await expect(diff.getByRole('row')).toHaveCount(23);
     await page.locator('#overrides').getByRole('radio', { name: 'Dark' }).check();
     await expect(page.locator('#diff-caption')).toHaveText('Product overrides, dark theme');
     const nested = page.locator('#inheritance');

@@ -9,7 +9,8 @@
       "on-strong": { "$value": "{color.harbor.950}" },
       "text": { "$value": "{color.harbor.300}" },
       "subtle": { "$value": "{color.harbor.975}" },
-      "border": { "$value": "{color.harbor.500}" }
+      "border": { "$value": "{color.harbor.500}" },
+      "glow": { "$value": "{color.harbor-glow}" }
     },
     "meadow": {
       "strong": { "$value": "{color.meadow.300}" },
@@ -18,7 +19,8 @@
       "on-strong": { "$value": "{color.meadow.950}" },
       "text": { "$value": "{color.meadow.300}" },
       "subtle": { "$value": "{color.meadow.950}" },
-      "border": { "$value": "{color.meadow.400}" }
+      "border": { "$value": "{color.meadow.400}" },
+      "glow": { "$value": "{color.meadow-glow}" }
     }
   }
 }

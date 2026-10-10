@@ -126,7 +126,7 @@ export const playgroundStories: readonly AnyStory[] = [
     snippetChildren: '{children}',
     inheritsScope: true,
     controls: [
-      { kind: 'select', prop: 'product', options: productNames, defaultValue: 'harbor', unsetLabel: 'parent scope', description: 'Brand roles and shape.' },
+      { kind: 'select', prop: 'product', options: productNames, defaultValue: 'harbor', unsetLabel: 'parent scope', description: 'Brand roles, typefaces and shape.' },
       { kind: 'select', prop: 'theme', options: themeNames, defaultValue: undefined, unsetLabel: 'parent scope', description: 'Color theme.' },
       { kind: 'select', prop: 'density', options: densityNames, defaultValue: undefined, unsetLabel: 'parent scope', description: 'Control size and spacing.' },
     ],
